@@ -1,102 +1,101 @@
 ## 📑 Tartalomjegyzék
 
-- [Bevezetés](#bevezetés)
-- [A vizsgaremek célja és bemutatása](#a-vizsgaremek-célja-és-bemutatása)
-- [A webapplikáció funkciói](#a-webapplikáció-funkciói)
-- [Tervezési folyamat](#tervezési-folyamat)
-- [Frontend fejlesztés](#frontend-fejlesztés)
-- [Backend fejlesztés](#backend-fejlesztés)
-- [Adatbázis tervezése és kezelése](#adatbázis-tervezése-és-kezelése)
-- [Tartalomkészítés](#tartalomkészítés)
-- [Tesztelés és hibajavítás](#tesztelés-és-hibajavítás)
-- [Összegzés](#összegzés)
-
+* [Bevezetés](#bevezetés)
+* [A vizsgaremek célja és bemutatása](#a-vizsgaremek-célja-és-bemutatása)
+* [A webapplikáció funkciói](#a-webapplikáció-funkciói)
+* [Tervezési folyamat](#tervezési-folyamat)
+* [Frontend fejlesztés](#frontend-fejlesztés)
+* [Backend fejlesztés](#backend-fejlesztés)
+* [Adatbázis tervezése és kezelése](#adatbázis-tervezése-és-kezelése)
+* [Tartalomkészítés](#tartalomkészítés)
+* [Tesztelés és hibajavítás](#tesztelés-és-hibajavítás)
+* [Összegzés](#összegzés)
 
 ## Bevezetés
 
-A vizsgaremekem egy olyan webapplikáció, amelynek célja Magyarország gasztroturizmusának bemutatása és népszerűsítése. A weboldalon a látogatók megismerhetik az ország különböző tájegységeinek jellegzetes ételeit, hagyományos alapanyagait és a hozzájuk kapcsolódó gasztronómiai élményeket.
-
+Vizsgaremekünk egy olyan webapplikáció, amelynek célja Magyarország gasztroturizmusának bemutatása és népszerűsítése. A weboldalon a látogatók megismerhetik az ország különböző tájegységeinek jellegzetes ételeit, hagyományos alapanyagait és a hozzájuk kapcsolódó gasztronómiai élményeket.
 
 ## A vizsgaremek célja és bemutatása
 
-A projekt célja, hogy egy modern, átlátható és könnyen használható felületet hozzak létre, amely egyszerre informatív és élményalapú. Az alkalmazás segít bemutatni Magyarország gasztronómiai értékeit mind hazai, mind külföldi látogatók számára.
+A projekt célja, hogy közösen egy modern, átlátható és könnyen használható felületet hozzunk létre, amely egyszerre informatív és élményalapú. Az alkalmazás segít bemutatni Magyarország gasztronómiai értékeit mind hazai, mind külföldi látogatók számára.
 
 A felhasználók lehetőséget kapnak arra is, hogy időpontot foglaljanak különböző gasztronómiai programokra, például:
-- éttermi kóstolókra,
-- főzőkurzusokra,
-- pincelátogatásokra,
-- tematikus gasztrotúrákra.
 
+* éttermi kóstolókra,
+* főzőkurzusokra,
+* pincelátogatásokra,
+* tematikus gasztrotúrákra.
 
 ## A webapplikáció funkciói
 
 A webapplikáció több fontos funkciót is tartalmaz:
 
-- **Gasztronómiai tájegységek bemutatása** – részletes leírásokkal, érdekességekkel, képekkel és ajánlókkal.
-- **Program- és étteremajánló** – különböző gasztroélmények böngészése.
-- **Időpontfoglalási rendszer** – online foglalási lehetőség.
-- **Könnyen átlátható navigáció** – egyszerű és logikus menürendszer.
-- **Reszponzív design** – mobilon, tableten és asztali gépen is jól használható.
-
+* **Gasztronómiai tájegységek bemutatása** – részletes leírásokkal, érdekességekkel, képekkel és ajánlókkal.
+* **Program- és étteremajánló** – különböző gasztroélmények böngészése.
+* **Időpontfoglalási rendszer** – online foglalási lehetőség.
+* **Könnyen átlátható navigáció** – egyszerű és logikus menürendszer.
+* **Reszponzív design** – mobilon, tableten és asztali gépen is jól használható megjelenés.
 
 ## Tervezési folyamat
 
-A vizsgaremek minden részét én készítem, és minden fejlesztési folyamatban aktívan részt veszek. A tervezési folyamat az alábbi lépésekből áll:
+A vizsgaremek minden részét közösen készítjük, és a teljes fejlesztési folyamat minden szakaszában aktívan részt veszünk. A tervezési folyamat az alábbi lépésekből áll:
 
-- Az oldal felépítésének és struktúrájának kidolgozása
-- A menürendszer, aloldalak és tartalmi blokkok megtervezése
-- A felhasználói útvonalak és fő funkciók meghatározása
-
+* Az oldal felépítésének és struktúrájának közös kidolgozása
+* A menürendszer, aloldalak és tartalmi blokkok megtervezése
+* A felhasználói útvonalak és a fő funkciók meghatározása
 
 ## Frontend fejlesztés
 
-A frontend fejlesztés során az alábbi feladatokat végzem:
+A frontend fejlesztés során közösen végezzük az alábbi feladatokat:
 
-- A weboldal grafikai megjelenésének kialakítása HTML, CSS és JavaScript segítségével
-- Reszponzív design megvalósítása
-- Interaktív elemek, menük, gombok és animációk készítése
-
+* A weboldal grafikai megjelenésének kialakítása HTML, CSS és JavaScript segítségével
+* A reszponzív design megvalósítása
+* Interaktív elemek, menük, gombok és animációk készítése
 
 ## Backend fejlesztés
 
-A backend fejlesztés főbb feladatai:
+A backend fejlesztés főbb feladatai, amelyeken szintén együtt dolgozunk:
 
-- Az időpontfoglalási rendszer működésének megvalósítása
-- A foglalások feldolgozása, mentése és kezelése
-- Kapcsolat kialakítása az adatbázissal
-- Dinamikus tartalomkiszolgálás
-
+* Az időpontfoglalási rendszer működésének megvalósítása
+* A foglalások feldolgozása, mentése és kezelése
+* Kapcsolat kialakítása az adatbázissal
+* Dinamikus tartalomkiszolgálás megvalósítása
 
 ## Adatbázis tervezése és kezelése
 
-Az adatbázis tervezése és kezelése során:
+Az adatbázis tervezése és kezelése során közösen:
 
-- Az adatbázis struktúrájának megtervezése  
+* Megtervezzük az adatbázis struktúráját
   (felhasználók, programok, éttermek, foglalások)
-- Az adatok feltöltése és kezelése
-- A szükséges lekérdezések és kapcsolatok kialakítása
-
+* Feltöltjük és kezeljük az adatokat
+* Kialakítjuk a szükséges lekérdezéseket és adatkapcsolatokat
 
 ## Tartalomkészítés
 
-A tartalomkészítés részeként:
+A tartalomkészítés részeként közösen:
 
-- A magyar gasztroturisztikai tájegységek bemutató szövegeinek elkészítése
-- Éttermek és programok rövid leírásainak megírása
-- Képek kiválasztása és rendszerezése
-
+* Elkészítjük a magyar gasztroturisztikai tájegységek bemutató szövegeit
+* Megírjuk az éttermek és programok rövid leírásait
+* Kiválasztjuk és rendszerezzük a weboldalon megjelenő képeket
 
 ## Tesztelés és hibajavítás
 
 A projekt végső szakaszában:
 
-- A weboldal tesztelése különböző eszközökön
-- A funkciók és a foglalási rendszer ellenőrzése
-- Hibák javítása és végső finomhangolás
-
+* Több eszközön is leteszteljük a weboldalt
+* Ellenőrizzük a funkciók és a foglalási rendszer működését
+* Kijavítjuk a felmerülő hibákat, és elvégezzük az utolsó finomhangolásokat
 
 ## Összegzés
 
-A vizsgaremek egy olyan webapplikáció, amely modern formában mutatja be Magyarország gasztroturizmusát, miközben gyakorlati funkciót is biztosít az időpontfoglalási rendszer segítségével.
+Vizsgaremekünk egy olyan webapplikáció, amely modern formában mutatja be Magyarország gasztroturizmusát, miközben gyakorlati funkciót is biztosít az időpontfoglalási rendszer segítségével.
 
-Célom egy igényes, jól működő és látványos weboldal létrehozása, amely méltó módon képviseli hazánk gasztronómiai értékeit.
+Közös célunk egy igényes, jól működő és látványos weboldal létrehozása, amely méltó módon képviseli hazánk gasztronómiai értékeit.
+
+**Készítők:**
+Benedek Dávid
+Benedek Dávid
+
+---
+
+Ha szeretnéd, át tudom írni **kicsit hivatalosabbra**, vagy **egyszerűbb, tanulóbarát stílusra** is.
