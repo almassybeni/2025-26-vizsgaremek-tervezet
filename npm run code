@@ -1,0 +1,4 @@
+npm create vite@latest kulturvadasz
+cd kulturvadasz
+npm install
+npm run dev
