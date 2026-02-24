@@ -1,0 +1,550 @@
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #e8e8e8;
+}
+
+.profile-main {
+  flex: 1;
+  padding: 3rem 0;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+}
+
+.profile-header p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.profile-header strong {
+  color: #7b5e45;
+}
+
+.logout-button {
+  background: none;
+  border: 1px solid #7b5e45;
+  color: #7b5e45;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-button:hover {
+  background: #7b5e45;
+  color: white;
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #c0c0c0;
+  padding-bottom: 0;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab-button:hover {
+  color: #7b5e45;
+}
+
+.tab-button.active {
+  color: #7b5e45;
+  border-bottom-color: #7b5e45;
+}
+
+.tab-icon {
+  font-size: 1.2rem;
+}
+
+.profile-content {
+  background: white;
+  border: 1px solid #c0c0c0;
+  padding: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.edit-button {
+  background: none;
+  border: 1px solid #7b5e45;
+  color: #7b5e45;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.edit-button:hover {
+  background: #7b5e45;
+  color: white;
+}
+
+.success-message {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-icon {
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #7b5e45;
+  color: white;
+  border-radius: 8px;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  display: block;
+  color: #666;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.info-value {
+  display: block;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 20px;
+}
+
+.role-badge.admin {
+  background: #7b5e45;
+  color: white;
+}
+
+.role-badge.client {
+  background: #e0e0e0;
+  color: #1a1a1a;
+}
+
+.profile-edit-form {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-edit-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-edit-form label {
+  color: #1a1a1a;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.profile-edit-form input {
+  padding: 0.8rem 1rem;
+  border: 1px solid #c0c0c0;
+  font-size: 1rem;
+}
+
+.profile-edit-form input:focus {
+  outline: none;
+  border-color: #7b5e45;
+}
+
+.profile-edit-form input.disabled-input {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.field-note {
+  color: #999;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.save-button {
+  flex: 1;
+  background: #7b5e45;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.save-button:hover {
+  background: #5e4a37;
+}
+
+.cancel-button {
+  flex: 1;
+  background: none;
+  border: 1px solid #999;
+  color: #666;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cancel-button:hover {
+  background: #f5f5f5;
+  border-color: #666;
+}
+
+.profile-bookings-section h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.no-bookings {
+  text-align: center;
+  padding: 3rem;
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-bookings h3 {
+  font-size: 1.3rem;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.no-bookings p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.browse-tours-button {
+  background: #7b5e45;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.browse-tours-button:hover {
+  background: #5e4a37;
+}
+
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.booking-card {
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.booking-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: #7b5e45;
+}
+
+.booking-image {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.booking-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.booking-status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.3rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 20px;
+}
+
+.booking-status.status-pending {
+  background: #fff3e0;
+  color: #e67e22;
+}
+
+.booking-status.status-confirmed {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.booking-status.status-cancelled {
+  background: #ffebee;
+  color: #e74c3c;
+}
+
+.booking-status.status-completed {
+  background: #e3f2fd;
+  color: #3498db;
+}
+
+.booking-details {
+  padding: 1.5rem;
+}
+
+.booking-title {
+  font-size: 1.2rem;
+  margin: 0 0 0.3rem 0;
+  color: #1a1a1a;
+}
+
+.booking-location {
+  color: #7b5e45;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.booking-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.meta-icon {
+  font-size: 1rem;
+}
+
+.meta-text.price {
+  color: #7b5e45;
+  font-weight: 500;
+}
+
+.booking-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-date {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.view-details-button {
+  background: none;
+  border: 1px solid #7b5e45;
+  color: #7b5e45;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.view-details-button:hover {
+  background: #7b5e45;
+  color: white;
+}
+
+.profile-admin-section h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.admin-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-card {
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.admin-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: #7b5e45;
+}
+
+.admin-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.admin-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.admin-card p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .profile-main {
+    padding: 2rem 1rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .profile-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab-button {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    justify-content: center;
+  }
+  
+  .profile-content {
+    padding: 1.5rem;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bookings-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .booking-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .admin-menu {
+    grid-template-columns: 1fr;
+  }
+}

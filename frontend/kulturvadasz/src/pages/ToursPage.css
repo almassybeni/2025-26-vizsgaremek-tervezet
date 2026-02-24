@@ -1,0 +1,168 @@
+.tours-page {
+  width: 100%;
+  display: block;
+  background-color: #e8e8e8;
+}
+
+.tours-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/src/assets/images/tours-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+  width: 100%;
+}
+
+.tours-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+}
+
+.tours-hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-style: italic;
+  color: #e0e0e0;
+}
+
+.tours-search-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.tours-search-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #c0c0c0;
+  border-radius: 4px;
+}
+
+.tours-search-input::placeholder {
+  color: #4a4a4a;
+  opacity: 0.8;
+}
+
+.tours-search-input:focus {
+  outline: none;
+  border: 1px solid #7b5e45;
+}
+
+.tours-search-button {
+  padding: 1rem 2rem;
+  background: #7b5e45;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.tours-search-button:hover {
+  background: #5e4a37;
+}
+
+.tours-section {
+  padding: 3rem 0;
+  background: #e8e8e8;
+  width: 100%;
+}
+
+.results-count {
+  margin-bottom: 2rem;
+  color: #2c2c2c;
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  background: #f0f0f0;
+  border: 1px solid #c0c0c0;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.no-results h3 {
+  color: #1a1a1a;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.no-results p {
+  color: #333333;
+  margin-bottom: 1.5rem;
+}
+
+.no-results button {
+  background: none;
+  color: #7b5e45;
+  border: 1px solid #7b5e45;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.no-results button:hover {
+  background: #7b5e45;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .tours-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .tours-hero {
+    padding: 3rem 0;
+  }
+  
+  .tours-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .tours-search-form {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  
+  .tours-search-button {
+    width: 100%;
+  }
+  
+  .tours-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

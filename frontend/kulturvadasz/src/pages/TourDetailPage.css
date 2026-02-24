@@ -1,0 +1,253 @@
+
+.tour-detail-page {
+  width: 100%;
+  display: block;
+  background-color: #e8e8e8;
+}
+
+.tour-detail-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/src/assets/images/tours-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.tour-detail-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.tour-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 1.1rem;
+}
+
+.tour-location, .tour-duration, .tour-price-large {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tour-price-large {
+  background: #7b5e45;
+  border-color: #7b5e45;
+  font-weight: 600;
+}
+
+.tour-detail-content {
+  padding: 3rem 0;
+  background: #e8e8e8;
+}
+
+.tour-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.tour-detail-left {
+  background: white;
+  border: 1px solid #c0c0c0;
+  padding: 2rem;
+}
+
+.tour-detail-image {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border: 1px solid #c0c0c0;
+}
+
+.tour-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tour-description-full h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  border-bottom: 1px solid #c0c0c0;
+  padding-bottom: 0.5rem;
+}
+
+.tour-description-full p {
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.tour-highlights {
+  margin-top: 2rem;
+}
+
+.tour-highlights h3 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.tour-highlights ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tour-highlights li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.tour-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tour-info-box {
+  background: white;
+  border: 1px solid #c0c0c0;
+  padding: 2rem;
+}
+
+.tour-info-box h3 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+  border-bottom: 1px solid #c0c0c0;
+  padding-bottom: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #666;
+  font-weight: 400;
+}
+
+.info-value {
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.info-value.price {
+  color: #7b5e45;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.signup-section {
+  margin-top: 2rem;
+}
+
+.btn-signup {
+  width: 100%;
+  padding: 1rem;
+  background: #7b5e45;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-signup:hover {
+  background: #5e4a37;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.not-found {
+  text-align: center;
+  padding: 4rem 0;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.not-found button {
+  padding: 1rem 2rem;
+  background: #7b5e45;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+@media (max-width: 968px) {
+  .tour-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tour-meta {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .tour-detail-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .tour-detail-image {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .tour-detail-hero {
+    padding: 3rem 0;
+  }
+  
+  .tour-detail-left {
+    padding: 1rem;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
