@@ -1,0 +1,349 @@
+.admin-dashboard {
+  width: 100%;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.date-display {
+  color: #666;
+  font-size: 1rem;
+  background: #f0f0f0;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+
+/* Statisztika kártyák */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: #7b5e45;
+}
+
+.stat-card.revenue {
+  background: #7b5e45;
+  color: white;
+}
+
+.stat-card.revenue .stat-icon,
+.stat-card.revenue .stat-label {
+  color: white;
+  opacity: 0.9;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  color: #7b5e45;
+}
+
+.stat-card.revenue .stat-icon {
+  color: white;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  padding: 1.5rem;
+}
+
+.dashboard-card h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.view-all-btn {
+  background: none;
+  border: none;
+  color: #7b5e45;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.view-all-btn:hover {
+  text-decoration: underline;
+}
+
+/* Népszerű túrák */
+.popular-tours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.popular-tour-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tour-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tour-name {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.tour-bookings {
+  font-size: 0.9rem;
+  color: #7b5e45;
+  font-weight: 500;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #7b5e45;
+  transition: width 0.3s;
+}
+
+/* Legfrissebb foglalások */
+.recent-bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recent-booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.recent-booking-item:last-child {
+  border-bottom: none;
+}
+
+.booking-info {
+  flex: 1;
+}
+
+.booking-user {
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 0.2rem;
+}
+
+.booking-tour {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.2rem;
+}
+
+.booking-date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.booking-status {
+  padding: 0.2rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background: #fff3e0;
+  color: #e67e22;
+}
+
+.status-confirmed {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.status-cancelled {
+  background: #ffebee;
+  color: #e74c3c;
+}
+
+.status-completed {
+  background: #e3f2fd;
+  color: #3498db;
+}
+
+/* Gyors műveletek */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: none;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  color: #1a1a1a;
+}
+
+.action-btn:hover {
+  background: #f8f8f8;
+  border-color: #7b5e45;
+  transform: translateX(5px);
+}
+
+.action-icon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+/* Rendszer információk */
+.system-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #666;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* Loading */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+/* Reszponzív */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .recent-booking-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .booking-status {
+    align-self: flex-start;
+  }
+}

@@ -1,0 +1,432 @@
+.admin-tours {
+  width: 100%;
+}
+
+.admin-tours-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0 2rem 0;
+}
+
+.admin-tours-header h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0 0 0.3rem 0;
+}
+
+.tour-count {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.add-button {
+  background: #7b5e45;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.add-button:hover {
+  background: #5e4a37;
+}
+
+.add-icon {
+  font-size: 1.2rem;
+}
+
+/* Filterek */
+.tours-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 2;
+  min-width: 300px;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid #c0c0c0;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #7b5e45;
+  box-shadow: 0 0 0 2px rgba(123, 94, 69, 0.1);
+}
+
+.clear-search {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.2rem;
+}
+
+.clear-search:hover {
+  color: #e74c3c;
+}
+
+.filter-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.8rem 1rem;
+  border: 1px solid #c0c0c0;
+  background: white;
+  font-size: 1rem;
+  min-width: 140px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #7b5e45;
+}
+
+/* Nincs találat */
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-results h3 {
+  font-size: 1.3rem;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.no-results p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.clear-filters-btn {
+  background: #7b5e45;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 4px;
+}
+
+.clear-filters-btn:hover {
+  background: #5e4a37;
+}
+
+/* Táblázat */
+.tours-table-container {
+  background: white;
+  border: 1px solid #e0e0e0;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.tours-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1400px;
+}
+
+.tours-table th {
+  background: #f8f8f8;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 500;
+  color: #1a1a1a;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tours-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.tours-table tr:hover {
+  background: #f8f8f8;
+}
+
+.tours-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Cellák */
+.id-cell {
+  font-weight: 500;
+  color: #7b5e45;
+}
+
+.image-cell {
+  width: 80px;
+}
+
+.tour-thumbnail {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.title-cell {
+  max-width: 250px;
+}
+
+.tour-title {
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tour-description-preview {
+  font-size: 0.8rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.duration-cell {
+  white-space: nowrap;
+}
+
+.price-cell {
+  font-weight: 600;
+  color: #7b5e45;
+  white-space: nowrap;
+}
+
+/* Célpontok */
+.destinations-cell {
+  max-width: 150px;
+}
+
+.destinations-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.destination-tag {
+  background: #f0f0f0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+.destination-more {
+  background: #7b5e45;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Státusz badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.status-badge.inactive {
+  background: #ffebee;
+  color: #e74c3c;
+}
+
+.status-badge.draft {
+  background: #fff3e0;
+  color: #f39c12;
+}
+
+/* Műveletek */
+.actions-cell {
+  width: 140px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e0e0e0;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn.view:hover {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.action-btn.edit:hover {
+  background: #7b5e45;
+  color: white;
+  border-color: #7b5e45;
+}
+
+.action-btn.delete:hover {
+  background: #e74c3c;
+  color: white;
+  border-color: #e74c3c;
+}
+
+.action-btn.copy:hover {
+  background: #27ae60;
+  color: white;
+  border-color: #27ae60;
+}
+
+/* Footer statisztika */
+.tours-footer-stats {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 1.1rem;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Reszponzív */
+@media (max-width: 968px) {
+  .admin-tours-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .tours-filters {
+    flex-direction: column;
+  }
+  
+  .search-box {
+    min-width: 100%;
+  }
+  
+  .filter-group {
+    width: 100%;
+  }
+  
+  .filter-select {
+    flex: 1;
+  }
+  
+  .tours-footer-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tours-table th,
+  .tours-table td {
+    padding: 0.8rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    width: 100%;
+  }
+}
