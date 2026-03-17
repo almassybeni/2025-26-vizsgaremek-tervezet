@@ -1,5 +1,7 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const initDatabase = require('./config/initDb');
@@ -18,8 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 (async () => {
   try {
     await initDatabase();
+    console.log('✅ Adatbázis inicializálva');
   } catch (error) {
-    console.error('Adatbázis inicializálási hiba:', error);
+    console.error('❌ Adatbázis inicializálási hiba:', error);
   }
 })();
 
@@ -49,10 +52,16 @@ app.get('/', (req, res) => {
 
 // 404 kezelés
 app.use((req, res) => {
-  res.status(404).send(`Cannot ${req.method} ${req.url}`);
+  res.status(404).json({ message: `Nincs ilyen végpont: ${req.method} ${req.url}` });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('❌ Szerver hiba:', err);
+  res.status(500).json({ message: 'Belső szerver hiba' });
 });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Szerver fut a ${PORT} porton`);
+  console.log(`✅ Szerver fut a ${PORT} porton`);
 });
