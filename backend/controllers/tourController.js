@@ -237,9 +237,9 @@ exports.deleteTour = async (req, res) => {
     const { id } = req.params;
 
     // Soft delete - csak inaktiválás
-    await db.query('UPDATE tours SET is_active = 0 WHERE id = ?', [id]);
-
+    await db.query('UPDATE tours SET status = "inactive" WHERE id = ?', [id]);
     res.json({ message: 'Túra törölve' });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Szerver hiba' });

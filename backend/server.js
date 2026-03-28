@@ -26,12 +26,15 @@ app.use(express.urlencoded({ extended: true }));
   }
 })();
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Route-ok importálása
 const authRoutes = require('./routes/authRoutes');
 const tourRoutes = require('./routes/tourRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
+const uploadRoutes = require('./routes/uploadRoutes'); // UPLOAD HOZZÁADVA
 
 // Route-ok használata
 app.use('/api/auth', authRoutes);
@@ -39,6 +42,7 @@ app.use('/api/tours', tourRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/upload', uploadRoutes); // UPLOAD HOZZÁADVA
 
 // Teszt végpont
 app.get('/api/test', (req, res) => {

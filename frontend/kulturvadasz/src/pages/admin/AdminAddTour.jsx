@@ -36,7 +36,6 @@ const AdminAddTour = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     
-    // Automatikus slug generálás a címből
     if (name === 'title') {
       const slug = value
         .toLowerCase()
@@ -168,6 +167,7 @@ const AdminAddTour = () => {
     return true;
   };
 
+  // 🔴 A JAVÍTOTT BEKÜLDÉSI LOGIKA
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -179,7 +179,33 @@ const AdminAddTour = () => {
     setLoading(true);
 
     try {
-      // Adatok előkészítése a backend számára
+      let uploadedImageName = 'placeholder.jpg';
+
+      // 1. KÉPFELTÖLTÉS (Ha van kiválasztott fájl)
+      if (formData.image && typeof formData.image !== 'string') {
+        const imageForm = new FormData();
+        imageForm.append('image', formData.image);
+
+        const uploadRes = await fetch('http://localhost:5000/api/upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: imageForm // FormData-t küldünk, nem JSON-t!
+        });
+
+        const uploadData = await uploadRes.json();
+
+        if (uploadRes.ok) {
+          uploadedImageName = uploadData.filename; // Megkapjuk a generált fájlnevet
+        } else {
+          setError(uploadData.message || 'Hiba a kép feltöltésekor');
+          setLoading(false);
+          return;
+        }
+      }
+
+      // 2. TÚRA ADATOK MENTÉSE
       const tourData = {
         title: formData.title,
         description: formData.description,
@@ -188,7 +214,7 @@ const AdminAddTour = () => {
         region: formData.region,
         duration: formData.duration,
         price: parseInt(formData.price),
-        image: formData.image ? formData.image.name : 'placeholder.jpg',
+        image: uploadedImageName, // A feltöltött kép neve kerül ide!
         max_participants: formData.maxParticipants,
         destinations: formData.destinations.filter(d => d.trim()),
         dates: formData.dates.filter(d => d.date).map(d => ({
@@ -205,9 +231,6 @@ const AdminAddTour = () => {
         status: formData.status
       };
 
-      console.log('Küldött adatok:', tourData);
-
-      // Backend hívás a túra mentéséhez
       const response = await fetch('http://localhost:5000/api/tours', {
         method: 'POST',
         headers: {
@@ -234,7 +257,6 @@ const AdminAddTour = () => {
   };
 
   const handleSaveAsDraft = async () => {
-    // Piszkozat mentés - ugyanaz, csak status = 'draft'
     setFormData({ ...formData, status: 'draft' });
     handleSubmit(new Event('submit'));
   };

@@ -23,6 +23,7 @@ const initDatabase = async () => {
     `);
 
     // tours tábla
+    // tours tábla
     await db.query(`
       CREATE TABLE IF NOT EXISTS tours (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,12 +36,16 @@ const initDatabase = async () => {
         price INT NOT NULL,
         image VARCHAR(255) NOT NULL,
         max_participants INT DEFAULT 15,
+        meta_title VARCHAR(255) NULL,
+        meta_description TEXT NULL,
+        slug VARCHAR(255) UNIQUE NOT NULL,
+        status ENUM('draft', 'active', 'inactive') DEFAULT 'draft',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        is_active BOOLEAN DEFAULT TRUE,
         created_by INT,
         FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
       )
+    
     `);
 
     // tour_destinations tábla
