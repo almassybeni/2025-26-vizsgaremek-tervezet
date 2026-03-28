@@ -11,7 +11,7 @@ exports.getAllTours = async (req, res) => {
               FROM tour_destinations 
               WHERE tour_id = t.id) as destinations
       FROM tours t
-      WHERE t.is_active = 1
+      WHERE t.status = 'active'
       ORDER BY t.created_at DESC
     `);
 
@@ -33,7 +33,7 @@ exports.getTourById = async (req, res) => {
               FROM tour_destinations 
               WHERE tour_id = t.id) as destinations
       FROM tours t
-      WHERE t.id = ? AND t.is_active = 1
+      WHERE t.id = ? AND t.status = 'active'
     `, [id]);
 
     if (tours.length === 0) {
@@ -91,7 +91,7 @@ exports.getTourBySlug = async (req, res) => {
   }
 };
 
-// Új túra létrehozása
+// Új túra létrehozása (TELJESEN JAVÍTVA)
 exports.createTour = async (req, res) => {
   try {
     const { 
@@ -115,8 +115,6 @@ exports.createTour = async (req, res) => {
       status
     } = req.body;
 
-    console.log('Új túra létrehozása:', { title, city, country });
-
     // Ellenőrizzük, hogy van-e már ilyen slug
     if (slug) {
       const [existing] = await db.query(
@@ -135,8 +133,9 @@ exports.createTour = async (req, res) => {
       INSERT INTO tours (
         title, description, city, country, region, duration, 
         price, image, max_participants, created_by, 
-        meta_title, meta_description, slug, status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        meta_title, meta_description, slug, status,
+        highlights, included, not_included
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       title, 
       description, 
@@ -151,7 +150,10 @@ exports.createTour = async (req, res) => {
       meta_title || title,
       meta_description || (description ? description.substring(0, 160) : ''),
       slug || title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
-      status || 'draft'
+      status || 'draft',
+      JSON.stringify(highlights || []),
+      JSON.stringify(included || []),
+      JSON.stringify(not_included || [])
     ]);
 
     const tourId = result.insertId;
@@ -180,8 +182,6 @@ exports.createTour = async (req, res) => {
       }
     }
 
-    console.log('✅ Túra létrehozva, ID:', tourId);
-
     res.status(201).json({
       message: 'Túra sikeresen létrehozva',
       id: tourId,
@@ -197,11 +197,15 @@ exports.createTour = async (req, res) => {
   }
 };
 
-// Túra módosítása (csak admin)
+// Túra módosítása (csak admin) (TELJESEN JAVÍTVA)
 exports.updateTour = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, city, country, region, duration, price, image, max_participants, is_active, status, meta_title, meta_description, slug } = req.body;
+    const { 
+      title, description, city, country, region, duration, price, 
+      image, max_participants, status, meta_title, meta_description, slug,
+      highlights, included, not_included
+    } = req.body;
 
     // Ellenőrizzük, hogy a slug egyedi-e (kivéve saját magát)
     if (slug) {
@@ -220,9 +224,17 @@ exports.updateTour = async (req, res) => {
       UPDATE tours 
       SET title = ?, description = ?, city = ?, country = ?, region = ?, 
           duration = ?, price = ?, image = ?, max_participants = ?, 
-          is_active = ?, status = ?, meta_title = ?, meta_description = ?, slug = ?
+          status = ?, meta_title = ?, meta_description = ?, slug = ?,
+          highlights = ?, included = ?, not_included = ?
       WHERE id = ?
-    `, [title, description, city, country, region, duration, price, image, max_participants, is_active, status, meta_title, meta_description, slug, id]);
+    `, [
+      title, description, city, country, region, duration, price, 
+      image, max_participants, status, meta_title, meta_description, slug,
+      JSON.stringify(highlights || []),
+      JSON.stringify(included || []),
+      JSON.stringify(not_included || []),
+      id
+    ]);
 
     res.json({ message: 'Túra frissítve' });
   } catch (error) {
@@ -236,10 +248,10 @@ exports.deleteTour = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Soft delete - csak inaktiválás
+    // Soft delete - inaktív státuszba rakjuk
     await db.query('UPDATE tours SET status = "inactive" WHERE id = ?', [id]);
-    res.json({ message: 'Túra törölve' });
 
+    res.json({ message: 'Túra törölve' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Szerver hiba' });

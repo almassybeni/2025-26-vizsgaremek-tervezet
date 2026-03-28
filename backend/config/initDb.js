@@ -22,8 +22,7 @@ const initDatabase = async () => {
       )
     `);
 
-    // tours tábla
-    // tours tábla
+    // tours tábla (TELJESEN JAVÍTVA)
     await db.query(`
       CREATE TABLE IF NOT EXISTS tours (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,12 +39,14 @@ const initDatabase = async () => {
         meta_description TEXT NULL,
         slug VARCHAR(255) UNIQUE NOT NULL,
         status ENUM('draft', 'active', 'inactive') DEFAULT 'draft',
+        highlights JSON NULL,
+        included JSON NULL,
+        not_included JSON NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         created_by INT,
         FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
       )
-    
     `);
 
     // tour_destinations tábla
@@ -141,16 +142,20 @@ const initDatabase = async () => {
       const [admin] = await db.query(`SELECT id FROM users WHERE role = 'admin' LIMIT 1`);
       const adminId = admin[0].id;
 
+      const emptyArray = JSON.stringify([]);
+
       const toursData = [
-        ['Nagypiac & Belvárosi Ízek', 'Fedezze fel a budapesti Nagypiacot és a belváros rejtett kulináris kincseit.', 'Budapest', 'Magyarország', 'Közép-Európa', '6 óra', 18990, 'budapest-market.jpg', 12, adminId],
-        ['Egri Borkultúra & Történelmi Pincék', 'Ismerje meg az egri borvidék hagyományait.', 'Eger', 'Magyarország', 'Közép-Európa', '8 óra', 24990, 'eger-wine.jpg', 10, adminId],
-        ['Szegedi Halászlé & Tisza-parti Ízek', 'A szegedi halászlé főzésének titkait ismerheti meg.', 'Szeged', 'Magyarország', 'Közép-Európa', '5 óra', 15990, 'szeged-fishsoup.jpg', 15, adminId]
+        ['Nagypiac & Belvárosi Ízek', 'Fedezze fel a budapesti Nagypiacot és a belváros rejtett kulináris kincseit.', 'Budapest', 'Magyarország', 'Közép-Európa', '6 óra', 18990, 'budapest-market.jpg', 12, adminId, 'nagypiac-belvarosi-izek', 'active', emptyArray, emptyArray, emptyArray],
+        ['Egri Borkultúra & Történelmi Pincék', 'Ismerje meg az egri borvidék hagyományait.', 'Eger', 'Magyarország', 'Közép-Európa', '8 óra', 24990, 'eger-wine.jpg', 10, adminId, 'egri-borkultura-tortenelmi-pincek', 'active', emptyArray, emptyArray, emptyArray],
+        ['Szegedi Halászlé & Tisza-parti Ízek', 'A szegedi halászlé főzésének titkait ismerheti meg.', 'Szeged', 'Magyarország', 'Közép-Európa', '5 óra', 15990, 'szeged-fishsoup.jpg', 15, adminId, 'szegedi-halaszle-tisza-parti-izek', 'active', emptyArray, emptyArray, emptyArray]
       ];
 
       for (const tour of toursData) {
         await db.query(`
-          INSERT INTO tours (title, description, city, country, region, duration, price, image, max_participants, created_by) 
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO tours (
+            title, description, city, country, region, duration, price, image, 
+            max_participants, created_by, slug, status, highlights, included, not_included
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, tour);
       }
     }
