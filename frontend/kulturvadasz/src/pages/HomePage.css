@@ -1,255 +1,123 @@
-.homepage {
-  width: 100%;
-  display: block;
-}
-
-.featured-section {
-  padding: 3rem 0;
-  background: #d8d8d8;
-  border-top: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-  width: 100%;
-}
-
-.featured-content {
-  text-align: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.featured-content h2 {
-  font-size: 1.2rem;
-  color: #4a4a4a;
-  margin-bottom: 1.5rem;
-  font-weight: 400;
-  letter-spacing: 1px;
-}
-
-.featured-logos {
-  display: block;
-  text-align: center;
-}
-
-.featured-logos span {
-  display: inline-block;
-  margin: 0 1.5rem;
-  font-size: 1rem;
-  color: #7b5e45;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  font-style: italic;
-}
-
-.tours-section {
-  padding: 4rem 0;
-  background: #e8e8e8;
-  width: 100%;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 2rem;
-}
-
-.section-header h2 {
-  font-size: 2rem;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  position: relative;
-  display: inline-block;
-  font-weight: 400;
-  letter-spacing: 1px;
-}
-
-.section-header h2:after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 1px;
-  background: #7b5e45;
-}
-
-.section-header p {
-  color: #4a4a4a;
-  font-size: 1rem;
-  font-style: italic;
-}
-
-.tours-grid {
+/* Régió Kockák */
+.region-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
-.tour-card {
-  background: #f8f8f8;
-  border: 1px solid #c0c0c0;
-  overflow: hidden;
-  transition: box-shadow 0.3s;
-  width: 100%;
+.region-card {
+  height: 250px;
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+  color: white;
   cursor: pointer;
-}
-
-.tour-card:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.tour-image {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-  background: #d8d8d8;
-  width: 100%;
-}
-
-.tour-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s;
-}
-
-.tour-card:hover .tour-image img {
-  transform: scale(1.03);
-}
-
-.tour-duration {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: #2c2c2c;
-  color: #f0f0f0;
-  padding: 0.4rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  border: 1px solid #4a4a4a;
-}
-
-.tour-content {
-  padding: 1.2rem;
-  background: #f8f8f8;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.tour-location {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.tour-city {
-  color: #7b5e45;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
-.tour-country {
-  color: #2c2c2c;
-  font-size: 0.7rem;
-  background: #e0e0e0;
-  padding: 0.15rem 0.5rem;
-  display: inline-block;
-}
-
-.tour-title {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem 0;
-  color: #1a1a1a;
-  line-height: 1.3;
-  font-weight: 500;
-}
-
-.tour-description {
-  color: #333333;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  font-style: italic;
-  flex: 1;
-}
-
-.tour-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #c0c0c0;
-  padding-top: 1rem;
-  margin-top: auto;
-}
-
-.tour-price {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #1a1a1a;
-}
-
-.btn-primary {
-  background: none;
-  color: #7b5e45;
-  border: 1px solid #7b5e45;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.3s ease;
   border-radius: 4px;
 }
 
-.btn-primary:hover {
+.region-card:hover {
+  transform: scale(1.02);
+}
+
+.region-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+/* Modal Stílusok */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.region-modal {
+  background: white;
+  max-width: 800px;
+  width: 100%;
+  padding: 3rem;
+  position: relative;
+  border-radius: 4px;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.modal-actions ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.modal-actions li {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+/* Hosszú Túrák */
+.long-tour-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background: white;
+  margin-bottom: 2rem;
+  border: 1px solid #c0c0c0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.long-tour-image {
+  position: relative;
+  height: 300px;
+}
+
+.long-tour-image img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.tour-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
   background: #7b5e45;
   color: white;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
 }
 
-.btn-large {
-  padding: 1rem 3rem !important;
-  font-size: 1rem !important;
-  display: inline-block;
+.long-tour-info {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.text-center {
-  text-align: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-@media (max-width: 992px) {
-  .tours-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.badge {
+  color: #7b5e45;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {
-  .featured-logos span {
-    display: block;
-    margin: 0.5rem 0;
-  }
-  
-  .tours-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-  }
-  
-  .tour-footer {
-    flex-direction: row;
-  }
+  .long-tour-card { grid-template-columns: 1fr; }
+  .modal-grid { grid-template-columns: 1fr; }
 }
