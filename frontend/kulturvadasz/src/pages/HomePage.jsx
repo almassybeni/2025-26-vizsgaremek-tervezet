@@ -10,28 +10,21 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState(null);
 
-  // Szűrések
-  const dailyTours = toursData.filter(t => t.type === 'daily').slice(0, 3);
-  const longTours = toursData.filter(t => t.type === 'long');
- console.log("Túrák adatai:", toursData);
-console.log("Régiók adatai:", regionsData);
-
-if (!toursData || !regionsData) {
-  return <div>Adatok betöltése... Ellenőrizd a toursData.js fájlt!</div>;
-}
-  
+  // Szűrések a különböző szekciókhoz
+  const dailyToursList = toursData.filter(t => t.type === 'daily').slice(0, 3);
+  const longToursList = toursData.filter(t => t.type === 'long');
 
   return (
     <div className="homepage">
       <Header />
       <Hero />
 
-      {/* 1. RÉGIÓ FELFEDEZŐ (KOCKÁK) */}
+      {/* --- RÉGIÓ FELFEDEZŐ SZAKASZ --- */}
       <section className="region-explorer">
         <div className="container">
           <div className="section-header">
-            <h2>Fedezze fel tájegységeinket</h2>
-            <p>Kattintson egy régióra a történetért és helyi ízekért</p>
+            <h2>Hová vágysz?</h2>
+            <p>Válassz egy tájegységet és ismerd meg a történetét!</p>
           </div>
           <div className="region-grid">
             {regionsData.map(region => (
@@ -39,67 +32,69 @@ if (!toursData || !regionsData) {
                 key={region.id} 
                 className="region-card"
                 onClick={() => setSelectedRegion(region)}
-                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(/src/assets/images/${region.image})` }}
+                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url(/src/assets/images/${region.image})` }}
               >
                 <h3>{region.name}</h3>
-                <span>Felfedezés →</span>
+                <span>Részletek →</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* REGION MODAL (Ha ki van választva egy régió) */}
+      {/* --- MODAL (Régió infók) --- */}
       {selectedRegion && (
         <div className="modal-overlay" onClick={() => setSelectedRegion(null)}>
           <div className="region-modal" onClick={e => e.stopPropagation()}>
             <button className="close-modal" onClick={() => setSelectedRegion(null)}>×</button>
-            <div className="modal-content">
-              <h2>{selectedRegion.name}</h2>
-              <div className="modal-grid">
-                <div className="modal-info">
-                  <h4>Történet</h4>
-                  <p>{selectedRegion.history}</p>
-                  <h4>Ikonikus Ételek</h4>
-                  <p>{selectedRegion.foods}</p>
-                </div>
-                <div className="modal-actions">
-                  <h4>Mit csinálhat itt?</h4>
-                  <ul>
-                    {selectedRegion.activities.map((act, i) => <li key={i}>✨ {act}</li>)}
-                  </ul>
-                  <button className="btn-primary" onClick={() => navigate(`/tours?search=${selectedRegion.name}`)}>
-                    Túrák keresése itt
-                  </button>
-                </div>
+            <h2>{selectedRegion.name}</h2>
+            <div className="modal-body">
+              <div className="info-block">
+                <h4>📜 Történelem</h4>
+                <p>{selectedRegion.history}</p>
+              </div>
+              <div className="info-block">
+                <h4>🍲 Helyi Ízek</h4>
+                <p>{selectedRegion.foods}</p>
+              </div>
+              <div className="info-block">
+                <h4>🎯 Mit csinálhatsz itt?</h4>
+                <ul>
+                  {selectedRegion.activities.map((act, i) => <li key={i}>{act}</li>)}
+                </ul>
               </div>
             </div>
+            <button className="btn-primary" onClick={() => {
+              navigate(`/tours?search=${selectedRegion.name}`);
+              setSelectedRegion(null);
+            }}>
+              Túrák megtekintése ebben a régióban
+            </button>
           </div>
         </div>
       )}
 
-      {/* 2. HOSSZÚ TÚRÁK SZEKCIÓ */}
+      {/* --- HOSSZÚ TÚRÁK SZAKASZ --- */}
       <section className="long-tours-section">
         <div className="container">
           <div className="section-header">
-            <span className="badge">Prémium Élmény</span>
             <h2>Többnapos Gasztro-Kalandok</h2>
-            <p>Mélyedjen el a kultúrában és az ízekben több napon át</p>
+            <p>Mélyedj el a kultúrában több napon át</p>
           </div>
           <div className="long-tours-grid">
-            {longTours.map(tour => (
+            {longToursList.map(tour => (
               <div key={tour.id} className="long-tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
-                <div className="long-tour-image">
+                <div className="long-tour-img-container">
                   <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
-                  <div className="tour-tag">Hosszú Túra</div>
                 </div>
-                <div className="long-tour-info">
+                <div className="long-tour-content">
+                  <span className="tour-badge">Többnapos út</span>
                   <h3>{tour.cim}</h3>
-                  <p className="duration">📅 {tour.idotartam}</p>
+                  <p className="duration">⏳ {tour.idotartam}</p>
                   <p className="description">{tour.leiras}</p>
                   <div className="long-tour-footer">
                     <span className="price">{tour.ar}</span>
-                    <button className="btn-secondary">Részletes Program</button>
+                    <button className="btn-secondary">Program megtekintése</button>
                   </div>
                 </div>
               </div>
@@ -108,16 +103,26 @@ if (!toursData || !regionsData) {
         </div>
       </section>
 
-      {/* 3. NAPI TÚRÁK (A meglévő szekciód) */}
-      <section className="featured-tours">
+      {/* --- EGYNAPOS TÚRÁK SZAKASZ --- */}
+      <section className="daily-tours-section">
         <div className="container">
           <div className="section-header">
-            <h2>Egynapos Városi Séták</h2>
+            <h2>Kiemelt Városi Séták</h2>
           </div>
           <div className="tours-grid">
-            {dailyTours.map(tour => (
+            {dailyToursList.map(tour => (
               <div key={tour.id} className="tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
-                {/* ... a meglévő kártya kódod ... */}
+                 <div className="tour-image">
+                    <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                 </div>
+                 <div className="tour-content">
+                    <h3>{tour.cim}</h3>
+                    <p>{tour.varos}</p>
+                    <div className="tour-footer">
+                      <span className="price">{tour.ar}</span>
+                      <button className="btn-primary">Részletek</button>
+                    </div>
+                 </div>
               </div>
             ))}
           </div>
