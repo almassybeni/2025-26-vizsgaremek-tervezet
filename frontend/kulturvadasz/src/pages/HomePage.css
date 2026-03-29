@@ -1,356 +1,169 @@
-/* --- GLOBÁLIS ÉS KONTÉNER BEÁLLÍTÁSOK --- */
+/* --- GLOBÁLIS STÍLUS --- */
 .homepage {
-  width: 100%;
-  background-color: #f9f9f9;
-  font-family: 'Georgia', serif; /* A Culinary Backstreets stílusához */
+    background-color: #ffffff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* Szekciók távolsága (Hogy ne legyen összenyomva) */
 section {
-  padding: 100px 0;
+    padding: 60px 0;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
+/* Címek középre */
+.section-title-center {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.section-header h2 {
-  font-size: 2.8rem;
-  color: #1a1a1a;
-  margin-bottom: 15px;
-  font-weight: 400;
-}
-
-.section-header p {
-  font-size: 1.1rem;
-  color: #666;
-  font-style: italic;
-}
-
-.badge {
-  color: #7b5e45;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 3px;
-  font-size: 0.85rem;
-  display: block;
-  margin-bottom: 10px;
-}
-
-/* --- 1. RÉGIÓ FELFEDEZŐ (KOCKÁK) --- */
-.region-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
-}
-
-.region-card {
-  height: 400px;
-  border-radius: 12px;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 40px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-  border: none;
-}
-
-.region-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8));
-  z-index: 1;
-}
-
-.region-card h3, .region-card span {
-  z-index: 2;
-  position: relative;
-}
-
-.region-card h3 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.region-card span {
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  opacity: 0.8;
-}
-
-.region-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-}
-
-/* --- 2. HOSSZÚ TÚRÁK (VÍZSZINTES KÁRTYÁK) --- */
-.long-tours-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.long-tour-card {
-  display: flex;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-  overflow: hidden;
-  border: 1px solid #eee;
-  transition: all 0.3s ease;
-  min-height: 400px;
-}
-
-.long-tour-img-container {
-  width: 45%;
-  min-height: 100%;
-}
-
-.long-tour-img-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.long-tour-content {
-  width: 55%;
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-}
-
-.long-tour-content .tour-badge {
-  background: #7b5e45;
-  color: white;
-  padding: 5px 12px;
-  font-size: 0.75rem;
-  border-radius: 4px;
-  align-self: flex-start;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.long-tour-content h3 {
-  font-size: 2.2rem;
-  margin-bottom: 15px;
-  color: #1a1a1a;
-  line-height: 1.2;
-}
-
-.long-tour-content .duration {
-  color: #7b5e45;
-  font-weight: 600;
-  margin-bottom: 20px;
-  font-size: 1.1rem;
-}
-
-.long-tour-content .description {
-  color: #555;
-  line-height: 1.7;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-/* Hosszú túra lábléc: Ár és Gomb elrendezése */
-.long-tour-footer {
-  margin-top: auto;
-  padding-top: 30px;
-  border-top: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.long-tour-footer .price {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-/* --- 3. EGYNAPOS TÚRÁK (FÜGGŐLEGES KÁRTYÁK) --- */
-.tours-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
-}
-
-.tour-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #eee;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.tour-card:hover {
-  transform: translateY(-5px);
-}
-
-.tour-image {
-  height: 240px;
-  overflow: hidden;
-}
-
-.tour-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tour-content {
-  padding: 30px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.tour-content h3 {
-  font-size: 1.5rem;
-  margin: 10px 0;
-  line-height: 1.3;
-}
-
-.tour-footer {
-  margin-top: auto;
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #f5f5f5;
-}
-
-/* --- GOMBOK --- */
-.btn-primary {
-  background-color: #7b5e45;
-  color: white;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: #5e4a37;
-}
-
-/* A Hosszú túrák speciális gombja */
-.btn-secondary {
-  background-color: transparent;
-  color: #7b5e45;
-  border: 2px solid #7b5e45;
-  padding: 12px 25px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s;
-}
-
-.btn-secondary:hover {
-  background-color: #7b5e45;
-  color: white;
-}
-
-/* --- MODAL (RÉGIÓ INFÓKHOZ) --- */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.85);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999;
-}
-
-.region-modal {
-  background: white;
-  padding: 50px;
-  max-width: 800px;
-  width: 90%;
-  border-radius: 15px;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.close-modal {
-  position: absolute; top: 20px; right: 20px;
-  font-size: 2.5rem; background: none; border: none; cursor: pointer; color: #999;
-}
-
-.modal-body {
-  margin-top: 30px;
-}
-
-.info-block {
-  margin-bottom: 30px;
-}
-
-.info-block h4 {
-  color: #7b5e45;
-  font-size: 1.3rem;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
-}
-
-.info-block ul {
-  padding-left: 20px;
-}
-
-.info-block li {
-  margin-bottom: 8px;
-  color: #444;
-}
-
-/* --- RESPONSIVE JAVÍTÁSOK --- */
-@media (max-width: 900px) {
-  .long-tour-card {
-    flex-direction: column;
-  }
-  .long-tour-img-container, .long-tour-content {
-    width: 100%;
-  }
-  .long-tour-img-container {
-    height: 250px;
-  }
-  .long-tour-content {
-    padding: 30px;
-  }
-  .section-header h2 {
+.section-title-center h2 {
     font-size: 2rem;
-  }
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
-@media (max-width: 600px) {
-  .long-tour-footer {
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-  }
-  .btn-secondary, .btn-primary {
+.section-title-center p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* --- MODERN KÁRTYA DESIGN (A kép jobb oldala alapján) --- */
+.modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.modern-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* Puha árnyék */
+    transition: transform 0.3s ease;
+    text-align: center;
+    border: 1px solid #f0f0f0;
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-wrap {
+    height: 180px;
+    overflow: hidden;
+}
+
+.card-img-wrap img {
     width: 100%;
-  }
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.card-sub {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.btn-outline-small {
+    background: transparent;
+    border: 1px solid #333;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-outline-small:hover {
+    background: #333;
+    color: #fff;
+}
+
+/* --- RÉGIÓ MOZAIK (A kép bal oldala alapján) --- */
+.section-title-left {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.region-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* A kép szerinti aszimmetrikus rács */
+    grid-template-rows: 250px 250px;
+    gap: 20px;
+}
+
+.region-box {
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    padding: 25px;
+    overflow: hidden;
+}
+
+/* Az első box legyen nagy (ha a rács engedi) */
+.region-box.large {
+    grid-row: span 2;
+}
+
+.region-box-content {
+    color: #fff;
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+}
+
+.region-box-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.box-tag {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+/* --- VÁROSI SÉTÁK EGYSZERŰSÍTVE --- */
+.card-body-simple {
+    padding: 15px;
+    border-top: 1px solid #f9f9f9;
+}
+
+.city-name {
+    font-weight: 600;
+    color: #444;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .region-mosaic {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .region-box.large {
+        grid-row: auto;
+        height: 250px;
+    }
 }
