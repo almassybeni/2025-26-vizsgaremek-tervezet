@@ -1,88 +1,132 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import Hero from '../components/Hero';
 import Footer from '../components/Footer';
-import { toursData, regionsData } from '../data/toursData';
+import { toursData } from '../data/toursData';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [showProfile, setShowProfile] = useState(false);
 
-  // Csoportosítás a kép elrendezése szerint
-  const upcomingTours = toursData.slice(0, 4); // Érkező gasztro-kalandok
+  // Csak a napi túrákat (Városi Séták) listázzuk alul
   const cityWalks = toursData.filter(t => t.type === 'daily').slice(0, 4);
 
   return (
-    <div className="homepage">
-      <Header />
-      <Hero />
-
-      <div className="container">
-        {/* 1. SZEKCIÓ: ÉRKEZŐ GASZTRO-KALANDOK (Fehér kártyák árnyékkal) */}
-        <section className="upcoming-section">
-          <div className="section-title-center">
-            <h2>🎁 Érkező Gasztro-Kalandok - Már Foglalhatók!</h2>
-            <p>Legyen az elsők között, akik kipróbálják új élményeinket!</p>
+    <div className="homepage-wrapper">
+      
+      {/* 1. FEJLÉC ÉS MENÜ (A kép alapján) */}
+      <header className="site-header">
+        <div className="header-container">
+          <div className="header-left">
+            <h1 className="logo-text" onClick={() => navigate('/')}>Culinary Backstreets</h1>
           </div>
-          
-          <div className="modern-grid">
-            {upcomingTours.map(tour => (
-              <div key={tour.id} className="modern-card">
-                <div className="card-img-wrap">
-                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
-                </div>
-                <div className="card-body">
-                  <h3>{tour.cim}</h3>
-                  <p className="card-sub">{tour.varos}</p>
-                  <button className="btn-outline-small" onClick={() => navigate(`/tour/${tour.id}`)}>
-                    Learn more
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className="header-center">
+            <div className="search-input-wrapper">
+              <span className="search-icon">🔍</span>
+              <input type="text" placeholder="Search" />
+            </div>
           </div>
-        </section>
+          <div className="header-right">
+            <div className="profile-trigger" onClick={() => setShowProfile(!showProfile)}>
+              <img src="/src/assets/images/user-profile.jpg" alt="Profile" className="user-avatar" />
+              <span>Pprofile ▾</span>
+              {showProfile && (
+                <div className="profile-dropdown">
+                  <div onClick={() => navigate('/profile')}>My profile</div>
+                  <div onClick={() => navigate('/login')}>Sign out</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <nav className="site-nav">
+          <div className="nav-container">
+            <span onClick={() => navigate('/')}>Home</span>
+            <span onClick={() => navigate('/tours')}>Felfedező</span>
+            <span onClick={() => navigate('/tours')}>Régió fiók</span>
+            <span onClick={() => navigate('/tours')}>Gasztró túrák</span>
+            <span onClick={() => navigate('/about')}>Legal</span>
+            <span onClick={() => navigate('/contact')}>Fontos</span>
+          </div>
+        </nav>
+      </header>
 
-        {/* 2. SZEKCIÓ: RÉGIÓ FELFEDEZŐ (Nagyobb boxok, szöveg a képen) */}
-        <section className="region-section">
+      {/* 2. HERO SZEKCIÓ (Teljes szélességű nagy kép) */}
+      <section className="main-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(/src/assets/images/hero-bg.jpg)` }}>
+        <div className="hero-inner">
+          <h2>Fedezze fel Magyarország<br/>Rejtett Gasztro-Kincseit</h2>
+          <button className="hero-learn-btn" onClick={() => navigate('/tours')}>Learn more</button>
+        </div>
+      </section>
+
+      {/* 3. RÉGIÓ FELFEDEZŐ (Mozaik: balra 2 kicsi, jobbra 1 nagy) */}
+      <section className="section-padding white-bg">
+        <div className="content-container">
           <h2 className="section-title-left">Régió Felfedező</h2>
+          
           <div className="region-mosaic">
-            {regionsData.map((reg, index) => (
+            {/* Bal oldali oszlop (2 kisebb kép) */}
+            <div className="mosaic-col-left">
               <div 
-                key={reg.id} 
-                className={`region-box ${index === 0 ? 'large' : ''}`}
-                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url(/src/assets/images/${reg.image})` }}
-                onClick={() => navigate(`/tours?region=${reg.id}`)}
+                className="mosaic-box small-box" 
+                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/tokaj-wine.jpg)` }}
+                onClick={() => navigate('/tours?region=tokaj')}
               >
-                <div className="region-box-content">
-                  <h3>{reg.name}</h3>
-                  <span className="box-tag">Régió Felfedező</span>
+                <div className="box-content">
+                  <h3>Régió Felfedező</h3>
+                  <span className="box-btn">Régió Felfedező</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
 
-        {/* 3. SZEKCIÓ: VÁROSI SÉTÁK (Vízszintesebb kártyák) */}
-        <section className="city-section">
-          <div className="section-title-center">
-            <h2>Városi Séták</h2>
+              <div 
+                className="mosaic-box small-box" 
+                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/budapest-market.jpg)` }}
+                onClick={() => navigate('/tours')}
+              >
+                <div className="box-content">
+                  <h3>Hosszú Túrák</h3>
+                  <span className="box-btn">Hosszú Túrák</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jobb oldali oszlop (1 nagy kép) */}
+            <div className="mosaic-col-right">
+              <div 
+                className="mosaic-box large-box" 
+                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/balaton-felvidek.jpg)` }}
+                onClick={() => navigate('/tours?region=balaton')}
+              >
+                <div className="box-content">
+                  <h3>Hosszú Túrák</h3>
+                  <span className="box-btn">Hosszú Túrák</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="modern-grid">
+        </div>
+      </section>
+
+      {/* 4. VÁROSI SÉTÁK (Túra kártyák legalul) */}
+      <section className="section-padding white-bg">
+        <div className="content-container">
+          <h2 className="section-title-center">Városi Séták</h2>
+          
+          <div className="city-grid">
             {cityWalks.map(tour => (
-              <div key={tour.id} className="modern-card">
-                <div className="card-img-wrap">
+              <div key={tour.id} className="city-card" onClick={() => navigate(`/tour/${tour.id}`)}>
+                <div className="city-img-wrap">
                   <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
                 </div>
-                <div className="card-body-simple">
-                  <p className="city-name">{tour.varos} Séták</p>
+                <div className="city-label">
+                  <p>{tour.varos} Séták</p>
                 </div>
               </div>
             ))}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

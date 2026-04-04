@@ -1,169 +1,377 @@
-/* --- GLOBÁLIS STÍLUS --- */
-.homepage {
+/* ==========================================================================
+   ALAPBEÁLLÍTÁSOK
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+}
+
+.homepage-wrapper {
     background-color: #ffffff;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #333;
+    font-family: 'Georgia', serif; 
+    color: #222222;
+    margin: 0;
+    padding: 0;
 }
 
-.container {
-    max-width: 1200px;
+/* Minden fő konténer kb. 80%-os szélességű lesz a nagy képernyőkön */
+.content-container {
+    width: 80%;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
 }
 
-section {
-    padding: 60px 0;
+.section-padding {
+    padding: 80px 0; /* Nagyobb térköz a szekciók között */
 }
 
-/* Címek középre */
-.section-title-center {
-    text-align: center;
-    margin-bottom: 40px;
+.white-bg {
+    background-color: #ffffff;
 }
 
-.section-title-center h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+/* ==========================================================================
+   FEJLÉC ÉS MENÜ (HEADER)
+   ========================================================================== */
+.site-header { 
+    background: #ffffff; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
 }
 
-.section-title-center p {
-    color: #666;
-    font-size: 1.1rem;
+.header-container { 
+    width: 80%; 
+    max-width: 1600px; 
+    margin: 0 auto; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 25px 0; 
 }
 
-/* --- MODERN KÁRTYA DESIGN (A kép jobb oldala alapján) --- */
-.modern-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+.logo-text { 
+    font-size: 32px; 
+    margin: 0; 
+    cursor: pointer; 
+    color: #111111; 
+    font-weight: normal;
 }
 
-.modern-card {
-    background: #fff;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* Puha árnyék */
-    transition: transform 0.3s ease;
-    text-align: center;
-    border: 1px solid #f0f0f0;
+/* Kereső sáv */
+.search-input-wrapper { 
+    background: #f4f4f4; 
+    border-radius: 25px; 
+    padding: 12px 20px; 
+    display: flex; 
+    align-items: center; 
+    width: 400px; 
 }
 
-.modern-card:hover {
-    transform: translateY(-5px);
+.search-input-wrapper input { 
+    border: none; 
+    background: transparent; 
+    padding-left: 10px; 
+    width: 100%; 
+    outline: none; 
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 16px;
 }
 
-.card-img-wrap {
-    height: 180px;
-    overflow: hidden;
+/* Profil gomb */
+.profile-trigger { 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    cursor: pointer; 
+    font-family: 'Inter', Helvetica, sans-serif; 
+    font-size: 16px;
 }
 
-.card-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.user-avatar { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    object-fit: cover; 
 }
 
-.card-body {
-    padding: 20px;
+.profile-dropdown { 
+    position: absolute; 
+    top: 55px; 
+    right: 0; 
+    background: #ffffff; 
+    width: 180px; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    font-family: 'Inter', Helvetica, sans-serif; 
 }
 
-.card-body h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-
-.card-sub {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-}
-
-.btn-outline-small {
-    background: transparent;
-    border: 1px solid #333;
-    padding: 8px 20px;
-    border-radius: 5px;
-    font-size: 0.85rem;
+.profile-dropdown div { 
+    padding: 15px 20px; 
+    border-bottom: 1px solid #f0f0f0; 
     cursor: pointer;
-    transition: 0.3s;
+    font-size: 15px;
 }
 
-.btn-outline-small:hover {
-    background: #333;
-    color: #fff;
+.profile-dropdown div:hover { 
+    background: #f9f9f9; 
 }
 
-/* --- RÉGIÓ MOZAIK (A kép bal oldala alapján) --- */
+/* Navigációs sáv */
+.site-nav { 
+    border-top: 1px solid #f0f0f0; 
+    padding: 20px 0; 
+}
+
+.nav-container { 
+    display: flex; 
+    justify-content: center; 
+    gap: 50px; 
+    font-family: 'Inter', Helvetica, sans-serif; 
+    font-size: 16px; 
+    font-weight: 500; 
+    color: #444444; 
+}
+
+.nav-container span { 
+    cursor: pointer; 
+    transition: color 0.2s; 
+}
+
+.nav-container span:hover { 
+    color: #000000; 
+}
+
+/* ==========================================================================
+   HERO SZEKCIÓ (FŐKÉP - 80% szélesség, dobozosítva)
+   ========================================================================== */
+.main-hero {
+    width: 80%; 
+    max-width: 1600px;
+    height: 600px; 
+    margin: 40px auto; 
+    border-radius: 16px; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15); 
+}
+
+.hero-inner h2 {
+    font-size: 54px; 
+    margin-bottom: 40px;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    font-weight: normal;
+}
+
+.hero-learn-btn {
+    background: #ffffff;
+    color: #111111;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 6px;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.hero-learn-btn:hover { 
+    background: #f0f0f0; 
+}
+
+/* ==========================================================================
+   RÉGIÓ MOZAIK
+   ========================================================================== */
 .section-title-left {
-    font-size: 1.8rem;
-    margin-bottom: 30px;
+    font-size: 36px; 
+    margin-bottom: 40px;
+    text-align: left;
+    font-weight: normal;
+    color: #111111;
 }
 
 .region-mosaic {
     display: grid;
-    grid-template-columns: 1fr 1.5fr; /* A kép szerinti aszimmetrikus rács */
-    grid-template-rows: 250px 250px;
-    gap: 20px;
+    grid-template-columns: 1fr 1fr; 
+    gap: 30px; 
 }
 
-.region-box {
+.mosaic-col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.mosaic-col-right {
+    display: flex;
+}
+
+.mosaic-box {
     border-radius: 12px;
     background-size: cover;
     background-position: center;
-    position: relative;
-    cursor: pointer;
     display: flex;
-    align-items: flex-end;
-    padding: 25px;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.mosaic-box:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Megnövelt doboz magasságok */
+.small-box { 
+    height: 300px; 
+}
+
+.large-box { 
+    height: 100%; 
+    min-height: 630px; /* Tökéletesen illeszkedik a két kicsi mellé (300 + 30 + 300) */
+}
+
+.box-content { 
+    text-align: center; 
+    z-index: 2;
+    padding: 30px;
+}
+
+.box-content h3 { 
+    font-size: 32px; 
+    margin-bottom: 20px; 
+    font-weight: normal; 
+    text-shadow: 0 3px 6px rgba(0,0,0,0.7); 
+}
+
+.box-btn {
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   VÁROSI SÉTÁK (Nagyobb Alsó Kártyák)
+   ========================================================================== */
+.section-title-center {
+    font-size: 36px; 
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: normal;
+    color: #111111;
+}
+
+.city-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px; 
+}
+
+.city-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06); 
+    background: #ffffff;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.city-card:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12); 
+}
+
+.city-img-wrap { 
+    height: 250px; 
     overflow: hidden;
 }
 
-/* Az első box legyen nagy (ha a rács engedi) */
-.region-box.large {
-    grid-row: span 2;
+.city-img-wrap img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
 }
 
-.region-box-content {
-    color: #fff;
-    z-index: 2;
-    width: 100%;
+.city-label {
+    padding: 20px;
     text-align: center;
 }
 
-.region-box-content h3 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+.city-label p {
+    margin: 0;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 18px; 
+    color: #222222;
+    font-weight: bold;
 }
 
-.box-tag {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid #fff;
-    padding: 5px 15px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-}
-
-/* --- VÁROSI SÉTÁK EGYSZERŰSÍTVE --- */
-.card-body-simple {
-    padding: 15px;
-    border-top: 1px solid #f9f9f9;
-}
-
-.city-name {
-    font-weight: 600;
-    color: #444;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-    .region-mosaic {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+/* ==========================================================================
+   RESPONSIVE (MOBIL ÉS TABLET NÉZETEK)
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .content-container, .header-container, .main-hero {
+        width: 90%; 
     }
-    .region-box.large {
-        grid-row: auto;
-        height: 250px;
+}
+
+@media (max-width: 900px) {
+    .region-mosaic { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .large-box { 
+        height: 350px; 
+        min-height: auto; 
+    }
+    
+    .city-grid { 
+        grid-template-columns: 1fr 1fr; 
+    }
+
+    .header-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .hero-inner h2 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .content-container, .header-container, .main-hero {
+        width: 95%; 
+    }
+
+    .city-grid { 
+        grid-template-columns: 1fr; 
+    }
+
+    .hero-inner h2 {
+        font-size: 32px;
     }
 }
