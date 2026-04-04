@@ -11,9 +11,10 @@
     color: #222222;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
-/* Minden fő konténer kb. 80%-os szélességű lesz a nagy képernyőkön */
+/* Fő konténer kb. 80%-os szélességű a magazin hatáshoz */
 .content-container {
     width: 80%;
     max-width: 1600px;
@@ -22,129 +23,19 @@
 }
 
 .section-padding {
-    padding: 80px 0; /* Nagyobb térköz a szekciók között */
+    padding: 80px 0; 
 }
 
 .white-bg {
     background-color: #ffffff;
 }
 
-/* ==========================================================================
-   FEJLÉC ÉS MENÜ (HEADER)
-   ========================================================================== */
-.site-header { 
-    background: #ffffff; 
-    position: sticky; 
-    top: 0; 
-    z-index: 1000; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-}
-
-.header-container { 
-    width: 80%; 
-    max-width: 1600px; 
-    margin: 0 auto; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 25px 0; 
-}
-
-.logo-text { 
-    font-size: 32px; 
-    margin: 0; 
-    cursor: pointer; 
-    color: #111111; 
-    font-weight: normal;
-}
-
-/* Kereső sáv */
-.search-input-wrapper { 
-    background: #f4f4f4; 
-    border-radius: 25px; 
-    padding: 12px 20px; 
-    display: flex; 
-    align-items: center; 
-    width: 400px; 
-}
-
-.search-input-wrapper input { 
-    border: none; 
-    background: transparent; 
-    padding-left: 10px; 
-    width: 100%; 
-    outline: none; 
-    font-family: 'Inter', Helvetica, sans-serif;
-    font-size: 16px;
-}
-
-/* Profil gomb */
-.profile-trigger { 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    cursor: pointer; 
-    font-family: 'Inter', Helvetica, sans-serif; 
-    font-size: 16px;
-}
-
-.user-avatar { 
-    width: 45px; 
-    height: 45px; 
-    border-radius: 50%; 
-    object-fit: cover; 
-}
-
-.profile-dropdown { 
-    position: absolute; 
-    top: 55px; 
-    right: 0; 
-    background: #ffffff; 
-    width: 180px; 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
-    border-radius: 8px; 
-    font-family: 'Inter', Helvetica, sans-serif; 
-}
-
-.profile-dropdown div { 
-    padding: 15px 20px; 
-    border-bottom: 1px solid #f0f0f0; 
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.profile-dropdown div:hover { 
-    background: #f9f9f9; 
-}
-
-/* Navigációs sáv */
-.site-nav { 
-    border-top: 1px solid #f0f0f0; 
-    padding: 20px 0; 
-}
-
-.nav-container { 
-    display: flex; 
-    justify-content: center; 
-    gap: 50px; 
-    font-family: 'Inter', Helvetica, sans-serif; 
-    font-size: 16px; 
-    font-weight: 500; 
-    color: #444444; 
-}
-
-.nav-container span { 
-    cursor: pointer; 
-    transition: color 0.2s; 
-}
-
-.nav-container span:hover { 
-    color: #000000; 
+.bottom-section {
+    padding-bottom: 120px; /* Nagyobb térköz a lábléc előtt */
 }
 
 /* ==========================================================================
-   HERO SZEKCIÓ (FŐKÉP - 80% szélesség, dobozosítva)
+   HERO SZEKCIÓ (FŐKÉP)
    ========================================================================== */
 .main-hero {
     width: 80%; 
@@ -189,7 +80,7 @@
 }
 
 /* ==========================================================================
-   RÉGIÓ MOZAIK
+   CÍMSOROK
    ========================================================================== */
 .section-title-left {
     font-size: 36px; 
@@ -199,6 +90,25 @@
     color: #111111;
 }
 
+.section-title-center {
+    font-size: 36px; 
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: normal;
+    color: #111111;
+}
+
+.section-title-center p {
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 16px;
+    color: #666666;
+    margin-top: -20px;
+    margin-bottom: 40px;
+}
+
+/* ==========================================================================
+   RÉGIÓ MOZAIK
+   ========================================================================== */
 .region-mosaic {
     display: grid;
     grid-template-columns: 1fr 1fr; 
@@ -234,14 +144,13 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-/* Megnövelt doboz magasságok */
 .small-box { 
     height: 300px; 
 }
 
 .large-box { 
     height: 100%; 
-    min-height: 630px; /* Tökéletesen illeszkedik a két kicsi mellé (300 + 30 + 300) */
+    min-height: 630px; 
 }
 
 .box-content { 
@@ -269,16 +178,8 @@
 }
 
 /* ==========================================================================
-   VÁROSI SÉTÁK (Nagyobb Alsó Kártyák)
+   VÁROSI SÉTÁK KÁRTYÁK
    ========================================================================== */
-.section-title-center {
-    font-size: 36px; 
-    margin-bottom: 40px;
-    text-align: center;
-    font-weight: normal;
-    color: #111111;
-}
-
 .city-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -325,52 +226,110 @@
 }
 
 /* ==========================================================================
+   ÉRKEZŐ KALANDOK / TÚRÁK (Áthozva a ToursPage-ről)
+   ========================================================================== */
+.tours-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.modern-tour-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06); 
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-tour-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.tour-img-wrap {
+    height: 250px; 
+    overflow: hidden;
+}
+
+.tour-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tour-card-body {
+    padding: 30px 20px;
+}
+
+.tour-card-body h3 {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    margin: 0 0 10px 0;
+    color: #111111;
+    font-weight: bold;
+    min-height: 52px; 
+}
+
+.tour-subtitle {
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 15px;
+    color: #777777;
+    margin-bottom: 25px;
+}
+
+.btn-learn-outline {
+    background: transparent;
+    border: 1.5px solid #222222;
+    color: #222222;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-learn-outline:hover {
+    background: #222222;
+    color: #ffffff;
+}
+
+/* ==========================================================================
    RESPONSIVE (MOBIL ÉS TABLET NÉZETEK)
    ========================================================================== */
 @media (max-width: 1200px) {
-    .content-container, .header-container, .main-hero {
+    .content-container, .main-hero {
         width: 90%; 
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
     .region-mosaic { 
         grid-template-columns: 1fr; 
     }
-    
     .large-box { 
         height: 350px; 
         min-height: auto; 
     }
-    
-    .city-grid { 
+    .city-grid, .tours-grid-4 { 
         grid-template-columns: 1fr 1fr; 
     }
-
-    .header-container {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .nav-container {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
     .hero-inner h2 {
         font-size: 40px;
     }
 }
 
 @media (max-width: 600px) {
-    .content-container, .header-container, .main-hero {
+    .content-container, .main-hero {
         width: 95%; 
     }
-
-    .city-grid { 
+    .city-grid, .tours-grid-4 { 
         grid-template-columns: 1fr; 
     }
-
     .hero-inner h2 {
         font-size: 32px;
     }

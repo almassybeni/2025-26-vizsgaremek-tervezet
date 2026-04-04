@@ -8,10 +8,15 @@ import './HomePage.css';
 const HomePage = () => {
   const navigate = useNavigate();
 
+  // Szűrések a kártyákhoz
+  const cityWalks = toursData.filter(t => t.type === 'daily').slice(0, 4);
+  const upcomingTours = toursData.filter(t => t.type === 'upcoming' || t.type === 'long').slice(0, 4);
+
   return (
     <div className="homepage-wrapper">
-      <Header /> {/* Itt hívjuk meg a különálló komponenst! */}
+      <Header />
 
+      {/* 1. HERO SZEKCIÓ */}
       <section className="main-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(/src/assets/images/hero-bg.jpg)` }}>
         <div className="hero-inner">
           <h2>Fedezze fel Magyarország<br/>Rejtett Gasztro-Kincseit</h2>
@@ -19,6 +24,7 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* 2. RÉGIÓ FELFEDEZŐ (Mozaik) */}
       <section className="section-padding white-bg">
         <div className="content-container">
           <h2 className="section-title-left">Régió Felfedező</h2>
@@ -49,17 +55,45 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* 3. VÁROSI SÉTÁK */}
       <section className="section-padding white-bg">
         <div className="content-container">
           <h2 className="section-title-center">Városi Séták</h2>
           <div className="city-grid">
-            {toursData.filter(t => t.type === 'daily').slice(0, 4).map(tour => (
+            {cityWalks.map(tour => (
               <div key={tour.id} className="city-card" onClick={() => navigate(`/tour/${tour.id}`)}>
                 <div className="city-img-wrap">
                   <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
                 </div>
                 <div className="city-label">
                   <p>{tour.varos} Séták</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. ÉRKEZŐ GASZTRO-KALANDOK (A ToursPage-ről áthozva, a Városi Séták alá) */}
+      <section className="section-padding white-bg bottom-section">
+        <div className="content-container">
+          <div className="section-title-center">
+            <h2>🎁 Érkező Gasztro-Kalandok</h2>
+            <p>Fedezze fel a legújabb többnapos és kiemelt túráinkat!</p>
+          </div>
+          
+          <div className="tours-grid-4">
+            {upcomingTours.map(tour => (
+              <div key={tour.id} className="modern-tour-card">
+                <div className="tour-img-wrap">
+                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                </div>
+                <div className="tour-card-body">
+                  <h3>{tour.cim}</h3>
+                  <p className="tour-subtitle">{tour.sub || 'Gasztronómiai élmény'}</p>
+                  <button className="btn-learn-outline" onClick={() => navigate(`/tour/${tour.id}`)}>
+                    Learn more
+                  </button>
                 </div>
               </div>
             ))}
