@@ -1,160 +1,322 @@
-/* --- ToursPage.css --- */
-.tours-page {
-  background-color: #f4f4f4;
-  min-height: 100vh;
+/* ==========================================================================
+   ALAPBEÁLLÍTÁSOK (Tours Page)
+   ========================================================================== */
+* {
+    box-sizing: border-box;
 }
 
-/* Történelmi fejléc */
-.region-intro-section {
-  background: white;
-  padding: 60px 0;
-  border-bottom: 1px solid #ddd;
+.tours-page-wrapper {
+    background-color: #ffffff; /* Tiszta fehér háttér a kép szerint */
+    font-family: 'Georgia', serif;
+    color: #222222;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
-.region-header-flex {
-  display: flex;
-  gap: 40px;
-  align-items: center;
+.content-container {
+    width: 85%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
 }
 
-.region-text {
-  flex: 1.5;
+.tours-section {
+    padding: 60px 0;
 }
 
-.region-img {
-  flex: 1;
-  height: 300px;
-  border-radius: 10px;
-  overflow: hidden;
+.bottom-section {
+    padding-bottom: 100px; /* Nagyobb térköz a lábléc előtt */
 }
 
-.region-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* ==========================================================================
+   FEJLÉC ÉS MENÜ
+   ========================================================================== */
+.site-header { 
+    background: #ffffff; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02); 
 }
 
-.region-text h1 {
-  font-size: 3rem;
-  margin: 10px 0;
-  color: #1a1a1a;
+.header-container { 
+    width: 85%; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 25px 0; 
 }
 
-.history-text {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #555;
-  font-style: italic;
+.logo-text { 
+    font-size: 32px; 
+    margin: 0; 
+    cursor: pointer; 
+    color: #111111; 
+    font-weight: normal; 
 }
 
-.breadcrumb {
-  color: #7b5e45;
-  cursor: pointer;
-  font-weight: bold;
+.search-input-wrapper { 
+    background: #f4f4f4; 
+    border-radius: 25px; 
+    padding: 12px 20px; 
+    display: flex; 
+    align-items: center; 
+    width: 400px; 
 }
 
-/* Elrendezés: Oldalsáv + Lista */
-.tours-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 30px;
-  padding: 40px 20px;
+.search-input-wrapper input { 
+    border: none; 
+    background: transparent; 
+    padding-left: 10px; 
+    width: 100%; 
+    outline: none; 
+    font-family: 'Inter', Helvetica, sans-serif; 
+    font-size: 16px; 
 }
 
-.filter-sidebar {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+.profile-trigger { 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    cursor: pointer; 
+    font-family: 'Inter', Helvetica, sans-serif; 
+    font-size: 16px; 
 }
 
-.filter-group {
-  margin-bottom: 20px;
+.user-avatar { 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    object-fit: cover; 
 }
 
-.filter-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+.profile-dropdown { 
+    position: absolute; 
+    top: 55px; 
+    right: 0; 
+    background: #ffffff; 
+    width: 180px; 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    font-family: 'Inter', Helvetica, sans-serif; 
 }
 
-.filter-group select,
-.filter-group input[type="range"] {
-  width: 100%;
+.profile-dropdown div { 
+    padding: 15px 20px; 
+    border-bottom: 1px solid #f0f0f0; 
+    cursor: pointer; 
+    font-size: 15px; 
 }
 
-/* Túra Kártyák a listában */
-.tours-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+.profile-dropdown div:hover { 
+    background: #f9f9f9; 
 }
 
-.tour-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
+.site-nav { 
+    border-top: 1px solid #f0f0f0; 
+    padding: 20px 0; 
 }
 
-.tour-image {
-  height: 200px;
+.nav-container { 
+    display: flex; 
+    justify-content: center; 
+    gap: 50px; 
+    font-family: 'Inter', Helvetica, sans-serif; 
+    font-size: 16px; 
+    font-weight: 500; 
+    color: #444444; 
 }
 
-.tour-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.nav-container span { 
+    cursor: pointer; 
+    transition: color 0.2s; 
 }
 
-.tour-content {
-  padding: 20px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.nav-container span:hover { 
+    color: #000000; 
 }
 
-.tour-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+/* ==========================================================================
+   CÍMSOROK
+   ========================================================================== */
+.section-title-center {
+    text-align: center;
+    margin-bottom: 50px;
 }
 
-/* Gombok */
-.btn-primary {
-  background: #7b5e45;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+.section-title-center h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    color: #111111;
 }
 
-.btn-secondary {
-  border: 2px solid #7b5e45;
-  color: #7b5e45;
-  background: transparent;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
+.section-title-center p {
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 16px;
+    color: #666666;
+    margin: 0;
 }
 
-@media (max-width: 900px) {
-  .tours-layout {
-    grid-template-columns: 1fr;
-  }
+/* ==========================================================================
+   RÁCSOK (GRIDS) - Kép alapján felül 3, alul 4 oszlopos
+   ========================================================================== */
+.tours-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+}
 
-  .region-header-flex {
-    flex-direction: column;
-  }
+.tours-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+/* ==========================================================================
+   FELSŐ KÁRTYÁK (Érkező Kalandok)
+   ========================================================================== */
+.modern-tour-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06); 
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-tour-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.tour-img-wrap {
+    height: 250px; /* Szép, nagy képek a felső sorban */
+    overflow: hidden;
+}
+
+.tour-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tour-card-body {
+    padding: 30px 20px;
+}
+
+.tour-card-body h3 {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    margin: 0 0 10px 0;
+    color: #111111;
+    font-weight: bold;
+    min-height: 52px; 
+}
+
+.tour-subtitle {
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 15px;
+    color: #777777;
+    margin-bottom: 25px;
+}
+
+.btn-learn-outline {
+    background: transparent;
+    border: 1.5px solid #222222;
+    color: #222222;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-learn-outline:hover {
+    background: #222222;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   ALSÓ KÁRTYÁK (Városi Séták)
+   ========================================================================== */
+.simple-tour-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.simple-tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.simple-img-wrap {
+    height: 200px;
+    overflow: hidden;
+}
+
+.simple-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.simple-label {
+    padding: 20px;
+    text-align: center;
+}
+
+.simple-label p {
+    margin: 0;
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 18px;
+    color: #222222;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   RESPONSIVE (MOBIL ÉS TABLET)
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .content-container, .header-container { 
+        width: 90%; 
+    }
+}
+
+@media (max-width: 992px) {
+    .tours-grid-3, .tours-grid-4 { 
+        grid-template-columns: 1fr 1fr; 
+    }
+    .header-container { 
+        flex-direction: column; 
+        gap: 20px; 
+    }
+    .nav-container { 
+        flex-wrap: wrap; 
+        gap: 15px; 
+    }
+}
+
+@media (max-width: 600px) {
+    .content-container, .header-container { 
+        width: 95%; 
+    }
+    .tours-grid-3, .tours-grid-4 { 
+        grid-template-columns: 1fr; 
+    }
+    .section-title-center h2 { 
+        font-size: 28px; 
+    }
 }

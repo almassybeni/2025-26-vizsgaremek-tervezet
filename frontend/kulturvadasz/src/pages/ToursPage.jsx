@@ -1,111 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { toursData, regionsData } from '../data/toursData';
+import { toursData } from '../data/toursData';
 import './ToursPage.css';
 
 const ToursPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  
-  const [filteredTours, setFilteredTours] = useState([]);
-  const [activeRegion, setActiveRegion] = useState(null);
-  const [filters, setFilters] = useState({ type: 'all', maxPrice: 300000 });
+  const [showProfile, setShowProfile] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const regionId = params.get('region');
-    
-    // Régió és Történelem beállítása
-    if (regionId && regionsData) {
-      const region = regionsData.find(r => r.id === regionId);
-      setActiveRegion(region || null);
-    } else {
-      setActiveRegion(null);
-    }
-
-    // Szűrés
-    let result = toursData || [];
-
-    if (regionId) {
-      result = result.filter(t => t.region === regionId);
-    }
-
-    if (filters.type !== 'all') {
-      result = result.filter(t => t.type === filters.type);
-    }
-
-    // Ár szűrés biztonságosan
-    result = result.filter(t => {
-      const priceNum = parseInt(String(t.ar).replace(/[^0-9]/g, '')) || 0;
-      return priceNum <= filters.maxPrice;
-    });
-
-    setFilteredTours(result);
-  }, [location.search, filters]);
+  // Két kategóriára bontjuk a túrákat a kép alapján
+  const upcomingTours = toursData.filter(t => t.type === 'upcoming' || t.type === 'long').slice(0, 4);
+  const cityWalks = toursData.filter(t => t.type === 'daily').slice(0, 4);
 
   return (
-    <div className="tours-page">
-      <Header />
-      
-      {activeRegion && (
-        <div className="region-intro-section">
-          <div className="container">
-            <div className="region-header-flex">
-              <div className="region-text">
-                <span className="breadcrumb" onClick={() => navigate('/tours')}>← Összes túra</span>
-                <h1>{activeRegion.name}</h1>
-                <p className="history-text">{activeRegion.history}</p>
-              </div>
-              <div className="region-img">
-                 <img src={`/src/assets/images/${activeRegion.image}`} alt={activeRegion.name} />
-              </div>
+    <div className="tours-page-wrapper">
+      {/* FEJLÉC ÉS MENÜ */}
+      <header className="site-header">
+        <div className="header-container">
+          <div className="header-left">
+            <h1 className="logo-text" onClick={() => navigate('/')}>Culinary Backstreets</h1>
+          </div>
+          <div className="header-center">
+            <div className="search-input-wrapper">
+              <span className="search-icon">🔍</span>
+              <input type="text" placeholder="Search" />
+            </div>
+          </div>
+          <div className="header-right">
+            <div className="profile-trigger" onClick={() => setShowProfile(!showProfile)}>
+              <img src="/src/assets/images/user-profile.jpg" alt="Profile" className="user-avatar" />
+              <span>Pprofile ▾</span>
+              {showProfile && (
+                <div className="profile-dropdown">
+                  <div onClick={() => navigate('/profile')}>My profile</div>
+                  <div onClick={() => navigate('/login')}>Sign out</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
-
-      <div className="container tours-layout">
-        <aside className="filter-sidebar">
-          <h3>Szűrők</h3>
-          <div className="filter-group">
-            <label>Típus</label>
-            <select value={filters.type} onChange={(e) => setFilters({...filters, type: e.target.value})}>
-              <option value="all">Összes</option>
-              <option value="daily">Egynapos</option>
-              <option value="long">Többnapos</option>
-            </select>
+        <nav className="site-nav">
+          <div className="nav-container">
+            <span onClick={() => navigate('/')}>Home</span>
+            <span onClick={() => navigate('/tours')}>Felfedező</span>
+            <span onClick={() => navigate('/tours')}>Régió fiók</span>
+            <span onClick={() => navigate('/tours')}>Gasztró túrák</span>
+            <span onClick={() => navigate('/about')}>Legal</span>
+            <span onClick={() => navigate('/contact')}>Fontos</span>
           </div>
-          <div className="filter-group">
-            <label>Max ár: {Number(filters.maxPrice).toLocaleString()} Ft</label>
-            <input 
-              type="range" min="10000" max="300000" step="5000"
-              value={filters.maxPrice}
-              onChange={(e) => setFilters({...filters, maxPrice: e.target.value})} 
-            />
-          </div>
-        </aside>
+        </nav>
+      </header>
 
-        <main className="tours-main">
-          <h2>Találatok ({filteredTours.length})</h2>
-          <div className="tours-grid">
-            {filteredTours.map(tour => (
-              <div key={tour.id} className="tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
-                <div className="tour-image"><img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} /></div>
-                <div className="tour-content">
-                  <span className="city-label">{tour.varos}</span>
+      {/* 1. SZEKCIÓ: ÉRKEZŐ GASZTRO-KALANDOK */}
+      <section className="tours-section">
+        <div className="content-container">
+          <div className="section-title-center">
+            <h2>🎁 Érkező Gasztro-Kalandok - Már Foglalhatók!</h2>
+            <p>Legyen az elsők között, akik kipróbálják új élményeinket!</p>
+          </div>
+          
+          <div className="tours-grid-4">
+            {upcomingTours.map(tour => (
+              <div key={tour.id} className="modern-tour-card">
+                <div className="tour-img-wrap">
+                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                </div>
+                <div className="tour-card-body">
                   <h3>{tour.cim}</h3>
-                  <div className="tour-footer">
-                    <span className="price">{tour.ar}</span>
-                    <button className="btn-primary">Részletek</button>
-                  </div>
+                  <p className="tour-subtitle">Új! Borvacsora Tokajban</p>
+                  <button className="btn-learn-outline" onClick={() => navigate(`/tour/${tour.id}`)}>
+                    Learn more
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-        </main>
-      </div>
+        </div>
+      </section>
+
+      {/* 2. SZEKCIÓ: VÁROSI SÉTÁK */}
+      <section className="tours-section bottom-section">
+        <div className="content-container">
+          <div className="section-title-center">
+            <h2>Városi Séták</h2>
+          </div>
+          
+          <div className="tours-grid-4">
+            {cityWalks.map(tour => (
+              <div key={tour.id} className="simple-tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
+                <div className="simple-img-wrap">
+                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                </div>
+                <div className="simple-label">
+                  <p>{tour.varos} Séták</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
