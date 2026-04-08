@@ -4,13 +4,12 @@ import { useAuth } from '../../context/AuthContext';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalTours: 0,
     totalBookings: 0,
     totalUsers: 0,
-    pendingBookings: 0,
     revenue: 0,
     popularTours: []
   });
@@ -23,14 +22,11 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      // Itt kellene lekérni a valós adatokat a backendről
-      // Most szimuláljuk
       setTimeout(() => {
         setStats({
           totalTours: 15,
           totalBookings: 245,
           totalUsers: 180,
-          pendingBookings: 12,
           revenue: 3245000,
           popularTours: [
             { id: 1, name: 'Budapest - Nagypiac', bookings: 45 },
@@ -95,7 +91,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Statisztika kártyák */}
+      {/* 4 STATISZTIKA KÁRTYA */}
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-icon">🗺️</div>
@@ -121,14 +117,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">⏳</div>
-          <div className="stat-content">
-            <div className="stat-value">{stats.pendingBookings}</div>
-            <div className="stat-label">Függőben lévő</div>
-          </div>
-        </div>
-
         <div className="stat-card revenue">
           <div className="stat-icon">💰</div>
           <div className="stat-content">
@@ -139,7 +127,7 @@ const AdminDashboard = () => {
       </div>
 
       <div className="dashboard-grid">
-        {/* Népszerű túrák */}
+        {/* NÉPSZERŰ TÚRÁK */}
         <div className="dashboard-card">
           <h3>Legnépszerűbb túrák</h3>
           <div className="popular-tours-list">
@@ -160,7 +148,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Legfrissebb foglalások */}
+        {/* LEGFRISSEBB FOGLALÁSOK */}
         <div className="dashboard-card">
           <div className="card-header">
             <h3>Legfrissebb foglalások</h3>
@@ -187,42 +175,30 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Gyors műveletek */}
+        {/* GYORS MŰVELETEK (Megnövelt 2x2 Csempe) */}
         <div className="dashboard-card">
           <h3>Gyors műveletek</h3>
           <div className="quick-actions">
-            <button 
-              className="action-btn"
-              onClick={() => navigate('/admin/tours/new')}
-            >
+            <button className="action-btn" onClick={() => navigate('/admin/tours/new')}>
               <span className="action-icon">➕</span>
-              Új túra hozzáadása
+              <span>Új túra</span>
             </button>
-            <button 
-              className="action-btn"
-              onClick={() => navigate('/admin/bookings/pending')}
-            >
+            <button className="action-btn" onClick={() => navigate('/admin/bookings/pending')}>
               <span className="action-icon">⏳</span>
-              Függőben lévő foglalások
+              <span>Függőben</span>
             </button>
-            <button 
-              className="action-btn"
-              onClick={() => navigate('/admin/messages')}
-            >
+            <button className="action-btn" onClick={() => navigate('/admin/messages')}>
               <span className="action-icon">✉️</span>
-              Olvasatlan üzenetek (3)
+              <span>Üzenetek</span>
             </button>
-            <button 
-              className="action-btn"
-              onClick={() => navigate('/admin/users')}
-            >
-              <span className="action-icon">👤</span>
-              Új felhasználó hozzáadása
+            <button className="action-btn" onClick={() => navigate('/admin/users')}>
+              <span className="action-icon">👥</span>
+              <span>Új fiók</span>
             </button>
           </div>
         </div>
 
-        {/* Rendszer információk */}
+        {/* RENDSZER INFORMÁCIÓK */}
         <div className="dashboard-card">
           <h3>Rendszer információk</h3>
           <div className="system-info">
@@ -244,7 +220,7 @@ const AdminDashboard = () => {
             </div>
             <div className="info-row">
               <span className="info-label">Bejelentkezve:</span>
-              <span className="info-value">Admin</span>
+              <span className="info-value">{user?.name || 'Admin'}</span>
             </div>
           </div>
         </div>

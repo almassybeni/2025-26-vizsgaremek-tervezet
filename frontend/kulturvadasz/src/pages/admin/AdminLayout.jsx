@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './AdminLayout.css';
 
@@ -7,44 +7,15 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
-    {
-      id: 'dashboard',
-      title: 'Vezérlőpult',
-      icon: '📊',
-      path: '/admin'
-    },
-    {
-      id: 'tours',
-      title: 'Túrák kezelése',
-      icon: '🗺️',
-      path: '/admin/tours'
-    },
-    {
-      id: 'bookings',
-      title: 'Foglalások',
-      icon: '📅',
-      path: '/admin/bookings'
-    },
-    {
-      id: 'users',
-      title: 'Felhasználók',
-      icon: '👥',
-      path: '/admin/users'
-    },
-    {
-      id: 'messages',
-      title: 'Üzenetek',
-      icon: '✉️',
-      path: '/admin/messages'
-    },
-    {
-      id: 'settings',
-      title: 'Beállítások',
-      icon: '⚙️',
-      path: '/admin/settings'
-    }
+    { id: 'dashboard', title: 'Vezérlőpult', icon: '📊', path: '/admin' },
+    { id: 'tours', title: 'Túrák kezelése', icon: '🗺️', path: '/admin/tours' },
+    { id: 'bookings', title: 'Foglalások', icon: '📅', path: '/admin/bookings' },
+    { id: 'users', title: 'Felhasználók', icon: '👥', path: '/admin/users' },
+    { id: 'messages', title: 'Üzenetek', icon: '✉️', path: '/admin/messages' },
+    { id: 'settings', title: 'Beállítások', icon: '⚙️', path: '/admin/settings' }
   ];
 
   const handleLogout = () => {
@@ -53,13 +24,12 @@ const AdminLayout = () => {
   };
 
   const handleProfileClick = () => {
-    // Átirányítás a felhasználói profil oldalra
     navigate('/profile');
   };
 
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
+      {/* OLDALSÁV */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
         <div className="sidebar-header">
           <div className="logo" onClick={() => navigate('/admin')}>
@@ -73,26 +43,27 @@ const AdminLayout = () => {
           </button>
         </div>
 
-        {/* Admin profil - kattintható */}
+        {/* ADMIN PROFIL */}
         <div className="admin-profile" onClick={handleProfileClick}>
           <div className="admin-avatar">
-            {user?.name?.charAt(0).toUpperCase()}
+            {user?.name?.charAt(0).toUpperCase() || 'A'}
           </div>
           {sidebarOpen && (
             <div className="admin-info">
-              <div className="admin-name">{user?.name}</div>
+              <div className="admin-name">{user?.name || 'Adminisztrátor'}</div>
               <div className="admin-role">Adminisztrátor</div>
               <div className="profile-hint">Kattints a profilodhoz →</div>
             </div>
           )}
         </div>
 
+        {/* NAVIGÁCIÓ */}
         <nav className="sidebar-nav">
           <ul>
             {menuItems.map(item => (
               <li key={item.id}>
                 <button
-                  className={`nav-item ${window.location.pathname === item.path ? 'active' : ''}`}
+                  className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
                   onClick={() => navigate(item.path)}
                 >
                   <span className="nav-icon">{item.icon}</span>
@@ -103,6 +74,7 @@ const AdminLayout = () => {
           </ul>
         </nav>
 
+        {/* KIJELENTKEZÉS */}
         <div className="sidebar-footer">
           <button className="logout-btn" onClick={handleLogout}>
             <span className="nav-icon">🚪</span>
@@ -111,7 +83,7 @@ const AdminLayout = () => {
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* FŐ TARTALOM (Itt töltődik be a Dashboard) */}
       <main className={`main-content ${sidebarOpen ? 'with-sidebar' : 'full'}`}>
         <div className="content-header">
           <h1>Admin felület</h1>
