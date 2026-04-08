@@ -38,7 +38,7 @@ const Header = () => {
               className="user-avatar" 
               onError={(e) => e.target.src = 'https://via.placeholder.com/45'} 
             />
-            <span>Pprofile ▾</span>
+            <span>Profile ▾</span>
             {showProfile && (
               <div className="profile-dropdown">
                 <div onClick={() => navigate('/profile')}>My profile</div>
