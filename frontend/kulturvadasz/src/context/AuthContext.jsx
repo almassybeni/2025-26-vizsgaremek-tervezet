@@ -100,6 +100,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    setUser, // <-- EZT A SORT ADTUK HOZZÁ! Így már a ProfilePage is látja és tudja használni.
     token,
     login,
     register,

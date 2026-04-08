@@ -6,7 +6,8 @@ import Footer from '../components/Footer';
 import './ProfilePage.css';
 
 const ProfilePage = () => {
-  const { user, logout, isAuthenticated, token } = useAuth();
+  // ÚJÍTÁS: Kinyerjük a setUser-t is az AuthContext-ből, hogy frissíthessük a felületet!
+  const { user, setUser, logout, isAuthenticated, token } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -45,7 +46,7 @@ const ProfilePage = () => {
     }
 
     fetchUserBookings();
-  }, [isAuthenticated, navigate, user]);
+  }, [isAuthenticated, navigate, user, token]); // Hozzáadtam a tokent a dependency array-hez
 
   const fetchUserBookings = async () => {
     try {
@@ -91,14 +92,24 @@ const ProfilePage = () => {
         })
       });
 
+      // Mindkét esetben (siker/hiba) beolvassuk a JSON választ
+      const data = await response.json();
+
       if (response.ok) {
         setUpdateSuccess(true);
         setEditing(false);
+        
+        // ÚJÍTÁS: Oldalfrissítés helyett beállítjuk a backendről kapott frissített usert
+        if (setUser && data.user) {
+          setUser(data.user);
+        }
+
+        // 3 másodperc múlva eltüntetjük a sikeres üzenetet
         setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+          setUpdateSuccess(false);
+        }, 3000);
+        
       } else {
-        const data = await response.json();
         setUpdateError(data.message || 'Hiba a frissítés során');
       }
     } catch (error) {
@@ -212,7 +223,7 @@ const ProfilePage = () => {
 
                 {updateSuccess && (
                   <div className="success-message">
-                    ✅ Adatok sikeresen frissítve! Oldal frissítése...
+                    ✅ Adatok sikeresen frissítve!
                   </div>
                 )}
 

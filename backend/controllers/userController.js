@@ -22,6 +22,7 @@ exports.updateUser = async (req, res) => {
     const { id } = req.params;
     const { name, phone_number, role, is_active } = req.body;
 
+    // Jogosultság ellenőrzése
     if ((role || is_active !== undefined) && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Nincs jogosultságod' });
     }
@@ -42,9 +43,21 @@ exports.updateUser = async (req, res) => {
     query += ' WHERE id = ?';
     params.push(id);
 
+    // 1. Frissítjük az adatbázist
     await db.query(query, params);
 
-    res.json({ message: 'Felhasználó frissítve' });
+    // 2. Lekérjük a már frissített felhasználói adatokat
+    const [updatedUser] = await db.query(
+      'SELECT id, email, name, role, phone_number, created_at, is_active FROM users WHERE id = ?',
+      [id]
+    );
+
+    // 3. Visszaküldjük a sikeres üzenetet ÉS az új adatokat a frontendnek
+    res.json({ 
+      message: 'Felhasználó frissítve',
+      user: updatedUser[0] 
+    });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Szerver hiba' });
