@@ -1,18 +1,13 @@
-# Használjuk a könnyűsúlyú Node.js 18-as verziót
-FROM node:18-alpine
+FROM node:20-alpine
 
-# Munkakönyvtár létrehozása a konténeren belül
 WORKDIR /app
 
-# Csomagkezelő fájlok másolása és telepítés
 COPY package*.json ./
 RUN npm install
 
-# Az összes backend kód átmásolása
 COPY . .
 
-# A port nyitása (Amin a szervered fut)
+# A backend portja általában 3000 vagy 5000
 EXPOSE 5000
 
-# Indítási parancs (Bizonyosodj meg róla, hogy a package.json-ben van "start": "node server.js"!)
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev", "--", "--host"]
