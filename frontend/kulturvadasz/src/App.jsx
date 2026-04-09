@@ -63,7 +63,11 @@ function AppRoutes() {
       }>
         <Route index element={<AdminDashboard />} />
         <Route path="tours" element={<AdminTours />} />
+        
+        {/* 🔴 JAVÍTÁS: Mindkét útvonalat hozzáadjuk, így akármelyik gombra kattintasz, működni fog! */}
         <Route path="tours/new" element={<AdminAddTour />} />
+        <Route path="add-tour" element={<AdminAddTour />} />
+        
         <Route path="tours/edit/:id" element={<AdminEditTour />} />
         <Route path="bookings" element={<AdminBookings />} />
         <Route path="users" element={<AdminUsers />} />

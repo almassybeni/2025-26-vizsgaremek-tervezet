@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header';
 import { toursData } from '../../data/toursData';
 import './Admin.css';
 
@@ -24,7 +23,6 @@ const AdminEditTour = () => {
 
   return (
     <div className="admin-page">
-      <Header />
       <div className="admin-container form-container">
         <button className="btn-back" onClick={() => navigate('/admin/tours')}>← Vissza a listához</button>
         

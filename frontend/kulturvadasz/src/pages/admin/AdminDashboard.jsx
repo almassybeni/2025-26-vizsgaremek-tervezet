@@ -175,29 +175,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* GYORS MŰVELETEK (Megnövelt 2x2 Csempe) */}
-        <div className="dashboard-card">
-          <h3>Gyors műveletek</h3>
-          <div className="quick-actions">
-            <button className="action-btn" onClick={() => navigate('/admin/tours/new')}>
-              <span className="action-icon">➕</span>
-              <span>Új túra</span>
-            </button>
-            <button className="action-btn" onClick={() => navigate('/admin/bookings/pending')}>
-              <span className="action-icon">⏳</span>
-              <span>Függőben</span>
-            </button>
-            <button className="action-btn" onClick={() => navigate('/admin/messages')}>
-              <span className="action-icon">✉️</span>
-              <span>Üzenetek</span>
-            </button>
-            <button className="action-btn" onClick={() => navigate('/admin/users')}>
-              <span className="action-icon">👥</span>
-              <span>Új fiók</span>
-            </button>
-          </div>
-        </div>
-
         {/* RENDSZER INFORMÁCIÓK */}
         <div className="dashboard-card">
           <h3>Rendszer információk</h3>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header';
 import { toursData } from '../../data/toursData';
 import './Admin.css'; // Készítsünk egy közös CSS-t az adminhoz
 
@@ -9,11 +8,10 @@ const AdminTours = () => {
 
   return (
     <div className="admin-page">
-      <Header />
       <div className="admin-container">
         <div className="admin-header">
           <h2>Túrák Kezelése</h2>
-          <button className="btn-primary" onClick={() => alert('Új túra hozzáadása hamarosan!')}>+ Új Túra</button>
+          <button className="btn-primary" onClick={() => navigate('/admin/add-tour')}>+ Új Túra</button>
         </div>
 
         <div className="admin-table-wrapper">

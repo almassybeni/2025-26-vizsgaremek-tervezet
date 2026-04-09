@@ -17,6 +17,7 @@ const AdminAddTour = () => {
     city: '',
     country: 'Magyarország',
     region: 'Közép-Európa',
+    type: 'daily',
     duration: '',
     price: '',
     image: null,
@@ -212,6 +213,7 @@ const AdminAddTour = () => {
         city: formData.city,
         country: formData.country,
         region: formData.region,
+        type: formData.type,
         duration: formData.duration,
         price: parseInt(formData.price),
         image: uploadedImageName, // A feltöltött kép neve kerül ide!
@@ -376,6 +378,21 @@ const AdminAddTour = () => {
                   <option value="Dél-Európa">Dél-Európa</option>
                   <option value="Nyugat-Európa">Nyugat-Európa</option>
                   <option value="Kelet-Európa">Kelet-Európa</option>
+                </select>
+              </div>
+
+              <div className="form-group half">
+                <label htmlFor="type">Kategória *</label>
+                <select
+                  id="type"
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  disabled={loading}
+                >
+                  <option value="daily">Egynapos (Daily)</option>
+                  <option value="long">Többnapos (Long)</option>
+                  <option value="upcoming">Hamarosan (Upcoming)</option>
                 </select>
               </div>
 

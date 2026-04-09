@@ -89,9 +89,7 @@ const AdminLayout = () => {
           <h1>Admin felület</h1>
           <div className="header-actions">
             <button className="notification-btn">🔔</button>
-            <div className="admin-badge">
-              <span>Admin</span>
-            </div>
+            
           </div>
         </div>
         

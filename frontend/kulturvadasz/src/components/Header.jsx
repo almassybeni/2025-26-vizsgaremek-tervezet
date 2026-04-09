@@ -5,17 +5,14 @@ import './Header.css';
 const Header = () => {
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
-  const [showExplore, setShowExplore] = useState(false); // Új állapot a felfedezőhöz
+  const [showExplore, setShowExplore] = useState(false);
 
   return (
     <header className="site-header">
       <div className="top-banner">
-        <div className="top-banner-container">
-          <span className="banner-text">
-            IMMERSIVE MULTI-DAY JOURNEYS IN AND AROUND THE WORLD'S CULINARY CAPITALS
-          </span>
-          <span className="banner-link" onClick={() => navigate('/about')}>
-            Learn more about our trips
+        <div className="banner-content">
+          <span>
+            <strong>FREE CANCELLATION</strong> on most tours and 100% full credit on all others up to 24 hours before your tour!
           </span>
         </div>
       </div>
@@ -42,7 +39,7 @@ const Header = () => {
             {showProfile && (
               <div className="profile-dropdown">
                 <div onClick={() => navigate('/profile')}>My profile</div>
-                <div onClick={() => navigate('/admin/tours')}>Admin panel</div>
+                <div onClick={() => navigate('/admin')}>Admin panel</div>
                 <div onClick={() => navigate('/login')}>Sign out</div>
               </div>
             )}
@@ -54,7 +51,6 @@ const Header = () => {
         <div className="nav-container">
           <span onClick={() => navigate('/')}>Home</span>
           
-          {/* FELFEDEZŐ MENÜPONT LENYÍLÓVAL */}
           <div 
             className="nav-item-with-dropdown"
             onMouseEnter={() => setShowExplore(true)}

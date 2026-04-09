@@ -1,13 +1,38 @@
-const db = require('./db');
+const db = require('./db'); // Vagy ahol a db.js fájlod van
+const bcrypt = require('bcryptjs');
 
 const initDatabase = async () => {
-  try {
-    await db.query(`CREATE DATABASE IF NOT EXISTS kulturvadasz`);
-    await db.query(`USE kulturvadasz`);
+  console.log('⏳ Adatbázis inicializálása megkezdődött...');
 
-    // users tábla
+  try {
+    // 1. Adatbázis létrehozása és kiválasztása
+    await db.query(`CREATE DATABASE IF NOT EXISTS kulturvadasz CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+    await db.query(`USE kulturvadasz`);
+    console.log('✅ Adatbázis kiválasztva (kulturvadasz).');
+
+    // 2. Tiszta lap: Meglévő táblák törlése (Idegen kulcsok kikapcsolásával)
+    // Ez garantálja, hogy a vizsgán mindig friss, tiszta rendszert tudsz mutatni
+    await db.query(`SET FOREIGN_KEY_CHECKS = 0`);
     await db.query(`
-      CREATE TABLE IF NOT EXISTS users (
+      DROP TABLE IF EXISTS 
+        bookings, 
+        tour_destinations, 
+        tour_dates, 
+        messages, 
+        password_resets, 
+        tours, 
+        users
+    `);
+    await db.query(`SET FOREIGN_KEY_CHECKS = 1`);
+    console.log('✅ Régi táblák törölve (Tiszta lap).');
+
+    // ==========================================
+    // 3. TÁBLÁK LÉTREHOZÁSA (KAPCSOLATOKKAL)
+    // ==========================================
+
+    // Users tábla
+    await db.query(`
+      CREATE TABLE users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(100) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
@@ -22,15 +47,16 @@ const initDatabase = async () => {
       )
     `);
 
-    // tours tábla (TELJESEN JAVÍTVA)
+    // Tours (Túrák) tábla
     await db.query(`
-      CREATE TABLE IF NOT EXISTS tours (
+      CREATE TABLE tours (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(200) NOT NULL,
         description TEXT NOT NULL,
         city VARCHAR(100) NOT NULL,
         country VARCHAR(100) NOT NULL,
         region VARCHAR(100) NOT NULL,
+        type ENUM('daily', 'long', 'upcoming') DEFAULT 'daily',
         duration VARCHAR(50) NOT NULL,
         price INT NOT NULL,
         image VARCHAR(255) NOT NULL,
@@ -49,9 +75,9 @@ const initDatabase = async () => {
       )
     `);
 
-    // tour_destinations tábla
+    // Tour Destinations (Célállomások)
     await db.query(`
-      CREATE TABLE IF NOT EXISTS tour_destinations (
+      CREATE TABLE tour_destinations (
         id INT AUTO_INCREMENT PRIMARY KEY,
         tour_id INT NOT NULL,
         destination_name VARCHAR(100) NOT NULL,
@@ -59,9 +85,9 @@ const initDatabase = async () => {
       )
     `);
 
-    // bookings tábla
+    // Bookings (Foglalások) tábla
     await db.query(`
-      CREATE TABLE IF NOT EXISTS bookings (
+      CREATE TABLE bookings (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         tour_id INT NOT NULL,
@@ -78,9 +104,9 @@ const initDatabase = async () => {
       )
     `);
 
-    // tour_dates tábla
+    // Tour Dates (Túra időpontok)
     await db.query(`
-      CREATE TABLE IF NOT EXISTS tour_dates (
+      CREATE TABLE tour_dates (
         id INT AUTO_INCREMENT PRIMARY KEY,
         tour_id INT NOT NULL,
         start_date DATE NOT NULL,
@@ -91,9 +117,9 @@ const initDatabase = async () => {
       )
     `);
 
-    // password_resets tábla
+    // Password Resets (Jelszó visszaállítás)
     await db.query(`
-      CREATE TABLE IF NOT EXISTS password_resets (
+      CREATE TABLE password_resets (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         token VARCHAR(255) UNIQUE NOT NULL,
@@ -106,9 +132,9 @@ const initDatabase = async () => {
       )
     `);
 
-    // messages tábla
+    // Messages (Üzenetek) tábla
     await db.query(`
-      CREATE TABLE IF NOT EXISTS messages (
+      CREATE TABLE messages (
         id INT AUTO_INCREMENT PRIMARY KEY,
         sender_id INT NOT NULL,
         receiver_id INT NOT NULL,
@@ -122,46 +148,60 @@ const initDatabase = async () => {
       )
     `);
 
-    // Admin felhasználó ellenőrzése
-    const [admins] = await db.query(`SELECT * FROM users WHERE role = 'admin'`);
+    console.log('✅ Táblaszerkezet (Schema) sikeresen létrehozva.');
+
+    // ==========================================
+    // 4. TESZT ADATOK FELTÖLTÉSE (Seeding)
+    // ==========================================
+
+    // Admin és egy alap felhasználó létrehozása
+    const hashedAdminPassword = await bcrypt.hash('admin123', 10);
+    const hashedUserPassword = await bcrypt.hash('user123', 10);
+
+    const [adminResult] = await db.query(`
+      INSERT INTO users (email, password_hash, name, role, phone_number) 
+      VALUES (?, ?, ?, 'admin', ?)
+    `, ['admin@kulturvadasz.hu', hashedAdminPassword, 'Fő Adminisztrátor', '+36301234567']);
     
-    if (admins.length === 0) {
-      const bcrypt = require('bcryptjs');
-      const hashedPassword = await bcrypt.hash('admin123', 10);
-      
+    await db.query(`
+      INSERT INTO users (email, password_hash, name, role, phone_number) 
+      VALUES (?, ?, ?, 'client', ?)
+    `, ['teszt@felhasznalo.hu', hashedUserPassword, 'Teszt Elek', '+36209876543']);
+
+    const adminId = adminResult.insertId;
+    console.log('✅ Teszt felhasználók (Admin és Kliens) létrehozva.');
+
+    // Teszt túrák létrehozása
+    const emptyArray = JSON.stringify([]);
+    const toursData = [
+      ['Nagypiac & Belvárosi Ízek', 'Fedezze fel a budapesti Nagypiacot és a belváros rejtett kulináris kincseit egy félnapos túra keretében.', 'Budapest', 'Magyarország', 'Közép-Európa', '6 óra', 18990, 'budapest-market.jpg', 12, adminId, 'nagypiac-belvarosi-izek', 'active', emptyArray, emptyArray, emptyArray],
+      ['Egri Borkultúra & Történelmi Pincék', 'Ismerje meg az egri borvidék hagyományait, kóstoljon bele a híres Bikavérbe.', 'Eger', 'Magyarország', 'Közép-Európa', '8 óra', 24990, 'eger-wine.jpg', 10, adminId, 'egri-borkultura-tortenelmi-pincek', 'active', emptyArray, emptyArray, emptyArray],
+      ['Szegedi Halászlé & Tisza-parti Ízek', 'A szegedi halászlé főzésének titkait ismerheti meg egyenesen a halászmesterektől.', 'Szeged', 'Magyarország', 'Közép-Európa', '5 óra', 15990, 'szeged-fishsoup.jpg', 15, adminId, 'szegedi-halaszle-tisza-parti-izek', 'active', emptyArray, emptyArray, emptyArray]
+    ];
+
+    for (const tour of toursData) {
       await db.query(`
-        INSERT INTO users (email, password_hash, name, role) 
-        VALUES (?, ?, ?, 'admin')
-      `, ['admin@gasztrokalandok.hu', hashedPassword, 'Admin']);
+        INSERT INTO tours (
+          title, description, city, country, region, duration, price, image, 
+          max_participants, created_by, slug, status, highlights, included, not_included
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `, tour);
     }
+    console.log('✅ Teszt túrák sikeresen feltöltve.');
 
-    // Teszt adatok
-    const [tours] = await db.query(`SELECT * FROM tours`);
+    console.log(' Az adatbázis telepítése sikeresen befejeződött!');
     
-    if (tours.length === 0) {
-      const [admin] = await db.query(`SELECT id FROM users WHERE role = 'admin' LIMIT 1`);
-      const adminId = admin[0].id;
 
-      const emptyArray = JSON.stringify([]);
-
-      const toursData = [
-        ['Nagypiac & Belvárosi Ízek', 'Fedezze fel a budapesti Nagypiacot és a belváros rejtett kulináris kincseit.', 'Budapest', 'Magyarország', 'Közép-Európa', '6 óra', 18990, 'budapest-market.jpg', 12, adminId, 'nagypiac-belvarosi-izek', 'active', emptyArray, emptyArray, emptyArray],
-        ['Egri Borkultúra & Történelmi Pincék', 'Ismerje meg az egri borvidék hagyományait.', 'Eger', 'Magyarország', 'Közép-Európa', '8 óra', 24990, 'eger-wine.jpg', 10, adminId, 'egri-borkultura-tortenelmi-pincek', 'active', emptyArray, emptyArray, emptyArray],
-        ['Szegedi Halászlé & Tisza-parti Ízek', 'A szegedi halászlé főzésének titkait ismerheti meg.', 'Szeged', 'Magyarország', 'Közép-Európa', '5 óra', 15990, 'szeged-fishsoup.jpg', 15, adminId, 'szegedi-halaszle-tisza-parti-izek', 'active', emptyArray, emptyArray, emptyArray]
-      ];
-
-      for (const tour of toursData) {
-        await db.query(`
-          INSERT INTO tours (
-            title, description, city, country, region, duration, price, image, 
-            max_participants, created_by, slug, status, highlights, included, not_included
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, tour);
-      }
-    }
   } catch (error) {
-    console.error('Adatbázis inicializálási hiba:', error);
+    console.error('❌ VÉGZETES HIBA az adatbázis inicializálása során:');
+    console.error(error);
+   
   }
 };
 
-module.exports = initDatabase;
+// Ha ezt a fájlt közvetlenül indítják (pl. node initDb.js)
+if (require.main === module) {
+  initDatabase();
+} else {
+  module.exports = initDatabase;
+}

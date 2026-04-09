@@ -100,6 +100,7 @@ exports.createTour = async (req, res) => {
       city, 
       country, 
       region, 
+      type,
       duration, 
       price, 
       image, 
@@ -131,17 +132,18 @@ exports.createTour = async (req, res) => {
     // Túra beszúrása
     const [result] = await db.query(`
       INSERT INTO tours (
-        title, description, city, country, region, duration, 
+        title, description, city, country, region, type, duration, 
         price, image, max_participants, created_by, 
         meta_title, meta_description, slug, status,
         highlights, included, not_included
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       title, 
       description, 
       city, 
       country, 
       region, 
+      type || 'daily',
       duration, 
       price, 
       image || 'placeholder.jpg', 
@@ -202,7 +204,7 @@ exports.updateTour = async (req, res) => {
   try {
     const { id } = req.params;
     const { 
-      title, description, city, country, region, duration, price, 
+      title, description, city, country, region, type, duration, price, 
       image, max_participants, status, meta_title, meta_description, slug,
       highlights, included, not_included
     } = req.body;
@@ -222,13 +224,13 @@ exports.updateTour = async (req, res) => {
 
     await db.query(`
       UPDATE tours 
-      SET title = ?, description = ?, city = ?, country = ?, region = ?, 
+      SET title = ?, description = ?, city = ?, country = ?, region = ?, type = ?,
           duration = ?, price = ?, image = ?, max_participants = ?, 
           status = ?, meta_title = ?, meta_description = ?, slug = ?,
           highlights = ?, included = ?, not_included = ?
       WHERE id = ?
     `, [
-      title, description, city, country, region, duration, price, 
+      title, description, city, country, region, type, duration, price, 
       image, max_participants, status, meta_title, meta_description, slug,
       JSON.stringify(highlights || []),
       JSON.stringify(included || []),
