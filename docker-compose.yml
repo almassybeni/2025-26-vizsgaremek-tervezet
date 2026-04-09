@@ -1,9 +1,10 @@
 version: '3.8'
 
 services:
-  # 1. AZ ADATBÁZIS
+  # 1. ADATBÁZIS (MySQL)
   mysql-db:
     image: mysql:8.0
+    container_name: kulturvadasz-db
     restart: always
     environment:
       MYSQL_DATABASE: kulturvadasz
@@ -12,10 +13,30 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  # 2. A BACKEND (Node.js)
+  # 2. PHPMYADMIN
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kulturvadasz-pma
+    restart: always
+    ports:
+      - "8080:80"  # A böngészőben a http://localhost:8080 címen éred el
+    environment:
+      - PMA_HOST=mysql-db
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  # 3. BACKEND (Node.js)
   backend:
     build: ./backend
+    container_name: kulturvadasz-backend
     ports:
       - "5000:5000"
     environment:
@@ -24,12 +45,13 @@ services:
       - DB_PASSWORD=rootpassword
       - DB_NAME=kulturvadasz
     depends_on:
-      - mysql-db
+      mysql-db:
+        condition: service_healthy
 
-  # 3. A FRONTEND (React)
+  # 4. FRONTEND (React)
   frontend:
     build: ./frontend
-
+    container_name: kulturvadasz-frontend
     ports:
       - "5173:5173"
     environment:

@@ -1,71 +1,33 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
-
 const initDatabase = require('./config/initDb');
+const db = require('./config/db'); // Ez most már a pool
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174'],
-  credentials: true
-}));
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Adatbázis inicializálás
-(async () => {
+// Útvonalak regisztrálása
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/tours', require('./routes/tourRoutes'));
+// ... a többi útvonal
+
+const startServer = async () => {
   try {
     await initDatabase();
-    console.log('✅ Adatbázis inicializálva');
-  } catch (error) {
-    console.error('❌ Adatbázis inicializálási hiba:', error);
+    
+    // Teszteljük a kapcsolatot
+    const conn = await db.getConnection();
+    console.log('✅ Adatbázis kapcsolat OK');
+    conn.release();
+
+    app.listen(5000, '0.0.0.0', () => {
+      console.log('🚀 Szerver fut: http://localhost:5000');
+    });
+  } catch (err) {
+    console.error('❌ Hiba:', err);
   }
-})();
+};
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Route-ok importálása
-const authRoutes = require('./routes/authRoutes');
-const tourRoutes = require('./routes/tourRoutes');
-const bookingRoutes = require('./routes/bookingRoutes');
-const userRoutes = require('./routes/userRoutes');
-const messageRoutes = require('./routes/messageRoutes');
-const uploadRoutes = require('./routes/uploadRoutes'); // UPLOAD HOZZÁADVA
-
-// Route-ok használata
-app.use('/api/auth', authRoutes);
-app.use('/api/tours', tourRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/upload', uploadRoutes); // UPLOAD HOZZÁADVA
-
-// Teszt végpont
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API működik' });
-});
-
-// Alap route
-app.get('/', (req, res) => {
-  res.json({ message: 'GasztroKalandok API' });
-});
-
-// 404 kezelés
-app.use((req, res) => {
-  res.status(404).json({ message: `Nincs ilyen végpont: ${req.method} ${req.url}` });
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('❌ Szerver hiba:', err);
-  res.status(500).json({ message: 'Belső szerver hiba' });
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Szerver fut a ${PORT} porton`);
-});
+startServer();

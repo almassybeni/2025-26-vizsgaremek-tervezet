@@ -1,25 +1,16 @@
 const mysql = require('mysql2/promise');
 
-const db = mysql.createPool({
-  // A process.env kiolvassa a docker-compose.yml-ből az adatokat!
-  // Ha nem Dockerből indítod, akkor az "or" (||) utáni alapértékeket használja.
-  host: process.env.DB_HOST || 'localhost',
+const dbConfig = {
+  host: process.env.DB_HOST || 'mysql-db',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '', 
+  password: process.env.DB_PASSWORD || 'rootpassword',
   database: process.env.DB_NAME || 'kulturvadasz',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
-});
+};
 
-// Teszteljük a kapcsolatot induláskor
-db.getConnection()
-  .then(connection => {
-    console.log('✅ Sikeresen csatlakozva a MySQL adatbázishoz!');
-    connection.release();
-  })
-  .catch(err => {
-    console.error('❌ Hiba az adatbázis csatlakozáskor:', err.message);
-  });
+const pool = mysql.createPool(dbConfig);
 
-module.exports = db;
+// Közvetlenül a pool-t exportáljuk, így a kontrollerekben a db.query hívható lesz
+module.exports = pool;

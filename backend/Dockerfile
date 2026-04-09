@@ -1,13 +1,8 @@
-FROM node:20-alpine
-
+FROM node:22-alpine
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install
-
 COPY . .
-
-# A backend portja általában 3000 vagy 5000
 EXPOSE 5000
-
-CMD ["npm", "run", "dev", "--", "--host"]
+# Itt meg kell adni a script nevét, pl: dev vagy start
+CMD ["npm", "run", "dev"]

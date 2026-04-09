@@ -26,8 +26,8 @@ exports.register = async (req, res) => {
 
     const token = jwt.sign(
       { id: result.insertId, email, name, role: 'client' },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      process.env.JWT_SECRET || 'titkoskulcs123',
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
     );
 
     res.status(201).json({
@@ -49,6 +49,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Bejelentkezési kísérlet:', email);
 
     const [users] = await db.query(
       'SELECT * FROM users WHERE email = ? AND is_active = 1',
@@ -73,8 +74,8 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, email: user.email, name: user.name, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
+      process.env.JWT_SECRET || 'titkoskulcs123',
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
     );
 
     res.json({
@@ -90,7 +91,7 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error('Bejelentkezési hiba:', error);
-    res.status(500).json({ message: 'Szerver hiba' });
+    res.status(500).json({ message: 'Szerver hiba történt a bejelentkezéskor' });
   }
 };
 
