@@ -77,6 +77,7 @@
     display: flex; 
     align-items: center; 
     width: 400px; 
+    position: relative; /* Hogy a javaslatok doboza ehhez viszonyuljon */
 }
 
 .search-input-wrapper input { 
@@ -88,6 +89,50 @@
     font-family: 'Inter', Helvetica, sans-serif;
     font-size: 16px;
     color: #333;
+}
+
+/* Keresési javaslatok doboza */
+.search-suggestions {
+    position: absolute;
+    top: calc(100% + 10px); /* Kis távolság a keresőmező alatt */
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid #eee;
+    overflow: hidden;
+    z-index: 1100;
+}
+
+.suggestion-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    align-items: center;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: #f9f9f9;
+}
+
+.suggestion-text {
+    font-family: 'Inter', Helvetica, sans-serif;
+    font-size: 14px;
+    color: #222;
+}
+
+.suggestion-text small {
+    color: #888;
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: normal;
 }
 
 /* Profil gomb */

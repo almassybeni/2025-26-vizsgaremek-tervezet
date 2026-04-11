@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { toursData } from '../data/toursData';
@@ -7,6 +7,8 @@ import './ToursPage.css';
 
 const ToursPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const urlSearchQuery = searchParams.get('search') || '';
 
   // 1. ÁLLAPOTOK (Szűrők és Rendezés)
   const [selectedDestinations, setSelectedDestinations] = useState([]);
@@ -40,6 +42,16 @@ const ToursPage = () => {
   const displayTours = useMemo(() => {
     let filtered = toursData;
 
+    // Keresőszöveg alapú szűrés
+    if (urlSearchQuery) {
+      const query = urlSearchQuery.toLowerCase();
+      filtered = filtered.filter(tour => 
+        tour.cim.toLowerCase().includes(query) || 
+        tour.varos.toLowerCase().includes(query) ||
+        (tour.sub && tour.sub.toLowerCase().includes(query))
+      );
+    }
+
     // Destináció szűrés
     if (selectedDestinations.length > 0) {
       filtered = filtered.filter(tour => selectedDestinations.includes(tour.region));
@@ -62,7 +74,7 @@ const ToursPage = () => {
     }
 
     return filtered;
-  }, [selectedDestinations, selectedTypes, sortBy]);
+  }, [selectedDestinations, selectedTypes, sortBy, urlSearchQuery]);
 
 
   return (
