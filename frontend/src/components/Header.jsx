@@ -9,13 +9,7 @@ const Header = () => {
 
   return (
     <header className="site-header">
-      <div className="top-banner">
-        <div className="banner-content">
-          <span>
-            <strong>FREE CANCELLATION</strong> on most tours and 100% full credit on all others up to 24 hours before your tour!
-          </span>
-        </div>
-      </div>
+     
 
       <div className="header-container">
         <div className="header-left">
@@ -56,39 +50,26 @@ const Header = () => {
             onMouseEnter={() => setShowExplore(true)}
             onMouseLeave={() => setShowExplore(false)}
           >
-            <span className="nav-link">Felfedező ▾</span>
+            <span className="nav-link">Régiók ▾</span>
             
             {showExplore && (
-              <div className="explore-mega-menu">
-                <div className="mega-menu-container">
+              <div className="explore-mega-menu" style={{ width: 'max-content', minWidth: '180px', padding: '10px' }}>
+                <div className="mega-menu-container" style={{ display: 'block', padding: '0' }}>
                   <div className="mega-column">
-                    <h4>Destinations</h4>
-                    <span onClick={() => navigate('/tours?region=budapest')}>Budapest</span>
-                    <span onClick={() => navigate('/tours?region=tokaj')}>Tokaj & Észak</span>
-                    <span onClick={() => navigate('/tours?region=balaton')}>Balaton-felvidék</span>
-                    <span onClick={() => navigate('/tours?region=alfold')}>Dél-Alföld & Puszta</span>
-                    <span onClick={() => navigate('/tours?region=tokaj')}>Eger</span>
-                  </div>
-                  <div className="mega-column">
-                    <h4>Themes</h4>
-                    <span onClick={() => navigate('/tours')}>Food & Drink</span>
-                    <span onClick={() => navigate('/tours')}>Cooking Classes</span>
-                    <span onClick={() => navigate('/tours')}>Neighborhoods</span>
-                  </div>
-                  <div className="mega-column">
-                    <h4>Trip Type</h4>
-                    <span onClick={() => navigate('/tours')}>Day Trips</span>
-                    <span onClick={() => navigate('/tours')}>Multi-Day Trips</span>
+                    <span onClick={() => navigate('/region?region=budapest')}>Budapest</span>
+                    <span onClick={() => navigate('/region?region=tokaj')}>Tokaj & Észak</span>
+                    <span onClick={() => navigate('/region?region=balaton')}>Balaton-felvidék</span>
+                    <span onClick={() => navigate('/region?region=alfold')}>Dél-Alföld & Puszta</span>
+                    <span onClick={() => navigate('/region?region=tokaj')}>Eger</span>
                   </div>
                 </div>
               </div>
             )}
           </div>
 
-          <span onClick={() => navigate('/tours')}>Régió fiók</span>
-          <span onClick={() => navigate('/tours')}>Gasztró túrák</span>
-          <span onClick={() => navigate('/about')}>Legal</span>
-          <span onClick={() => navigate('/contact')}>Fontos</span>
+          <span onClick={() => navigate('/tours')}>Túrák</span>
+          <span onClick={() => navigate('/about')}>Rólunk</span>
+          <span onClick={() => navigate('/contact')}>Kapcsolat</span>
         </div>
       </nav>
     </header>

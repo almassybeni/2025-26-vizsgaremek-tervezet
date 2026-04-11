@@ -73,10 +73,10 @@ const ToursPage = () => {
         
         {/* BAL OLDALSÁV (SZŰRŐK) */}
         <aside className="tours-sidebar">
-          <h2 className="sidebar-title">Refine Your Search</h2>
+          <h2 className="sidebar-title">Szűrés</h2>
 
           <div className="filter-group">
-            <h3>Destinations</h3>
+            <h3>Régiók</h3>
             <label className="filter-label">
               <input 
                 type="checkbox" 
@@ -112,14 +112,14 @@ const ToursPage = () => {
           </div>
 
           <div className="filter-group">
-            <h3>Trip Type</h3>
+            <h3>Túra típusa</h3>
             <label className="filter-label">
               <input 
                 type="checkbox" 
                 checked={selectedTypes.includes('daily')}
                 onChange={() => handleTypeChange('daily')}
               /> 
-              Day Trips (Városi séták)
+              Városi séták (Egynapos)
             </label>
             <label className="filter-label">
               <input 
@@ -127,7 +127,7 @@ const ToursPage = () => {
                 checked={selectedTypes.includes('multi')}
                 onChange={() => handleTypeChange('multi')}
               /> 
-              Multi-Day Trips (Többnapos)
+              Többnapos túrák
             </label>
           </div>
         </aside>

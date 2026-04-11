@@ -12,6 +12,10 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
+import RegionPage from './pages/RegionPage';
+
+
+
 
 // Admin oldalak
 import AdminLayout from './pages/admin/AdminLayout';
@@ -54,6 +58,7 @@ function AppRoutes() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/region" element={<RegionPage />} />
       
       {/* Admin route-ok */}
       <Route path="/admin" element={

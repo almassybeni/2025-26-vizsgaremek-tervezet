@@ -1,0 +1,127 @@
+.region-page-wrapper {
+  background-color: #f9f9f9; /* Világosabb, tisztább szürke */
+  min-height: 100vh;
+}
+
+.region-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.region-hero-container {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px; /* Lekerekítettebb sarkok */
+  padding: 30px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.05); /* Lágyabb árnyék */
+  display: block;
+}
+
+.region-hero-content {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  min-height: 300px;
+}
+
+.region-text-side {
+  flex: 1;
+}
+
+.region-text-side h1 {
+  font-family: 'Georgia', serif;
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.region-text-side p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.region-image-side {
+  flex: 1;
+}
+
+.region-image-side img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* TÚRÁK LISTÁJA */
+.region-tours-section {
+  padding-bottom: 100px; /* Térköz a footer előtt */
+}
+
+.region-tours-section h2 {
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 2px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  color: #888;
+}
+
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.tour-card-minimal {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.tour-card-minimal:hover {
+  transform: translateY(-5px);
+}
+
+.tour-card-minimal img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tour-card-info {
+  padding: 20px;
+}
+
+.tour-card-info h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.tour-card-info button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* Mobilos nézet */
+@media (max-width: 768px) {
+  .region-hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

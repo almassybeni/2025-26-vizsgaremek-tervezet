@@ -27,27 +27,24 @@ const HomePage = () => {
       {/* 2. RÉGIÓ FELFEDEZŐ (Mozaik) */}
       <section className="section-padding white-bg">
         <div className="content-container">
-          <h2 className="section-title-left">Régió Felfedező</h2>
+          <h2 className="section-title-left">Régiók</h2>
           <div className="region-mosaic">
             <div className="mosaic-col-left">
-              <div className="mosaic-box small-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[0].image})` }} onClick={() => navigate(`/tours?region=${regionsData[0].id}`)}>
+              <div className="mosaic-box small-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[0].image})` }} onClick={() => navigate(`/region?region=${regionsData[0].id}`)}>
                 <div className="box-content">
                   <h3>{regionsData[0].name}</h3>
-                  <span className="box-btn">Felfedezés</span>
                 </div>
               </div>
-              <div className="mosaic-box small-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[3].image})` }} onClick={() => navigate(`/tours?region=${regionsData[3].id}`)}>
+              <div className="mosaic-box small-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[3].image})` }} onClick={() => navigate(`/region?region=${regionsData[3].id}`)}>
                 <div className="box-content">
                   <h3>{regionsData[3].name}</h3>
-                  <span className="box-btn">Felfedezés</span>
                 </div>
               </div>
             </div>
             <div className="mosaic-col-right">
-              <div className="mosaic-box large-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[1].image})` }} onClick={() => navigate(`/tours?region=${regionsData[1].id}`)}>
+              <div className="mosaic-box large-box" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url(/src/assets/images/${regionsData[1].image})` }} onClick={() => navigate(`/region?region=${regionsData[1].id}`)}>
                 <div className="box-content">
                   <h3>{regionsData[1].name}</h3>
-                  <span className="box-btn">Felfedezés</span>
                 </div>
               </div>
             </div>
@@ -78,7 +75,7 @@ const HomePage = () => {
       <section className="section-padding white-bg bottom-section">
         <div className="content-container">
           <div className="section-title-center">
-            <h2>🎁 Érkező Gasztro-Kalandok</h2>
+            <h2>Túrák</h2>
             <p>Fedezze fel a legújabb többnapos és kiemelt túráinkat!</p>
           </div>
           
