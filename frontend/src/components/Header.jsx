@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Header.css'; 
 
 const Header = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
   const [showExplore, setShowExplore] = useState(false);
 
@@ -29,12 +31,23 @@ const Header = () => {
               className="user-avatar" 
               onError={(e) => e.target.src = 'https://via.placeholder.com/45'} 
             />
-            <span>Profile ▾</span>
+            <span>{isAuthenticated ? (user?.name || 'Profil') : 'Profil'} ▾</span>
             {showProfile && (
               <div className="profile-dropdown">
-                <div onClick={() => navigate('/profile')}>My profile</div>
-                <div onClick={() => navigate('/admin')}>Admin panel</div>
-                <div onClick={() => navigate('/login')}>Sign out</div>
+                {isAuthenticated ? (
+                  <>
+                    <div onClick={() => { setShowProfile(false); navigate('/profile'); }}>Profilom</div>
+                    {user?.role === 'admin' && (
+                      <div onClick={() => { setShowProfile(false); navigate('/admin'); }}>Admin felület</div>
+                    )}
+                    <div onClick={() => { logout(); setShowProfile(false); navigate('/'); }}>Kijelentkezés</div>
+                  </>
+                ) : (
+                  <>
+                    <div onClick={() => { setShowProfile(false); navigate('/login'); }}>Bejelentkezés</div>
+                    <div onClick={() => { setShowProfile(false); navigate('/register'); }}>Regisztráció</div>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -43,7 +56,7 @@ const Header = () => {
       
       <nav className="site-nav">
         <div className="nav-container">
-          <span onClick={() => navigate('/')}>Home</span>
+          <span onClick={() => navigate('/')}>Főoldal</span>
           
           <div 
             className="nav-item-with-dropdown"
