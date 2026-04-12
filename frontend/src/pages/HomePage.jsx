@@ -20,7 +20,7 @@ const HomePage = () => {
       <section className="main-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(/src/assets/images/hero-bg.jpg)` }}>
         <div className="hero-inner">
           <h2>Fedezze fel Magyarország<br/>Rejtett Gasztro-Kincseit</h2>
-          <button className="hero-learn-btn" onClick={() => navigate('/tours')}>Learn more</button>
+          <button className="hero-learn-btn" onClick={() => navigate('/tours')}>Tudj meg többet</button>
         </div>
       </section>
 
@@ -89,7 +89,7 @@ const HomePage = () => {
                   <h3>{tour.cim}</h3>
                   <p className="tour-subtitle">{tour.sub || 'Gasztronómiai élmény'}</p>
                   <button className="btn-learn-outline" onClick={() => navigate(`/tour/${tour.id}`)}>
-                    Learn more
+                    Tudj meg többet
                   </button>
                 </div>
               </div>

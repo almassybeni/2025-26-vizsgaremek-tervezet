@@ -11,7 +11,8 @@ app.use(express.json());
 // Útvonalak regisztrálása
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tours', require('./routes/tourRoutes'));
-// ... a többi útvonal
+app.use('/api/bookings', require('./routes/bookingRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 const startServer = async () => {
   try {

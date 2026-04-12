@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { toursData } from '../data/toursData';
 import './BookingPage.css';
 
 const BookingPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, isAuthenticated, token, logout } = useAuth();
   
   const [tour, setTour] = useState(null);
@@ -30,19 +30,31 @@ const BookingPage = () => {
       return;
     }
 
-    const foundTour = toursData.find(t => t.id === parseInt(id));
-    if (foundTour) {
-      setTour(foundTour);
-      setFormData(prev => ({
-        ...prev,
-        name: user?.name || '',
-        email: user?.email || '',
-        phone: user?.phone_number || ''
-      }));
-    } else {
-      navigate('/tours');
-    }
-  }, [id, isAuthenticated, user, navigate]);
+    const fetchTour = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/tours/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setTour(data);
+          setFormData(prev => ({
+            ...prev,
+            name: user?.name || '',
+            email: user?.email || '',
+            phone: user?.phone_number || '',
+            participants: location.state?.participants || prev.participants,
+            date: location.state?.date || (data.dates?.[0] ? new Date(data.dates[0].start_date).toISOString().split('T')[0] : prev.date)
+          }));
+        } else {
+          navigate('/tours');
+        }
+      } catch (err) {
+        console.error("Hiba a túra betöltésekor:", err);
+        navigate('/tours');
+      }
+    };
+
+    fetchTour();
+  }, [id, isAuthenticated, user, navigate, location.state]);
 
   const handleChange = (e) => {
     setFormData({
@@ -57,9 +69,7 @@ const BookingPage = () => {
     setError('');
 
     try {
-      const currentToken = localStorage.getItem('token');
-      
-      if (!currentToken) {
+      if (!token) {
         setError('Nincs bejelentkezési token. Kérlek, jelentkezz be újra.');
         setTimeout(() => {
           logout();
@@ -69,8 +79,8 @@ const BookingPage = () => {
         return;
       }
 
-      const price = parseInt(tour.ar.replace(' Ft', ''));
-      const totalPrice = price * formData.participants;
+      // Az API-ból érkező ár már szám típusú
+      const totalPrice = tour.price * formData.participants;
 
       const bookingData = {
         tour_id: tour.id,
@@ -84,7 +94,7 @@ const BookingPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${currentToken}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(bookingData)
       });
@@ -95,17 +105,23 @@ const BookingPage = () => {
           navigate('/profile?tab=bookings');
         }, 2000);
       } else {
-        const data = await response.json();
-        
-        if (response.status === 401) {
-          setError('A token lejárt vagy érvénytelen. Átirányítás a bejelentkezéshez...');
-          setTimeout(() => {
-            logout();
-            navigate('/login', { state: { from: `/booking/${id}` } });
-          }, 2000);
-        } else {
-          setError(data.message || 'Hiba a foglalás során');
+        let errorMessage = 'Hiba a foglalás során';
+        try {
+          const data = await response.json();
+          errorMessage = data.message || errorMessage;
+          
+          if (response.status === 401) {
+            setError('A token lejárt vagy érvénytelen. Átirányítás a bejelentkezéshez...');
+            setTimeout(() => {
+              logout();
+              navigate('/login', { state: { from: `/booking/${id}` } });
+            }, 2000);
+            return;
+          }
+        } catch (e) {
+          errorMessage = `Szerver hiba (${response.status}): A kért útvonal nem található vagy a szerver nem küldött választ.`;
         }
+        setError(errorMessage);
       }
     } catch (error) {
       setError('Nem sikerült csatlakozni a szerverhez');
@@ -155,7 +171,7 @@ const BookingPage = () => {
         <div className="booking-hero">
           <div className="container">
             <h1>Foglalás</h1>
-            <p className="tour-title">{tour.cim}</p>
+            <p className="tour-title">{tour.title}</p>
           </div>
         </div>
 
@@ -226,9 +242,13 @@ const BookingPage = () => {
                         onChange={handleChange}
                         disabled={loading}
                       >
-                        <option value="2024-06-15">2024. június 15.</option>
-                        <option value="2024-06-22">2024. június 22.</option>
-                        <option value="2024-06-29">2024. június 29.</option>
+                        {tour.dates ? tour.dates.map(d => (
+                          <option key={d.id} value={new Date(d.start_date).toISOString().split('T')[0]}>
+                            {new Date(d.start_date).toLocaleDateString('hu-HU')}
+                          </option>
+                        )) : (
+                          <option value={formData.date}>{formData.date.replace(/-/g, '. ')}</option>
+                        )}
                       </select>
                     </div>
 
@@ -239,11 +259,12 @@ const BookingPage = () => {
                         id="participants"
                         name="participants"
                         min="1"
-                        max="12"
+                        
                         value={formData.participants}
                         onChange={handleChange}
                         required
-                        disabled={loading}
+                        max={tour.max_participants || 12}
+                      disabled={loading}
                       />
                     </div>
                   </div>
@@ -276,20 +297,20 @@ const BookingPage = () => {
                 
                 <div className="summary-card">
                   <div className="summary-image">
-                    <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                    <img src={`/src/assets/images/${tour.image}`} alt={tour.title} />
                   </div>
                   
-                  <h3>{tour.cim}</h3>
-                  <p className="summary-location">{tour.varos}, {tour.orszag}</p>
+                  <h3>{tour.title}</h3>
+                  <p className="summary-location">{tour.city}{tour.country ? `, ${tour.country}` : ''}</p>
                   
                   <div className="summary-details">
                     <div className="summary-row">
                       <span>Időtartam:</span>
-                      <span>{tour.idotartam}</span>
+                      <span>{tour.duration} óra</span>
                     </div>
                     <div className="summary-row">
                       <span>Választott időpont:</span>
-                      <span>{formData.date.replace(/-/g, '. ')}</span>
+                      <span>{formData.date ? formData.date.replace(/-/g, '. ') : 'Nincs kiválasztva'}</span>
                     </div>
                     <div className="summary-row">
                       <span>Résztvevők:</span>
@@ -298,7 +319,7 @@ const BookingPage = () => {
                     <div className="summary-row total">
                       <span>Teljes összeg:</span>
                       <span className="total-price">
-                        {(parseInt(tour.ar.replace(' Ft', '')) * formData.participants).toLocaleString()} Ft
+                        {(tour.price * formData.participants).toLocaleString()} Ft
                       </span>
                     </div>
                   </div>

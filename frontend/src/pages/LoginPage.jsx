@@ -86,7 +86,7 @@ const LoginPage = () => {
 
             <div className="login-footer">
               <p>Még nincs fiókod? <Link to="/register">Regisztráció</Link></p>
-              <p className="demo-admin">Demo admin: admin@gasztrokalandok.hu / admin123</p>
+              <p className="demo-admin">Teszt adminisztrátor: admin@gasztrokalandok.hu / admin123</p>
             </div>
           </div>
         </div>

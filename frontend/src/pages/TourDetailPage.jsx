@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,15 +8,22 @@ import './TourDetailPage.css';
 
 const TourDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [participants, setParticipants] = useState(2);
+  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
     const fetchTour = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/tours/${id}`);
         setTour(res.data);
+        // Alapértelmezett dátum beállítása, ha van elérhető időpont
+        if (res.data.dates && res.data.dates.length > 0) {
+          setSelectedDate(new Date(res.data.dates[0].start_date).toISOString().split('T')[0]);
+        }
       } catch (err) {
         setError("A túra részleteit nem sikerült betölteni.");
       } finally {
@@ -25,6 +32,20 @@ const TourDetailPage = () => {
     };
     fetchTour();
   }, [id]);
+
+  const handleBookingRedirect = () => {
+    if (!selectedDate) {
+      alert('Kérlek, válassz egy időpontot!');
+      return;
+    }
+    // Átirányítás a foglalási oldalra a kiválasztott adatokkal
+    navigate(`/booking/${id}`, { 
+      state: { 
+        participants: parseInt(participants), 
+        date: selectedDate 
+      } 
+    });
+  };
 
   if (loading) {
     return (
@@ -60,7 +81,7 @@ const TourDetailPage = () => {
              <BackButton />
           </div>
           <img 
-            src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:')) ? tour.image : `/src/assets/images/${tour.image || 'placeholder.jpg'}`} 
+            src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:')) ? tour.image : `/src/assets/images/${tour.image}`} 
             alt={tour.title} 
           />
         </div>
@@ -72,12 +93,12 @@ const TourDetailPage = () => {
           <h1 className="tour-main-title">{tour.title}</h1>
           
           <section className="info-section">
-            <h2 className="section-label">ABOUT</h2>
+            <h2 className="section-label">RÓLUNK</h2>
             <p className="description-text">{tour.description}</p>
           </section>
 
           <section className="info-section">
-            <h2 className="section-label">DETAILS</h2>
+            <h2 className="section-label">RÉSZLETEK</h2>
             <div className="details-grid">
               <div className="detail-item">
                 <span className="detail-icon">👥</span>
@@ -99,7 +120,7 @@ const TourDetailPage = () => {
           </section>
 
           <section className="info-section">
-            <h2 className="section-label">DIETARY</h2>
+            <h2 className="section-label">ÉTREND</h2>
             <p className="description-text">
               A túra során figyelembe tudunk venni vegetáriánus igényeket. 
               Kérjük, az ételallergiákat a foglalás során jelezze!
@@ -110,24 +131,38 @@ const TourDetailPage = () => {
         {/* JOBB OLDAL: Sticky foglalási kártya */}
         <aside className="tour-booking-sidebar">
           <div className="booking-card">
-            <h3>Reserve Your Spot</h3>
+            <h3>Foglalja le a helyét</h3>
             <div className="booking-form">
               <div className="input-group">
                 <label>Vendégek száma</label>
-                <input type="number" min="1" max={tour.max_participants} defaultValue="2" />
+                <input 
+                  type="number" 
+                  min="1" 
+                  max={tour.max_participants} 
+                  value={participants} 
+                  onChange={(e) => setParticipants(e.target.value)}
+                />
               </div>
               <div className="input-group">
                 <label>Válassz dátumot</label>
-                <select>
+                <select 
+                  value={selectedDate} 
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                >
                   <option value="">Válassz időpontot...</option>
                   {tour.dates && tour.dates.map(d => (
-                    <option key={d.id} value={d.id}>
+                    <option key={d.id} value={new Date(d.start_date).toISOString().split('T')[0]}>
                       {new Date(d.start_date).toLocaleDateString('hu-HU')}
                     </option>
                   ))}
                 </select>
               </div>
-              <button className="reserve-now-btn">RESERVE NOW</button>
+              <button 
+                className="reserve-now-btn"
+                onClick={handleBookingRedirect}
+              >
+                FOGLALÁS MOST
+              </button>
               <p className="booking-disclaimer">
                 Az ár tartalmazza az összes kóstolót és italt a túra során.
               </p>

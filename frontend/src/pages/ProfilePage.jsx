@@ -59,6 +59,11 @@ const ProfilePage = () => {
       if (response.ok) {
         const data = await response.json();
         setBookings(data);
+      } else {
+        console.warn(`A foglalások nem elérhetőek (Szerver válasz: ${response.status})`);
+        if (response.status === 404) {
+          setBookings([]); // Ha nincs végpont, üres listát mutatunk hiba helyett
+        }
       }
     } catch (error) {
       console.error('Hiba a foglalások betöltésekor:', error);

@@ -54,7 +54,7 @@ const Header = () => {
 
       <div className="header-container">
         <div className="header-left">
-          <h1 className="logo-text" onClick={() => navigate('/')}>Culinary Backstreets</h1>
+          <h1 className="logo-text" onClick={() => navigate('/')}>GasztroKalandok</h1>
         </div>
         <div className="header-center">
           <div className="search-input-wrapper" ref={searchRef}>
@@ -88,10 +88,10 @@ const Header = () => {
         <div className="header-right">
           <div className="profile-trigger" onClick={() => setShowProfile(!showProfile)}>
             <img 
-              src="/src/assets/images/user-profile.jpg" 
+              src="/src/assets/images/default-avatar.png" 
               alt="Profile" 
               className="user-avatar" 
-              onError={(e) => e.target.src = 'https://via.placeholder.com/45'} 
+              onError={(e) => e.target.style.display = 'none'} 
             />
             <span>{isAuthenticated ? (user?.name || 'Profil') : 'Profil'} ▾</span>
             {showProfile && (

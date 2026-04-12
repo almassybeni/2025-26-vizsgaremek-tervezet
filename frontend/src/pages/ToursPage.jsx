@@ -67,9 +67,9 @@ const ToursPage = () => {
     }
 
     // Rendezés
-    if (sortBy === 'Price (Low to High)') {
+    if (sortBy === 'Price (Low to High)' || sortBy === 'Ár (alacsony-magas)') {
       filtered.sort((a, b) => getPriceValue(a.ar) - getPriceValue(b.ar));
-    } else if (sortBy === 'Price (High to Low)') {
+    } else if (sortBy === 'Price (High to Low)' || sortBy === 'Ár (magas-alacsony)') {
       filtered.sort((a, b) => getPriceValue(b.ar) - getPriceValue(a.ar));
     }
 
@@ -147,17 +147,17 @@ const ToursPage = () => {
         {/* JOBB OLDAL: TÚRÁK LISTÁJA */}
         <main className="tours-content-area">
           <div className="tours-top-bar">
-            <span>Showing {displayTours.length} results</span>
+            <span>{displayTours.length} találat megjelenítése</span>
             <div className="sort-by">
-              Sort by: 
+              Rendezés: 
               <select 
                 className="sort-select" 
                 value={sortBy} 
                 onChange={(e) => setSortBy(e.target.value)}
               >
-                <option value="Recommended">Recommended</option>
-                <option value="Price (Low to High)">Price (Low to High)</option>
-                <option value="Price (High to Low)">Price (High to Low)</option>
+                <option value="Recommended">Ajánlott</option>
+                <option value="Price (Low to High)">Ár (alacsony-magas)</option>
+                <option value="Price (High to Low)">Ár (magas-alacsony)</option>
               </select>
             </div>
           </div>
@@ -181,7 +181,7 @@ const ToursPage = () => {
                       {tour.sub || "A legfinomabb helyi ízek és hagyományok nyomában, szakértő idegenvezetőinkkel."}
                     </p>
                     <div className="mag-tour-price">
-                      <strong>{tour.ar}</strong> per adult
+                      <strong>{tour.ar}</strong> / fő
                     </div>
                   </div>
                 </div>

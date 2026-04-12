@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 exports.createBooking = async (req, res) => {
   try {
-    const { tour_id, tour_date, participants_count, special_requests, total_price } = req.body;
+    const { tour_id, tour_date, participants_count, total_price, special_requests } = req.body;
     const user_id = req.user.id;
 
     const [tours] = await db.query('SELECT title FROM tours WHERE id = ?', [tour_id]);

@@ -15,7 +15,7 @@ const Hero = () => {
           Magyarországon és a szomszédos országokban.
         </p>
         <button className="hero-btn" onClick={() => navigate('/tours')}>
-          Túrák Felfedezése
+          Túrák felfedezése
         </button>
       </div>
     </section>
