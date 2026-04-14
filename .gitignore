@@ -1,9 +1,4 @@
-# Node.js modulok
-node_modules/
 
-# Build könyvtárak
-dist/
-build/
 
 # Környezeti változók (titkos adatok)
 .env
