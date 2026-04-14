@@ -1,4 +1,5 @@
-
+# Node.js modulok
+node_modules/
 
 # Build könyvtárak
 dist/
