@@ -86,9 +86,9 @@ A projekt végső szakaszában:
 * Ellenőrizzük a funkciók és a foglalási rendszer működését
 * Kijavítjuk a felmerülő hibákat, és elvégezzük az utolsó finomhangolásokat
 
-## Munka Felosztás
+# Munka Felosztás
 
-# Almássy Benedek Solt:
+## Almássy Benedek Solt:
 * Felhasználói felület teljes backend elkészítése
 * Felhasználói felület teljes frontend elkészítése
 * Adatbázis elkészítése
@@ -97,7 +97,7 @@ A projekt végső szakaszában:
 * PowerPoint
 * Stílus és Téma kiválasztás
 
-# Dorfinger Dávid:
+## Dorfinger Dávid:
 * Admin felület teljes backend elkészítése
 * Admin felület teljes frontend elkészítése
 * Dokumentáció elkészítése
