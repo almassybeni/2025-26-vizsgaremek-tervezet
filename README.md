@@ -89,22 +89,35 @@ A projekt végső szakaszában:
 ## Munka Felosztás
 
 ## Almássy Benedek Solt:
-* Felhasználói felület teljes backend elkészítése
-* Felhasználói felület teljes frontend elkészítése
-* Adatbázis elkészítése
-* Projekt dokumentáció szövege
-* Név választás
-* PowerPoint
-* Stílus és Téma kiválasztás
+* Frontend Home page
+* Frontend Booking page
+* Frontend Login page
+* Frontend Contact page
+* Frontend Profile page
+* Frontend Tours page
+* Frontend Tourdetail page
+* Frontend Region page
+* Backend Controllers
+* Backend Config
+* Appjsx
+* README
+* Style
+* Name
+
 
 ## Dorfinger Dávid:
-* Admin felület teljes backend elkészítése
-* Admin felület teljes frontend elkészítése
-* Dokumentáció elkészítése
-* Adatbázis tartalmának kezelése
-* Vizuális döntés
-* Logó tervezése
-* Név választás
+* Frontend Admin Addtour page
+* Frontend Admin booking page
+* Frontend Admin Dashboard page
+* Frontend Admin EditTour page
+* Frontend Admin Layout page
+* Frontend Admin Tours page
+* Frontend Admin Users page
+* Backend Routs
+* README
+* DockoSaurus
+* Logo
+* Name
 
 ## Összegzés
 
