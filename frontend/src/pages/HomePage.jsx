@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { toursData, regionsData } from '../data/toursData';
+import { regionsData } from '../data/toursData';
 import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [tours, setTours] = useState([]);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/tours');
+        setTours(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchTours();
+  }, []);
 
   // Szűrések a kártyákhoz
-  const cityWalks = toursData.filter(t => t.type === 'daily').slice(0, 4);
-  const upcomingTours = toursData.filter(t => t.type === 'upcoming' || t.type === 'long').slice(0, 4);
+  const cityWalks = tours.filter(t => t.type === 'daily').slice(0, 4);
+  const upcomingTours = tours.filter(t => t.type === 'upcoming' || t.type === 'long').slice(0, 4);
 
   return (
     <div className="homepage-wrapper">
@@ -60,10 +74,10 @@ const HomePage = () => {
             {cityWalks.map(tour => (
               <div key={tour.id} className="city-card" onClick={() => navigate(`/tour/${tour.id}`)}>
                 <div className="city-img-wrap">
-                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                  <img src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:') || tour.image.startsWith('/uploads/')) ? tour.image : `/src/assets/images/${tour.image}`} alt={tour.title} />
                 </div>
                 <div className="city-label">
-                  <p>{tour.varos} Séták</p>
+                  <p>{tour.city} Séták</p>
                 </div>
               </div>
             ))}
@@ -83,10 +97,10 @@ const HomePage = () => {
             {upcomingTours.map(tour => (
               <div key={tour.id} className="modern-tour-card">
                 <div className="tour-img-wrap">
-                  <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                  <img src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:') || tour.image.startsWith('/uploads/')) ? tour.image : `/src/assets/images/${tour.image}`} alt={tour.title} />
                 </div>
                 <div className="tour-card-body">
-                  <h3>{tour.cim}</h3>
+                  <h3>{tour.title}</h3>
                   <p className="tour-subtitle">{tour.sub || 'Gasztronómiai élmény'}</p>
                   <button className="btn-learn-outline" onClick={() => navigate(`/tour/${tour.id}`)}>
                     Tudj meg többet

@@ -13,7 +13,7 @@ exports.getAllTours = async (req, res) => {
               FROM tour_destinations 
               WHERE tour_id = t.id) as destinations
       FROM tours t
-      WHERE t.is_active = 1
+      WHERE 1=1
     `;
     const params = [];
 
@@ -26,6 +26,16 @@ exports.getAllTours = async (req, res) => {
     sql += " ORDER BY t.created_at DESC";
     
     const [tours] = await db.query(sql, params);
+
+    // JSON mezők visszaalakítása minden túránál a listában
+    tours.forEach(tour => {
+      ['highlights', 'included', 'not_included'].forEach(field => {
+        if (tour[field] && typeof tour[field] === 'string') {
+          try { tour[field] = JSON.parse(tour[field]); } catch (e) { tour[field] = []; }
+        }
+      });
+    });
+
     res.json(tours);
   } catch (error) {
     console.error('Hiba a túrák lekérésekor:', error);
@@ -44,7 +54,7 @@ exports.getTourById = async (req, res) => {
               FROM tour_destinations 
               WHERE tour_id = t.id) as destinations
       FROM tours t
-      WHERE t.id = ? AND t.is_active = 1
+      WHERE t.id = ?
     `, [id]);
 
     if (tours.length === 0) {
@@ -52,12 +62,20 @@ exports.getTourById = async (req, res) => {
     }
 
     // Időpontok lekérése a foglaláshoz
+    const tour = tours[0];
+
+    // JSON mezők visszaalakítása tömbbé
+    ['highlights', 'included', 'not_included'].forEach(field => {
+      if (tour[field] && typeof tour[field] === 'string') {
+        try { tour[field] = JSON.parse(tour[field]); } catch (e) { tour[field] = []; }
+      }
+    });
+
     const [dates] = await db.query(
-      'SELECT * FROM tour_dates WHERE tour_id = ? AND is_active = 1 ORDER BY start_date',
-      [id]
+      'SELECT * FROM tour_dates WHERE tour_id = ? ORDER BY start_date',
+      [tour.id]
     );
 
-    const tour = tours[0];
     tour.dates = dates;
 
     res.json(tour);
@@ -78,8 +96,8 @@ exports.getTourBySlug = async (req, res) => {
               FROM tour_destinations 
               WHERE tour_id = t.id) as destinations
       FROM tours t
-      WHERE t.slug = ? AND t.is_active = 1
-    `, [slug]);
+      WHERE t.title = ?
+    `, [slug.replace(/-/g, ' ')]); // Ideiglenes fix: cím alapján keresünk, ha nincs slug oszlop
 
     if (tours.length === 0) {
       return res.status(404).json({ message: 'Túra nem található' });
@@ -87,10 +105,16 @@ exports.getTourBySlug = async (req, res) => {
 
     const tour = tours[0];
     const [dates] = await db.query(
-      'SELECT * FROM tour_dates WHERE tour_id = ? AND is_active = 1 ORDER BY start_date',
+      'SELECT * FROM tour_dates WHERE tour_id = ? ORDER BY start_date',
       [tour.id]
     );
     
+    ['highlights', 'included', 'not_included'].forEach(field => {
+      if (tour[field] && typeof tour[field] === 'string') {
+        try { tour[field] = JSON.parse(tour[field]); } catch (e) { tour[field] = []; }
+      }
+    });
+
     tour.dates = dates;
     res.json(tour);
   } catch (error) {
@@ -106,29 +130,22 @@ exports.createTour = async (req, res) => {
       title, description, city, country, region, type,
       duration, price, image, max_participants,
       destinations, dates, highlights, included, not_included,
-      meta_title, meta_description, slug, status
+      meta_title, meta_description, status
     } = req.body;
-
-    if (slug) {
-      const [existing] = await db.query('SELECT id FROM tours WHERE slug = ?', [slug]);
-      if (existing.length > 0) {
-        return res.status(400).json({ message: 'Már létezik ilyen URL azonosítójú túra' });
-      }
-    }
 
     const [result] = await db.query(`
       INSERT INTO tours (
         title, description, city, country, region, type, duration, 
         price, image, max_participants, created_by, 
-        meta_title, meta_description, slug, is_active,
+        meta_title, meta_description, is_active,
         highlights, included, not_included
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       title, description, city, country, region, type || 'daily', duration, 
       price, image || 'placeholder.jpg', max_participants || 15, req.user.id,
-      meta_title || title, meta_description || '', 
-      slug || title.toLowerCase().replace(/\s+/g, '-'), 
-      status === 'active' ? 1 : 0, // Itt is 1/0-ra fordítjuk a státuszt
+      meta_title || title, meta_description || '',
+      // Rugalmasabb státusz ellenőrzés (kisbetű/nagybetű nem számít)
+      String(status).toLowerCase() === 'active' ? 1 : 0,
       JSON.stringify(highlights || []),
       JSON.stringify(included || []),
       JSON.stringify(not_included || [])
@@ -166,7 +183,7 @@ exports.updateTour = async (req, res) => {
     const { id } = req.params;
     const { 
       title, description, city, country, region, type, duration, price, 
-      image, max_participants, status, meta_title, meta_description, slug,
+      image, max_participants, status, meta_title, meta_description,
       highlights, included, not_included
     } = req.body;
 
@@ -174,15 +191,15 @@ exports.updateTour = async (req, res) => {
       UPDATE tours 
       SET title = ?, description = ?, city = ?, country = ?, region = ?, type = ?,
           duration = ?, price = ?, image = ?, max_participants = ?, 
-          is_active = ?, meta_title = ?, meta_description = ?, slug = ?,
+          is_active = ?, meta_title = ?, meta_description = ?,
           highlights = ?, included = ?, not_included = ?
       WHERE id = ?
     `, [
       title, description, city, country, region, type, duration, price, 
-      image, max_participants, status === 'active' ? 1 : 0, meta_title, meta_description, slug,
-      JSON.stringify(highlights || []),
-      JSON.stringify(included || []),
-      JSON.stringify(not_included || []),
+      image, max_participants, status === 'active' ? 1 : 0, meta_title, meta_description,
+      JSON.stringify(Array.isArray(highlights) ? highlights : []),
+      JSON.stringify(Array.isArray(included) ? included : []),
+      JSON.stringify(Array.isArray(not_included) ? not_included : []),
       id
     ]);
 

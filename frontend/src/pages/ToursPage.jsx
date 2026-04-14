@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { toursData } from '../data/toursData';
 import './ToursPage.css';
 
 const ToursPage = () => {
@@ -11,9 +11,25 @@ const ToursPage = () => {
   const urlSearchQuery = searchParams.get('search') || '';
 
   // 1. ÁLLAPOTOK (Szűrők és Rendezés)
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDestinations, setSelectedDestinations] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [sortBy, setSortBy] = useState('Recommended');
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/tours');
+        setTours(res.data);
+      } catch (err) {
+        console.error("Hiba a túrák betöltésekor:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTours();
+  }, []);
 
   // 2. SZŰRŐ KEZELŐ FÜGGVÉNYEK
   const handleDestinationChange = (regionId) => {
@@ -34,27 +50,27 @@ const ToursPage = () => {
 
   // Segédfüggvény az ár számmá alakításához ("18 900 Ft" -> 18900)
   const getPriceValue = (priceString) => {
-    if (!priceString) return 0;
-    return parseInt(priceString.replace(/[^0-9]/g, ''), 10);
+    if (typeof priceString === 'number') return priceString;
+    return parseInt(String(priceString || '0').replace(/[^0-9]/g, ''), 10);
   };
 
   // 3. ADATOK SZŰRÉSE ÉS RENDEZÉSE (useMemo-val, hogy csak változáskor fusson le)
   const displayTours = useMemo(() => {
-    let filtered = toursData;
+    let filtered = [...tours];
 
     // Keresőszöveg alapú szűrés
     if (urlSearchQuery) {
       const query = urlSearchQuery.toLowerCase();
       filtered = filtered.filter(tour => 
-        tour.cim.toLowerCase().includes(query) || 
-        tour.varos.toLowerCase().includes(query) ||
+        tour.title.toLowerCase().includes(query) || 
+        tour.city.toLowerCase().includes(query) ||
         (tour.sub && tour.sub.toLowerCase().includes(query))
       );
     }
 
     // Destináció szűrés
     if (selectedDestinations.length > 0) {
-      filtered = filtered.filter(tour => selectedDestinations.includes(tour.region));
+      filtered = filtered.filter(tour => selectedDestinations.includes(tour.region?.toLowerCase()));
     }
 
     // Típus szűrés (A "Multi-Day"-be belevesszük a 'long' és 'upcoming' típusokat is)
@@ -68,13 +84,13 @@ const ToursPage = () => {
 
     // Rendezés
     if (sortBy === 'Price (Low to High)' || sortBy === 'Ár (alacsony-magas)') {
-      filtered.sort((a, b) => getPriceValue(a.ar) - getPriceValue(b.ar));
+      filtered.sort((a, b) => getPriceValue(a.price) - getPriceValue(b.price));
     } else if (sortBy === 'Price (High to Low)' || sortBy === 'Ár (magas-alacsony)') {
-      filtered.sort((a, b) => getPriceValue(b.ar) - getPriceValue(a.ar));
+      filtered.sort((a, b) => getPriceValue(b.price) - getPriceValue(a.price));
     }
 
     return filtered;
-  }, [selectedDestinations, selectedTypes, sortBy, urlSearchQuery]);
+  }, [tours, selectedDestinations, selectedTypes, sortBy, urlSearchQuery]);
 
 
   return (
@@ -167,7 +183,10 @@ const ToursPage = () => {
               displayTours.map((tour, index) => (
                 <div key={tour.id} className="mag-tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
                   <div className="mag-tour-img">
-                    <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                    <img 
+                      src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:')) ? tour.image : `/src/assets/images/${tour.image}`} 
+                      alt={tour.title} 
+                    />
                     
                     {index % 3 === 0 && <span className="badge-bestseller">BEST SELLER</span>}
                     <button className="heart-btn" onClick={(e) => { e.stopPropagation(); alert('Mentve a kedvencek közé!'); }}>♡</button>
@@ -175,13 +194,13 @@ const ToursPage = () => {
                   </div>
 
                   <div className="mag-tour-info">
-                    <span className="mag-tour-city">{tour.varos}</span>
-                    <h3 className="mag-tour-title">{tour.cim}</h3>
+                    <span className="mag-tour-city">{tour.city}</span>
+                    <h3 className="mag-tour-title">{tour.title}</h3>
                     <p className="mag-tour-desc">
                       {tour.sub || "A legfinomabb helyi ízek és hagyományok nyomában, szakértő idegenvezetőinkkel."}
                     </p>
                     <div className="mag-tour-price">
-                      <strong>{tour.ar}</strong> / fő
+                      <strong>{tour.price?.toLocaleString()} Ft</strong> / fő
                     </div>
                   </div>
                 </div>

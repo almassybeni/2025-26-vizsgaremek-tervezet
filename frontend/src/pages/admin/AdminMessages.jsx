@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import axios from 'axios';
+import { useAuth } from '../../context/AuthContext'; // Javítva: AuthContext nagybetűvel
 import BackButton from '../../components/BackButton';
 import './AdminMessages.css';
 
@@ -17,73 +18,39 @@ const AdminMessages = () => {
   }, []);
 
   const fetchMessages = async () => {
+    setLoading(true);
     try {
-      // Szimulált adatok
-      setTimeout(() => {
-        setMessages([
-          {
-            id: 1,
-            sender: 'Kovács János',
-            senderEmail: 'kovacs.janos@email.hu',
-            subject: 'Kérdés a budapesti túráról',
-            message: 'Szeretném kérdezni, hogy a budapesti túra során van-e lehetőség vegetáriánus étkezésre? Előre is köszönöm a választ!',
-            date: '2024-03-15 10:30',
-            read: false,
-            replied: false
-          },
-          {
-            id: 2,
-            sender: 'Nagy Anna',
-            senderEmail: 'nagy.anna@email.hu',
-            subject: 'Csoportos kedvezmény',
-            message: '8 fős csoporttal szeretnénk részt venni az egri bortúrán. Van lehetőség csoportos kedvezményre? Kérlek, írjátok meg a részleteket.',
-            date: '2024-03-14 14:20',
-            read: true,
-            replied: false
-          },
-          {
-            id: 3,
-            sender: 'Szabó Péter',
-            senderEmail: 'szabo.peter@email.hu',
-            subject: 'Lemondás módosítása',
-            message: 'Sajnos a szegedi halászlé túrát le kell mondanom. Hogyan tudom ezt megtenni? Előre is köszönöm a segítséget.',
-            date: '2024-03-14 09:15',
-            read: false,
-            replied: false
-          },
-          {
-            id: 4,
-            sender: 'Tóth Eszter',
-            senderEmail: 'toth.eszter@email.hu',
-            subject: 'Köszönet a túráért',
-            message: 'Szeretném megköszönni a csodálatos tokaji bortúrát! Felejthetetlen élmény volt, biztosan jövünk máskor is.',
-            date: '2024-03-13 16:45',
-            read: true,
-            replied: true
-          },
-          {
-            id: 5,
-            sender: 'Varga Gábor',
-            senderEmail: 'varga.gabor@email.hu',
-            subject: 'Számla kérés',
-            message: 'Szeretnék számlát kérni a múlt heti foglalásomról. A foglalás azonosítója: #12345. Köszönöm!',
-            date: '2024-03-13 11:30',
-            read: false,
-            replied: false
-          },
-        ]);
-        setLoading(false);
-      }, 1000);
+      const res = await axios.get('http://localhost:5000/api/messages/inbox', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      // Mivel a backend API 'sender_name' és 'sender_email' mezőket ad vissza, 
+      // átalakítjuk a frontend által várt formátumra
+      const formatted = res.data.map(m => ({
+        ...m,
+        sender: m.sender_name || 'Ismeretlen',
+        senderEmail: m.sender_email || '',
+        date: m.created_at,
+        read: m.is_read === 1
+      }));
+      setMessages(formatted);
     } catch (error) {
       console.error('Hiba az üzenetek betöltésekor:', error);
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleMarkAsRead = (id) => {
-    setMessages(messages.map(msg => 
-      msg.id === id ? { ...msg, read: true } : msg
-    ));
+  const handleMarkAsRead = async (id) => {
+    try {
+      await axios.put(`http://localhost:5000/api/messages/${id}/read`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMessages(messages.map(msg => 
+        msg.id === id ? { ...msg, read: true } : msg
+      ));
+    } catch (error) {
+      console.error('Hiba az olvasottnak jelöléskor:', error);
+    }
   };
 
   const handleReply = (message) => {
@@ -92,18 +59,26 @@ const AdminMessages = () => {
     setShowReplyModal(true);
   };
 
-  const handleSendReply = () => {
+  const handleSendReply = async () => {
     if (!replyText.trim()) return;
 
-    // Itt kellene backend hívás
-    setMessages(messages.map(msg => 
-      msg.id === selectedMessage.id ? { ...msg, replied: true } : msg
-    ));
-    
+    try {
+      await axios.post('http://localhost:5000/api/messages', {
+        receiver_id: selectedMessage.sender_id,
+        subject: `RE: ${selectedMessage.subject}`,
+        message: replyText,
+        type: 'reply'
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      alert('Válasz elküldve!');
+    } catch (error) {
+      alert('Hiba a válasz küldésekor.');
+    }
+
     setShowReplyModal(false);
     setSelectedMessage(null);
     setReplyText('');
-    alert('Válasz elküldve!');
   };
 
   const handleDeleteMessage = (id) => {

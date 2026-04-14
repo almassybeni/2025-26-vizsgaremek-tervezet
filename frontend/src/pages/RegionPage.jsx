@@ -1,8 +1,9 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { toursData, regionsData } from '../data/toursData';
+import { regionsData } from '../data/toursData';
 import './RegionPage.css';
 import './ToursPage.css'; // Beimportáljuk a ToursPage stílusait a kártyákhoz
 
@@ -18,13 +19,26 @@ const RegionPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const regionKey = queryParams.get('region') || 'budapest';
 
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        // Lekérjük a túrákat az API-tól, szűrve a régióra
+        const res = await axios.get(`http://localhost:5000/api/tours?region=${regionKey}`);
+        setTours(res.data);
+      } catch (err) {
+        console.error("Hiba a régió túráinak betöltésekor:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTours();
+  }, [regionKey]);
+
   // Megkeressük a régió statikus adatait (kép, leírás)
   const currentRegion = regionsData.find(r => r.id === regionKey) || regionsData[0];
-
-  // Szűrjük a túrákat csak az adott régióra (useMemo-val a teljesítményért)
-  const filteredTours = useMemo(() => {
-    return toursData.filter(tour => tour.region === regionKey);
-  }, [regionKey]);
 
   return (
     <div className="region-page-wrapper">
@@ -52,23 +66,25 @@ const RegionPage = () => {
         <section className="region-tours-section">
           <h2 className="section-title-left">Elérhető túrák ezen a területen</h2>
           <div className="tours-grid-3">
-            {filteredTours.length > 0 ? (
-              filteredTours.map((tour, index) => (
+            {loading ? (
+              <p>Túrák betöltése...</p>
+            ) : tours.length > 0 ? (
+              tours.map((tour, index) => (
                 <div key={tour.id} className="mag-tour-card" onClick={() => navigate(`/tour/${tour.id}`)}>
                   <div className="mag-tour-img">
-                    <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} />
+                    <img src={tour.image && (tour.image.startsWith('http') || tour.image.startsWith('data:')) ? tour.image : `/src/assets/images/${tour.image}`} alt={tour.title} />
                     {index === 0 && <span className="badge-bestseller">KIEMELT</span>}
                     <button className="heart-btn" onClick={(e) => { e.stopPropagation(); alert('Mentve!'); }}>♡</button>
                   </div>
 
                   <div className="mag-tour-info">
-                    <span className="mag-tour-city">{tour.varos}</span>
-                    <h3 className="mag-tour-title">{tour.cim}</h3>
+                    <span className="mag-tour-city">{tour.city}</span>
+                    <h3 className="mag-tour-title">{tour.title}</h3>
                     <p className="mag-tour-desc">
                       {tour.sub || "Helyi ízek és hagyományok nyomában."}
                     </p>
                     <div className="mag-tour-price">
-                      <strong>{tour.ar}</strong> / fő
+                      <strong>{tour.price?.toLocaleString()} Ft</strong> / fő
                     </div>
                   </div>
                 </div>

@@ -21,8 +21,10 @@ const TourDetailPage = () => {
         const res = await axios.get(`http://localhost:5000/api/tours/${id}`);
         setTour(res.data);
         // Alapértelmezett dátum beállítása, ha van elérhető időpont
-        if (res.data.dates && res.data.dates.length > 0) {
-          setSelectedDate(new Date(res.data.dates[0].start_date).toISOString().split('T')[0]);
+        if (res.data.dates && res.data.dates.length > 0 && res.data.dates[0].start_date) {
+          try {
+            setSelectedDate(new Date(res.data.dates[0].start_date).toISOString().split('T')[0]);
+          } catch (e) { console.error("Hibás dátum formátum"); }
         }
       } catch (err) {
         setError("A túra részleteit nem sikerült betölteni.");
@@ -102,11 +104,11 @@ const TourDetailPage = () => {
             <div className="details-grid">
               <div className="detail-item">
                 <span className="detail-icon">👥</span>
-                <div><strong>Csoportméret:</strong> {tour.max_participants} főig</div>
+                <div><strong>Csoportméret:</strong> {tour.max_participants || 'Nincs megadva'} főig</div>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">⏳</span>
-                <div><strong>Időtartam:</strong> {tour.duration} óra</div>
+                <div><strong>Időtartam:</strong> {tour.duration || '?'} óra</div>
               </div>
               <div className="detail-item">
                 <span className="detail-icon">📍</span>
@@ -114,7 +116,7 @@ const TourDetailPage = () => {
               </div>
               <div className="detail-item">
                 <span className="detail-icon">💰</span>
-                <div><strong>Ár:</strong> {tour.price.toLocaleString()} Ft / fő</div>
+                <div><strong>Ár:</strong> {tour.price ? tour.price.toLocaleString() : '0'} Ft / fő</div>
               </div>
             </div>
           </section>
@@ -150,11 +152,11 @@ const TourDetailPage = () => {
                   onChange={(e) => setSelectedDate(e.target.value)}
                 >
                   <option value="">Válassz időpontot...</option>
-                  {tour.dates && tour.dates.map(d => (
+                  {tour.dates && tour.dates.length > 0 ? tour.dates.map(d => (
                     <option key={d.id} value={new Date(d.start_date).toISOString().split('T')[0]}>
                       {new Date(d.start_date).toLocaleDateString('hu-HU')}
                     </option>
-                  ))}
+                  )) : <option disabled>Nincs szabad időpont</option>}
                 </select>
               </div>
               <button 
