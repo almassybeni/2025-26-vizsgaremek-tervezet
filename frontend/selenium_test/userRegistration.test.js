@@ -35,7 +35,7 @@ describe('Felhasználói Regisztráció Tesztek (Selenium)', () => {
     await registerBtn.click();
 
     // Itt feltételezzük, hogy az inputok id-ja hasonló a LoginPage-hez
-    const usernameField = await driver.wait(until.elementLocated(By.id('name')), 10000);
+    const usernameField = await driver.wait(until.elementLocated(By.css('.register-form #name')), 10000);
     await usernameField.sendKeys('testuser' + Date.now()); // Egyedi felhasználónév generálása
     
     const emailField = await driver.findElement(By.id('email'));
@@ -44,40 +44,33 @@ describe('Felhasználói Regisztráció Tesztek (Selenium)', () => {
     const passwordField = await driver.findElement(By.id('password'));
     await passwordField.sendKeys('Password123!');
 
-    const submitBtn = await driver.findElement(By.css('.btn-submit-auth'));
+    const passwordConfirmField = await driver.findElement(By.id('passwordConfirm'));
+    await passwordConfirmField.sendKeys('Password123!');
+
+    const submitBtn = await driver.findElement(By.className('register-button'));
     await submitBtn.click();
 
-    // Várjuk meg, amíg a fejléc szövege visszaáll "Bejelentkezés"-re vagy a regisztráció bezárul
-    const header = await driver.wait(until.elementLocated(By.css('.auth-header h2')), 15000);
-    expect(await header.getText()).toContain('Bejelentkezés');
-    expect(await driver.getCurrentUrl()).toContain('login');
-    console.log('[TEST] Sikeres regisztráció: átirányítás a login oldalra.');
+    // A RegisterPage.jsx szerint sikeres regisztráció után a /profile-ra megyünk
+    await driver.wait(until.urlContains('/profile'), 20000);
+    const currentUrl = await driver.getCurrentUrl();
+    expect(currentUrl).toContain('profile');
+    console.log('[TEST] Sikeres regisztráció: átirányítás a profil oldalra.');
   }, 30000);
 
   test('2. Sikertelen regisztráció - jelszó egyezés hiánya', async () => {
     console.log('[TEST] Sikertelen regisztráció tesztelése (jelszó egyezés hiánya)...');
-    await driver.get(baseUrl);
-    await driver.wait(until.elementLocated(By.css('.btn-login')), 10000).click();
-    const registerLink = await driver.wait(until.elementLocated(By.xpath("//span[contains(text(), 'Regisztrálj most')]")), 5000);
-    await registerLink.click();
+    // Közvetlen navigáció, hogy elkerüljük a profil dropdown problémákat
+    await driver.get(`${baseUrl}/register`); 
 
-    const usernameField = await driver.wait(until.elementLocated(By.css('.auth-card input[name="username"]')), 10000);
-    await usernameField.sendKeys('anotheruser' + Date.now());
+    await driver.wait(until.elementLocated(By.id('name')), 10000).sendKeys('anotheruser' + Date.now());
+    await driver.findElement(By.id('email')).sendKeys('anotheruser' + Date.now() + '@example.com');
+    await driver.findElement(By.id('password')).sendKeys('Password123!');
+    await driver.findElement(By.id('passwordConfirm')).sendKeys('DifferentPassword123!');
     
-    const emailField = await driver.findElement(By.name('email'));
-    await emailField.sendKeys('anotheruser' + Date.now() + '@example.com');
-
-    const passwordField = await driver.findElement(By.name('password'));
-    await passwordField.sendKeys('Password123!');
-
-    const passwordConfirmField = await driver.findElement(By.name('passwordConfirm'));
-    await passwordConfirmField.sendKeys('DifferentPassword!'); // Nem egyező jelszó
-
-    const submitBtn = await driver.findElement(By.css('.btn-submit-auth'));
+    const submitBtn = await driver.findElement(By.className('register-button'));
     await submitBtn.click();
 
-    // Hibaüzenet ellenőrzése a beküldött kód alapján
-    const errorMsg = await driver.wait(until.elementLocated(By.css('.auth-error')), 10000);
+    const errorMsg = await driver.wait(until.elementLocated(By.className('error-message')), 10000);
     expect(await errorMsg.isDisplayed()).toBe(true);
     expect(await errorMsg.getText()).toBeDefined();
     console.log('[TEST] Sikertelen regisztráció: hibaüzenet ellenőrizve.');
@@ -85,15 +78,13 @@ describe('Felhasználói Regisztráció Tesztek (Selenium)', () => {
 
   test('3. Sikertelen regisztráció - üres mezők', async () => {
     console.log('[TEST] Sikertelen regisztráció tesztelése (üres mezők)...');
-    await driver.get(baseUrl);
-    await driver.wait(until.elementLocated(By.css('.btn-login')), 10000).click();
-    const registerLink = await driver.wait(until.elementLocated(By.xpath("//span[contains(text(), 'Regisztrálj most')]")), 5000);
-    await registerLink.click();
+    // Közvetlen navigáció
+    await driver.get(`${baseUrl}/register`);
 
-    const submitBtn = await driver.wait(until.elementLocated(By.css('.btn-submit-auth')), 10000);
+    const submitBtn = await driver.wait(until.elementLocated(By.className('register-button')), 10000);
     await submitBtn.click();
 
-    const usernameInput = await driver.findElement(By.css('.auth-card input[name="username"]'));
+    const usernameInput = await driver.findElement(By.id('name'));
     const isRequired = await usernameInput.getAttribute('required');
     expect(isRequired).toBe('true'); // Feltételezzük, hogy a mező kötelező
     console.log('[TEST] Sikertelen regisztráció: üres mezők validációja ellenőrizve.');

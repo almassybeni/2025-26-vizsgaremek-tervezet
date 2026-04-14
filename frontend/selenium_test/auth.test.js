@@ -25,33 +25,33 @@ describe('Auth Modul Tesztek (Selenium)', () => {
 
   test('1. Sikeres Admin bejelentkezés (Modalon keresztül)', async () => {
     await driver.get(baseUrl);
-    const loginBtn = await driver.wait(until.elementLocated(By.css('.btn-login')), 10000);
+    await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000).click();
+    const loginBtn = await driver.wait(until.elementLocated(By.xpath("//div[@class='profile-dropdown']//div[text()='Bejelentkezés']")), 5000);
     await loginBtn.click();
 
-    const emailInput = await driver.wait(until.elementLocated(By.css('.auth-card input[type="email"]')), 10000);
-    await emailInput.sendKeys('admin@admin.com');
+    const emailInput = await driver.wait(until.elementLocated(By.id('email')), 10000);
+    await emailInput.sendKeys('admin@gasztrokalandok.hu');
     
-    const passwordInput = await driver.findElement(By.css('.auth-card input[name="password"]'));
-    await passwordInput.sendKeys('admin1');
+    const passwordInput = await driver.findElement(By.id('password'));
+    await passwordInput.sendKeys('admin123');
     
-    await driver.findElement(By.css('.btn-submit-auth')).click();
+    await driver.findElement(By.className('login-button')).click();
 
     // Ellenőrizzük a bejelentkezés sikerességét
     await driver.wait(async () => {
-      const loginBtns = await driver.findElements(By.css('.btn-login'));
-      return loginBtns.length === 0;
+      return await driver.executeScript("return localStorage.getItem('token') !== null");
     }, 10000);
 
-    const loginBtnsAfter = await driver.findElements(By.css('.btn-login'));
-    expect(loginBtnsAfter.length).toBe(0);
+    const currentUrl = await driver.getCurrentUrl();
+    expect(currentUrl).toContain('/profile');
   }, 20000);
 
   test('2. Kijelentkezés folyamata', async () => {
     await driver.get(baseUrl);
-    const profilDropdown = await driver.wait(until.elementLocated(By.css('.nav-right .profil-dropdown-toggle, .user-menu')), 10000);
+    const profilDropdown = await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000);
     await profilDropdown.click();
     
-    const logoutBtn = await driver.wait(until.elementLocated(By.xpath("//*[contains(text(), 'Kijelentkezés') or contains(text(), 'Kilépés')]")), 5000);
+    const logoutBtn = await driver.wait(until.elementLocated(By.xpath("//div[@class='profile-dropdown']//div[text()='Kijelentkezés']")), 5000);
     await logoutBtn.click();
 
     // SweetAlert2 vagy confirm modal kezelése
@@ -63,50 +63,50 @@ describe('Auth Modul Tesztek (Selenium)', () => {
     }
 
     // Ellenőrizzük, hogy újra látható-e a bejelentkezés gomb
-    const loginBtn = await driver.wait(until.elementLocated(By.css('.btn-login')), 10000);
+    const loginBtn = await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000);
     expect(await loginBtn.isDisplayed()).toBe(true);
   }, 20000);
 
   test('3. Sikertelen bejelentkezés (Rossz jelszó)', async () => {
     await driver.get(baseUrl);
-    await driver.wait(until.elementLocated(By.css('.btn-login')), 10000).click();
+    await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000).click();
+    await driver.wait(until.elementLocated(By.xpath("//div[@class='profile-dropdown']//div[text()='Bejelentkezés']")), 5000).click();
     
-    const emailInput = await driver.wait(until.elementLocated(By.css('.auth-card input[type="email"]')), 5000);
-    await emailInput.sendKeys('admin@admin.com');
-    await driver.findElement(By.css('.auth-card input[type="password"]')).sendKeys('rosszjelszo123');
-    await driver.findElement(By.css('.btn-submit-auth')).click();
+    const emailInput = await driver.wait(until.elementLocated(By.id('email')), 5000);
+    await emailInput.sendKeys('admin@gasztrokalandok.hu');
+    await driver.findElement(By.id('password')).sendKeys('rosszjelszo123');
+    await driver.findElement(By.className('login-button')).click();
     
-    const errorMsg = await driver.wait(until.elementLocated(By.css('.auth-error')), 5000);
+    const errorMsg = await driver.wait(until.elementLocated(By.className('error-message')), 5000);
     expect(await errorMsg.isDisplayed()).toBe(true);
   }, 15000);
 
   test('4. Bejelentkezés hibás email formátummal', async () => {
     await driver.get(baseUrl);
-    await driver.wait(until.elementLocated(By.css('.btn-login')), 10000).click();
+    await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000).click();
+    await driver.wait(until.elementLocated(By.xpath("//div[@class='profile-dropdown']//div[text()='Bejelentkezés']")), 5000).click();
     
-    const emailInput = await driver.wait(until.elementLocated(By.css('.auth-card input[type="email"]')), 5000);
+    const emailInput = await driver.wait(until.elementLocated(By.id('email')), 5000);
     await emailInput.sendKeys('hibasemailformatum');
-    await driver.findElement(By.css('.auth-card input[type="password"]')).sendKeys('admin1');
+    await driver.findElement(By.id('password')).sendKeys('admin123');
     
-    const submitBtn = await driver.findElement(By.css('.btn-submit-auth'));
+    const submitBtn = await driver.findElement(By.className('login-button'));
     await submitBtn.click();
 
     // Itt ellenőrizhetjük, hogy a modal még nyitva van-e (nem történt átirányítás)
-    const modalHeader = await driver.findElement(By.css('.auth-header h2'));
-    expect(await modalHeader.isDisplayed()).toBe(true);
+    expect(await driver.getCurrentUrl()).toContain('/login');
   }, 15000);
 
   test('5. Váltás Regisztrációs felületre', async () => {
     await driver.get(baseUrl);
-    await driver.wait(until.elementLocated(By.css('.btn-login')), 10000).click();
+    await driver.wait(until.elementLocated(By.className('profile-trigger')), 10000).click();
+    await driver.wait(until.elementLocated(By.xpath("//div[@class='profile-dropdown']//div[text()='Bejelentkezés']")), 5000).click();
     
-    const registerLink = await driver.wait(until.elementLocated(By.xpath("//span[contains(text(), 'Regisztrálj most')]")), 5000);
+    const registerLink = await driver.wait(until.elementLocated(By.xpath("//a[text()='Regisztráció']")), 5000);
     await registerLink.click();
     
     // Várjuk meg, amíg a fejléc szövege megváltozik
-    const titleElement = await driver.wait(until.elementLocated(By.css('.auth-header h2')), 5000);
-    const titleText = await titleElement.getText();
-    
-    expect(titleText.toLowerCase()).toContain('fiók');
+    const header = await driver.wait(until.elementLocated(By.css('.register-header h1')), 5000);
+    expect(await header.getText()).toContain('Regisztráció');
   }, 15000);
 });
