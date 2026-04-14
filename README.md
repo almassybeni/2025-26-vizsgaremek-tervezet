@@ -86,6 +86,26 @@ A projekt végső szakaszában:
 * Ellenőrizzük a funkciók és a foglalási rendszer működését
 * Kijavítjuk a felmerülő hibákat, és elvégezzük az utolsó finomhangolásokat
 
+## Munka Felosztás
+
+# Almássy Benedek Solt:
+* Felhasználói felület teljes backend elkészítése
+* Felhasználói felület teljes frontend elkészítése
+* Adatbázis elkészítése
+* Projekt dokumentáció szövege
+* Név választás
+* PowerPoint
+* Stílus és Téma kiválasztás
+
+# Dorfinger Dávid:
+* Admin felület teljes backend elkészítése
+* Admin felület teljes frontend elkészítése
+* Dokumentáció elkészítése
+* Adatbázis tartalmának kezelése
+* Vizuális döntés
+* Logó tervezése
+* Név választás
+
 ## Összegzés
 
 Vizsgaremekünk egy olyan webapplikáció, amely modern formában mutatja be Magyarország gasztroturizmusát, miközben gyakorlati funkciót is biztosít az időpontfoglalási rendszer segítségével.
