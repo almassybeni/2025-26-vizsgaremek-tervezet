@@ -99,6 +99,7 @@ A projekt végső szakaszában:
 * Frontend Region page
 * Backend Controllers
 * Backend Config
+* Test
 * Appjsx
 * README
 * Style
