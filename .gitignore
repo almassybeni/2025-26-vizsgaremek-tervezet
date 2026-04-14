@@ -1,7 +1,4 @@
-# Függőségek
-node_modules/
-.pnp
-.pnp.js
+
 
 # Build könyvtárak
 dist/
