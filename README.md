@@ -86,7 +86,7 @@ A projekt végső szakaszában:
 * Ellenőrizzük a funkciók és a foglalási rendszer működését
 * Kijavítjuk a felmerülő hibákat, és elvégezzük az utolsó finomhangolásokat
 
-# Munka Felosztás
+## Munka Felosztás
 
 ## Almássy Benedek Solt:
 * Felhasználói felület teljes backend elkészítése
