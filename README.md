@@ -1,133 +1,147 @@
-## 📑 Tartalomjegyzék
+# 🍽️ Vizsgaremek -- Magyar Gasztroturisztikai Webalkalmazás
 
-* [Bevezetés](#bevezetés)
-* [A vizsgaremek célja és bemutatása](#a-vizsgaremek-célja-és-bemutatása)
-* [A webapplikáció funkciói](#a-webapplikáció-funkciói)
-* [Tervezési folyamat](#tervezési-folyamat)
-* [Frontend fejlesztés](#frontend-fejlesztés)
-* [Backend fejlesztés](#backend-fejlesztés)
-* [Adatbázis tervezése és kezelése](#adatbázis-tervezése-és-kezelése)
-* [Tartalomkészítés](#tartalomkészítés)
-* [Tesztelés és hibajavítás](#tesztelés-és-hibajavítás)
-* [Összegzés](#összegzés)
+## 📌 Projekt bemutatása
 
-## Bevezetés
+A vizsgaremekünk egy webalkalmazás, amely Magyarország gasztroturizmusát
+mutatja be modern, átlátható és felhasználóbarát formában.\
+A célunk egy informatív és élményalapú platform létrehozása, amely
+bemutatja hazánk tájegységeinek jellegzetes ételeit, alapanyagait és
+gasztronómiai programjait.
 
-Vizsgaremekünk egy olyan webapplikáció, amelynek célja Magyarország gasztroturizmusának bemutatása és népszerűsítése. A weboldalon a látogatók megismerhetik az ország különböző tájegységeinek jellegzetes ételeit, hagyományos alapanyagait és a hozzájuk kapcsolódó gasztronómiai élményeket.
+A felhasználók lehetőséget kapnak:
 
-## A vizsgaremek célja és bemutatása
+-   🍴 éttermi kóstolók foglalására\
+-   👨‍🍳 főzőkurzusokra való jelentkezésre\
+-   🍷 pincelátogatásokra\
+-   🗺️ tematikus gasztrotúrák foglalására
 
-A projekt célja, hogy közösen egy modern, átlátható és könnyen használható felületet hozzunk létre, amely egyszerre informatív és élményalapú. Az alkalmazás segít bemutatni Magyarország gasztronómiai értékeit mind hazai, mind külföldi látogatók számára.
+------------------------------------------------------------------------
 
-A felhasználók lehetőséget kapnak arra is, hogy időpontot foglaljanak különböző gasztronómiai programokra, például:
+## 🚀 Funkciók
 
-* éttermi kóstolókra,
-* főzőkurzusokra,
-* pincelátogatásokra,
-* tematikus gasztrotúrákra.
+-   Gasztronómiai tájegységek bemutatása\
+-   Program- és étteremajánló rendszer\
+-   Online időpontfoglalási rendszer\
+-   Reszponzív design (mobil / tablet / desktop)\
+-   Admin felület túrák és felhasználók kezelésére
 
-## A webapplikáció funkciói
+------------------------------------------------------------------------
 
-A webapplikáció több fontos funkciót is tartalmaz:
+## 🛠️ Technológiai háttér
 
-* **Gasztronómiai tájegységek bemutatása** – részletes leírásokkal, érdekességekkel, képekkel és ajánlókkal.
-* **Program- és étteremajánló** – különböző gasztroélmények böngészése.
-* **Időpontfoglalási rendszer** – online foglalási lehetőség.
-* **Könnyen átlátható navigáció** – egyszerű és logikus menürendszer.
-* **Reszponzív design** – mobilon, tableten és asztali gépen is jól használható megjelenés.
+### Frontend
 
-## Tervezési folyamat
+-   HTML
+-   CSS
+-   JavaScript
+-   React
 
-A vizsgaremek minden részét közösen készítjük, és a teljes fejlesztési folyamat minden szakaszában aktívan részt veszünk. A tervezési folyamat az alábbi lépésekből áll:
+### Backend
 
-* Az oldal felépítésének és struktúrájának közös kidolgozása
-* A menürendszer, aloldalak és tartalmi blokkok megtervezése
-* A felhasználói útvonalak és a fő funkciók meghatározása
+-   Node.js
+-   Express
 
-## Frontend fejlesztés
+### Adatbázis
 
-A frontend fejlesztés során közösen végezzük az alábbi feladatokat:
+-   SQL alapú adatbázis
 
-* A weboldal grafikai megjelenésének kialakítása HTML, CSS és JavaScript segítségével
-* A reszponzív design megvalósítása
-* Interaktív elemek, menük, gombok és animációk készítése
+### Konténerizáció
 
-## Backend fejlesztés
+-   Docker
+-   Docker Compose
 
-A backend fejlesztés főbb feladatai, amelyeken szintén együtt dolgozunk:
+------------------------------------------------------------------------
 
-* Az időpontfoglalási rendszer működésének megvalósítása
-* A foglalások feldolgozása, mentése és kezelése
-* Kapcsolat kialakítása az adatbázissal
-* Dinamikus tartalomkiszolgálás megvalósítása
+## 🧩 Fejlesztési folyamat
 
-## Adatbázis tervezése és kezelése
+-   Oldalstruktúra és UX tervezés\
+-   Frontend és backend párhuzamos fejlesztése\
+-   Adatbázis-tervezés\
+-   Tartalomkészítés\
+-   Tesztelés több eszközön\
+-   Hibajavítás és optimalizálás
 
-Az adatbázis tervezése és kezelése során közösen:
+------------------------------------------------------------------------
 
-* Megtervezzük az adatbázis struktúráját
-  (felhasználók, programok, éttermek, foglalások)
-* Feltöltjük és kezeljük az adatokat
-* Kialakítjuk a szükséges lekérdezéseket és adatkapcsolatokat
+## 🗄️ Adatbázis struktúra
 
-## Tartalomkészítés
+Főbb entitások:
 
-A tartalomkészítés részeként közösen:
+-   Felhasználók\
+-   Programok\
+-   Éttermek\
+-   Foglalások
 
-* Elkészítjük a magyar gasztroturisztikai tájegységek bemutató szövegeit
-* Megírjuk az éttermek és programok rövid leírásait
-* Kiválasztjuk és rendszerezzük a weboldalon megjelenő képeket
+------------------------------------------------------------------------
 
-## Tesztelés és hibajavítás
+## 👨‍💻 Munka felosztás
 
-A projekt végső szakaszában:
+### Almássy Benedek Solt
 
-* Több eszközön is leteszteljük a weboldalt
-* Ellenőrizzük a funkciók és a foglalási rendszer működését
-* Kijavítjuk a felmerülő hibákat, és elvégezzük az utolsó finomhangolásokat
+-   Frontend oldalak (Home, Booking, Login, Contact, Profile, Tours,
+    TourDetail, Region)
+-   Admin oldalak javítása
+-   Backend Controllers és Config
+-   Tesztelés
+-   App.jsx
+-   README
+-   Stílus
+-   Projekt név
 
-## Munka Felosztás
+### Dorfinger Dávid
 
-## Almássy Benedek Solt:
-* Frontend Home page
-* Frontend Booking page
-* Frontend Login page
-* Frontend Contact page
-* Frontend Profile page
-* Frontend Tours page
-* Frontend Tourdetail page
-* Frontend Region page
-* Backend Controllers
-* Backend Config
-* Test
-* Appjsx
-* README
-* Style
-* Name
+-   Admin felület frontend oldalak
+-   Backend Routes
+-   README
+-   Docusaurus dokumentáció
+-   Logo
+-   Projekt név
 
+------------------------------------------------------------------------
 
-## Dorfinger Dávid:
-* Frontend Admin Addtour page
-* Frontend Admin booking page
-* Frontend Admin Dashboard page
-* Frontend Admin EditTour page
-* Frontend Admin Layout page
-* Frontend Admin Tours page
-* Frontend Admin Users page
-* Backend Routs
-* README
-* DockoSaurus
-* Logo
-* Name
+## ⚙️ Telepítés és futtatás
 
-## Összegzés
+### 1️⃣ Docker elindítása
 
-Vizsgaremekünk egy olyan webapplikáció, amely modern formában mutatja be Magyarország gasztroturizmusát, miközben gyakorlati funkciót is biztosít az időpontfoglalási rendszer segítségével.
+Indítsd el a Docker alkalmazást.
 
-Közös célunk egy igényes, jól működő és látványos weboldal létrehozása, amely méltó módon képviseli hazánk gasztronómiai értékeit.
+### 2️⃣ Projekt indítása
 
-**Készítők:**
-Almássy Benedek Solt
-Dorfinger Dávid
+A projekt gyökérkönyvtárában futtasd:
 
+``` bash
+docker compose up --build
+```
 
+Ez a parancs: - Felépíti a konténereket - Elindítja a frontend és
+backend szolgáltatásokat
+
+### 3️⃣ Alkalmazás megnyitása
+
+Böngészőben nyisd meg:
+
+    http://localhost:5173
+
+------------------------------------------------------------------------
+
+## ✅ Tesztelés
+
+-   Funkciók ellenőrzése\
+-   Foglalási rendszer tesztelése\
+-   Reszponzív működés ellenőrzése\
+-   Hibák javítása
+
+------------------------------------------------------------------------
+
+## 📌 Összegzés
+
+Projektünk célja egy modern, látványos és jól működő gasztroturisztikai
+webalkalmazás létrehozása, amely méltó módon mutatja be Magyarország
+gasztronómiai értékeit.
+
+------------------------------------------------------------------------
+
+## 👥 Készítők
+
+**Almássy Benedek Solt**\
+**Dorfinger Dávid**
