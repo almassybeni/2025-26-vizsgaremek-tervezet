@@ -140,7 +140,7 @@ describe('Tour Controller', () => {
       db.query.mockResolvedValue([{ affectedRows: 1 }]);
 
       await updateTour(req, res);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Túra frissítve' });
+      expect(res.json).toHaveBeenCalledWith({ message: 'Túra sikeresen frissítve' });
     });
   });
 
