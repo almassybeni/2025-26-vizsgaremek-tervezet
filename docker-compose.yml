@@ -1,4 +1,4 @@
-version: '3.8'
+version: '4.69.0'
 
 services:
   # 1. ADATBÁZIS (MySQL)
