@@ -1,5 +1,3 @@
-version: '4.69.0'
-
 services:
   # 1. ADATBÁZIS (MySQL)
   mysql-db:
@@ -52,6 +50,7 @@ services:
   frontend:
     build: ./frontend
     container_name: kulturvadasz-frontend
+    restart: always
     ports:
       - "5173:5173"
     environment:

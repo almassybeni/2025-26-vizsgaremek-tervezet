@@ -1,5 +1,12 @@
 .admin-users {
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #c0c0c0;
+  padding: 2rem;
+  box-shadow: none; /* A contact page stílusában nincs erős árnyék */
+  animation: fadeIn 0.5s ease-in;
 }
 
 .admin-users-header {
@@ -204,46 +211,41 @@
 }
 
 .action-btn {
-  width: 32px;
-  height: 32px;
-  border: 1px solid #e0e0e0;
+  padding: 0.8rem 2rem; /* Megnövelt vízszintes padding a hosszabb formához */
+  min-width: 140px;      /* Fix minimális szélesség, hogy hosszabb legyen, mint magas */
+  border: 1px solid #c0c0c0;
   background: white;
+  color: #1a1a1a;
   cursor: pointer;
   transition: all 0.3s;
-  font-size: 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 0; /* A contact page stílusában szögletesek a gombok */
+  font-weight: 600;
 }
 
-.action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.action-btn.warning:hover {
-  background: #f39c12;
+.action-btn.activate {
+  background: #7b5e45;
   color: white;
-  border-color: #f39c12;
+  border-color: #7b5e45;
 }
 
-.action-btn.success:hover {
-  background: #27ae60;
-  color: white;
-  border-color: #27ae60;
+.action-btn.activate:hover {
+  background: #5e4a37;
 }
 
-.action-btn.delete:hover {
+.action-btn.deactivate {
   background: #e74c3c;
   color: white;
   border-color: #e74c3c;
 }
 
-.action-btn.email:hover {
-  background: #3498db;
-  color: white;
-  border-color: #3498db;
+.action-btn.deactivate:hover {
+  background: #c0392b;
 }
 
 /* Modal */
@@ -366,6 +368,11 @@
   text-align: center;
   padding: 3rem;
   color: #666;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
