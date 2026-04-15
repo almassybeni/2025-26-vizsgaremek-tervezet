@@ -8,7 +8,7 @@ router.post('/', protect, bookingController.createBooking);
 router.get('/my', protect, bookingController.getUserBookings);
 router.get('/:id', protect, bookingController.getBookingById);
 router.put('/:id/cancel', protect, bookingController.cancelBooking);
-router.get('/all', protect, admin, bookingController.getAllBookings);
+router.get('/', protect, admin, bookingController.getAllBookings);
 router.put('/:id/status', protect, admin, bookingController.updateBookingStatus);
 
 module.exports = router;

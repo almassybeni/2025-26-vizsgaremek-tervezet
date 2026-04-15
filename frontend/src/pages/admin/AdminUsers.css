@@ -4,7 +4,7 @@
   margin: 0 auto;
   background: white;
   border: 1px solid #c0c0c0;
-  padding: 2rem;
+  padding: 1.2rem;
   box-shadow: none; /* A contact page stílusában nincs erős árnyék */
   animation: fadeIn 0.5s ease-in;
 }
@@ -13,11 +13,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0 2rem 0;
+  margin: 0.5rem 0 1.5rem 0;
 }
 
 .admin-users-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 400;
   color: #1a1a1a;
   margin: 0;
@@ -134,17 +134,19 @@
 
 .users-table th {
   background: #f8f8f8;
-  padding: 1rem;
+  padding: 0.7rem;
   text-align: left;
   font-weight: 500;
   color: #1a1a1a;
   border-bottom: 2px solid #e0e0e0;
+  font-size: 0.85rem;
 }
 
 .users-table td {
-  padding: 1rem;
+  padding: 0.6rem 0.7rem;
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
+  font-size: 0.9rem;
 }
 
 .users-table tr.inactive {
@@ -211,21 +213,21 @@
 }
 
 .action-btn {
-  padding: 0.8rem 2rem; /* Megnövelt vízszintes padding a hosszabb formához */
-  min-width: 140px;      /* Fix minimális szélesség, hogy hosszabb legyen, mint magas */
+  padding: 0.5rem 1.5rem; 
+  min-width: 110px;      
   border: 1px solid #c0c0c0;
   background: white;
   color: #1a1a1a;
   cursor: pointer;
   transition: all 0.3s;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0; /* A contact page stílusában szögletesek a gombok */
   font-weight: 600;
+  border-radius: 4px;
 }
 
 .action-btn.activate {

@@ -1,50 +1,111 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toursData } from '../../data/toursData';
-import './Admin.css'; // Készítsünk egy közös CSS-t az adminhoz
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import BackButton from '../../components/BackButton';
+import './AdminTours.css';
 
 const AdminTours = () => {
-  const navigate = useNavigate();
+  const { token } = useAuth();
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    fetchTours();
+  }, []);
+
+  const fetchTours = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/tours');
+      setTours(res.data);
+    } catch (error) {
+      console.error('Hiba a túrák betöltésekor:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Biztosan törölni szeretnéd ezt a túrát?')) {
+      try {
+        await axios.delete(`http://localhost:5000/api/tours/${id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setTours(tours.filter(t => t.id !== id));
+      } catch (error) {
+        alert('Hiba történt a törlés során.');
+      }
+    }
+  };
+
+  const filteredTours = tours.filter(tour =>
+    tour.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tour.city.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) return <div className="loading-spinner">Túrák betöltése...</div>;
 
   return (
-    <div className="admin-page">
-      <div className="admin-container">
-        <div className="admin-header">
-          <h2>Túrák Kezelése</h2>
-          <button className="btn-primary" onClick={() => navigate('/admin/add-tour')}>+ Új Túra</button>
+    <div className="admin-tours">
+      <BackButton to="/admin" label="Vissza a vezérlőpultra" />
+      
+      <div className="admin-tours-header">
+        <div>
+          <h2>Túrák kezelése</h2>
+          <p className="tour-count">Összesen: {tours.length} túra</p>
         </div>
+        <Link to="/admin/add-tour" className="add-button">
+          <span className="add-icon">+</span> Új túra hozzáadása
+        </Link>
+      </div>
 
-        <div className="admin-table-wrapper">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Kép</th>
-                <th>Cím</th>
-                <th>Város</th>
-                <th>Ár</th>
-                <th>Típus</th>
-                <th>Műveletek</th>
-              </tr>
-            </thead>
-            <tbody>
-              {toursData.map((tour) => (
-                <tr key={tour.id}>
-                  <td>
-                    <img src={`/src/assets/images/${tour.kep}`} alt={tour.cim} className="admin-table-img" />
-                  </td>
-                  <td><strong>{tour.cim}</strong><br/><small>{tour.sub}</small></td>
-                  <td>{tour.varos}</td>
-                  <td>{tour.ar}</td>
-                  <td><span className={`badge ${tour.type}`}>{tour.type}</span></td>
-                  <td>
-                    <button className="btn-edit" onClick={() => navigate(`/admin/edit/${tour.id}`)}>Szerkesztés</button>
-                    <button className="btn-delete" onClick={() => alert('Törlés funkció!')}>Törlés</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <div className="tours-filters">
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Keresés túra neve vagy város alapján..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
         </div>
+      </div>
+
+      <div className="tours-table-container">
+        <table className="tours-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Kép</th>
+              <th>Megnevezés</th>
+              <th>Város</th>
+              <th>Ár</th>
+              <th>Típus</th>
+              <th>Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTours.map(tour => (
+              <tr key={tour.id}>
+                <td className="id-cell">#{tour.id}</td>
+                <td className="image-cell">
+                  <img src={`/images/${tour.image}`} alt={tour.title} className="tour-thumbnail" />
+                </td>
+                <td className="title-cell">{tour.title}</td>
+                <td>{tour.city}</td>
+                <td className="price-cell">{tour.price.toLocaleString()} Ft</td>
+                <td><span className={`status-badge ${tour.type}`}>{tour.type}</span></td>
+                <td className="actions-cell">
+                  <div className="action-buttons">
+                    <Link to={`/admin/edit/${tour.id}`} className="action-btn edit" title="Szerkesztés">✏️</Link>
+                    <button onClick={() => handleDelete(tour.id)} className="action-btn delete" title="Törlés">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

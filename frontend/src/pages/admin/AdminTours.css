@@ -1,16 +1,21 @@
 .admin-tours {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #c0c0c0;
 }
 
 .admin-tours-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem 0 2rem 0;
+  margin: 0.5rem 0 1rem 0;
 }
 
 .admin-tours-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 400;
   color: #1a1a1a;
   margin: 0 0 0.3rem 0;
@@ -18,7 +23,7 @@
 
 .tour-count {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   margin: 0;
 }
 
@@ -26,13 +31,13 @@
   background: #7b5e45;
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   transition: background 0.3s;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 4px;
 }
 
@@ -48,22 +53,22 @@
 .tours-filters {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
   flex-wrap: wrap;
 }
 
 .search-box {
   flex: 2;
-  min-width: 300px;
+  min-width: 250px;
   position: relative;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.5rem 0.8rem;
   padding-right: 2.5rem;
   border: 1px solid #c0c0c0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 4px;
   transition: all 0.3s;
 }
@@ -165,25 +170,26 @@
 .tours-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1400px;
+  min-width: 1000px;
 }
 
 .tours-table th {
   background: #f8f8f8;
-  padding: 1rem;
+  padding: 0.5rem 0.7rem;
   text-align: left;
   font-weight: 500;
   color: #1a1a1a;
   border-bottom: 2px solid #e0e0e0;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .tours-table td {
-  padding: 1rem;
+  padding: 0.4rem 0.7rem;
   border-bottom: 1px solid #f0f0f0;
   vertical-align: middle;
+  font-size: 0.8rem;
 }
 
 .tours-table tr:hover {
@@ -205,8 +211,8 @@
 }
 
 .tour-thumbnail {
-  width: 60px;
-  height: 40px;
+  width: 50px;
+  height: 35px;
   object-fit: cover;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -298,23 +304,24 @@
 
 /* Műveletek */
 .actions-cell {
-  width: 140px;
+  width: 180px;
 }
 
 .action-buttons {
   display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .action-btn {
-  width: 32px;
-  height: 32px;
-  border: 1px solid #e0e0e0;
+  padding: 0.4rem 0.8rem;
+  min-width: 80px;
+  border: 1px solid #c0c0c0;
   background: white;
   cursor: pointer;
   transition: all 0.3s;
-  font-size: 1rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;

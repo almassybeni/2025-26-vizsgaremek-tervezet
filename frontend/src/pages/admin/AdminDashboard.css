@@ -7,11 +7,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .dashboard-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #1a1a1a;
   margin: 0;
@@ -32,15 +32,15 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .stat-card {
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -268,8 +268,8 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 2.5rem 1.5rem;
-  min-height: 160px;
+  padding: 1.5rem 1rem;
+  min-height: 120px;
   background: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 12px;

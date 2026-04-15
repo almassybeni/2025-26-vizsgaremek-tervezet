@@ -1,204 +1,111 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const { token } = useAuth();
   const [stats, setStats] = useState({
+    totalUsers: 0,
     totalTours: 0,
     totalBookings: 0,
-    totalUsers: 0,
-    revenue: 0,
-    popularTours: []
+    totalRevenue: 0,
+    recentBookings: []
   });
   const [loading, setLoading] = useState(true);
-  const [recentBookings, setRecentBookings] = useState([]);
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      setTimeout(() => {
-        setStats({
-          totalTours: 15,
-          totalBookings: 245,
-          totalUsers: 180,
-          revenue: 3245000,
-          popularTours: [
-            { id: 1, name: 'Budapest - Nagypiac', bookings: 45 },
-            { id: 2, name: 'Eger - Borkultúra', bookings: 38 },
-            { id: 3, name: 'Szeged - Halászlé', bookings: 32 },
-            { id: 4, name: 'Tokaj - Aszú', bookings: 28 }
-          ]
+    const fetchDashboardData = async () => {
+      try {
+        // Megjegyzés: Ehhez a backend-en szükség lesz egy /api/admin/stats végpontra
+        const res = await axios.get('http://localhost:5000/api/admin/stats', {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        setRecentBookings([
-          { id: 1, user: 'Kovács János', tour: 'Budapest - Nagypiac', date: '2024-03-15', status: 'pending' },
-          { id: 2, user: 'Nagy Anna', tour: 'Eger - Borkultúra', date: '2024-03-14', status: 'confirmed' },
-          { id: 3, user: 'Szabó Péter', tour: 'Szeged - Halászlé', date: '2024-03-13', status: 'confirmed' },
-          { id: 4, user: 'Tóth Eszter', tour: 'Tokaj - Aszú', date: '2024-03-12', status: 'completed' },
-          { id: 5, user: 'Varga Gábor', tour: 'Pécs - Borok', date: '2024-03-11', status: 'pending' }
-        ]);
+        setStats(res.data);
+      } catch (error) {
+        console.error('Hiba a statisztikák betöltésekor:', error);
+      } finally {
         setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error('Hiba az adatok lekérésekor:', error);
-      setLoading(false);
-    }
-  };
-
-  const getStatusClass = (status) => {
-    const statusMap = {
-      'pending': 'status-pending',
-      'confirmed': 'status-confirmed',
-      'cancelled': 'status-cancelled',
-      'completed': 'status-completed'
+      }
     };
-    return statusMap[status] || '';
-  };
 
-  const getStatusText = (status) => {
-    const statusMap = {
-      'pending': 'Függőben',
-      'confirmed': 'Megerősítve',
-      'cancelled': 'Lemondva',
-      'completed': 'Teljesítve'
-    };
-    return statusMap[status] || status;
-  };
+    fetchDashboardData();
+  }, [token]);
 
-  if (loading) {
-    return (
-      <div className="admin-dashboard">
-        <div className="loading-spinner">Adatok betöltése...</div>
-      </div>
-    );
-  }
+  if (loading) return <div className="loading-spinner">Statisztikák betöltése...</div>;
 
   return (
     <div className="admin-dashboard">
       <div className="dashboard-header">
         <h2>Vezérlőpult</h2>
-        <div className="date-display">
-          {new Date().toLocaleDateString('hu-HU', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
-        </div>
+        <div className="date-display">{new Date().toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
       </div>
 
-      {/* 4 STATISZTIKA KÁRTYA */}
       <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">🗺️</div>
-          <div className="stat-content">
-            <div className="stat-value">{stats.totalTours}</div>
-            <div className="stat-label">Aktív túrák</div>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon">📅</div>
-          <div className="stat-content">
-            <div className="stat-value">{stats.totalBookings}</div>
-            <div className="stat-label">Összes foglalás</div>
-          </div>
-        </div>
-
         <div className="stat-card">
           <div className="stat-icon">👥</div>
           <div className="stat-content">
             <div className="stat-value">{stats.totalUsers}</div>
-            <div className="stat-label">Regisztrált felhasználó</div>
+            <div className="stat-label">Felhasználók</div>
           </div>
         </div>
-
+        <div className="stat-card">
+          <div className="stat-icon">🗺️</div>
+          <div className="stat-content">
+            <div className="stat-value">{stats.totalTours}</div>
+            <div className="stat-label">Aktív Túrák</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon">📅</div>
+          <div className="stat-content">
+            <div className="stat-value">{stats.totalBookings}</div>
+            <div className="stat-label">Foglalások</div>
+          </div>
+        </div>
         <div className="stat-card revenue">
           <div className="stat-icon">💰</div>
           <div className="stat-content">
-            <div className="stat-value">{stats.revenue.toLocaleString()} Ft</div>
-            <div className="stat-label">Bevétel (összes)</div>
+            <div className="stat-value">{stats.totalRevenue?.toLocaleString()} Ft</div>
+            <div className="stat-label">Összes bevétel</div>
           </div>
         </div>
       </div>
 
       <div className="dashboard-grid">
-        {/* NÉPSZERŰ TÚRÁK */}
         <div className="dashboard-card">
-          <h3>Legnépszerűbb túrák</h3>
-          <div className="popular-tours-list">
-            {stats.popularTours.map(tour => (
-              <div key={tour.id} className="popular-tour-item">
-                <div className="tour-info">
-                  <span className="tour-name">{tour.name}</span>
-                  <span className="tour-bookings">{tour.bookings} foglalás</span>
-                </div>
-                <div className="progress-bar">
-                  <div 
-                    className="progress-fill" 
-                    style={{ width: `${(tour.bookings / 50) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* LEGFRISSEBB FOGLALÁSOK */}
-        <div className="dashboard-card">
-          <div className="card-header">
-            <h3>Legfrissebb foglalások</h3>
-            <button 
-              className="view-all-btn"
-              onClick={() => navigate('/admin/bookings')}
-            >
-              Összes megtekintése →
-            </button>
-          </div>
+          <h3>Legutóbbi Foglalások</h3>
           <div className="recent-bookings-list">
-            {recentBookings.map(booking => (
-              <div key={booking.id} className="recent-booking-item">
-                <div className="booking-info">
-                  <div className="booking-user">{booking.user}</div>
-                  <div className="booking-tour">{booking.tour}</div>
-                  <div className="booking-date">{booking.date}</div>
+            {stats.recentBookings.length > 0 ? (
+              stats.recentBookings.map(booking => (
+                <div key={booking.id} className="recent-booking-item">
+                  <div className="booking-info">
+                    <div className="booking-user">{booking.user_name}</div>
+                    <div className="booking-tour">{booking.tour_title}</div>
+                    <div className="booking-date">{new Date(booking.created_at).toLocaleDateString('hu-HU')}</div>
+                  </div>
+                  <div className={`booking-status status-${booking.status}`}>
+                    {booking.status === 'confirmed' ? 'Visszaigazolt' : 'Függőben'}
+                  </div>
                 </div>
-                <span className={`booking-status ${getStatusClass(booking.status)}`}>
-                  {getStatusText(booking.status)}
-                </span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="no-data">Nincs friss foglalás.</p>
+            )}
           </div>
         </div>
 
-        {/* RENDSZER INFORMÁCIÓK */}
         <div className="dashboard-card">
-          <h3>Rendszer információk</h3>
-          <div className="system-info">
-            <div className="info-row">
-              <span className="info-label">Verzió:</span>
-              <span className="info-value">1.0.0</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Utolsó frissítés:</span>
-              <span className="info-value">2024.03.15.</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Adatbázis:</span>
-              <span className="info-value">MySQL - kulturvadasz</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Szerver idő:</span>
-              <span className="info-value">{new Date().toLocaleTimeString()}</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Bejelentkezve:</span>
-              <span className="info-value">{user?.name || 'Admin'}</span>
-            </div>
+          <h3>Gyors műveletek</h3>
+          <div className="quick-actions">
+            <button className="action-btn" onClick={() => window.location.href='/admin/add-tour'}>
+              <span className="action-icon">➕</span>
+              Új túra
+            </button>
+            <button className="action-btn" onClick={() => window.location.href='/admin/messages'}>
+              <span className="action-icon">✉️</span>
+              Üzenetek
+            </button>
           </div>
         </div>
       </div>
