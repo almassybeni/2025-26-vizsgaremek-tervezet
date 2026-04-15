@@ -49,8 +49,11 @@ CREATE TABLE `bookings` (
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `sender_id` int(11) NOT NULL,
-  `receiver_id` int(11) NOT NULL,
+  `sender_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) DEFAULT 1,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
   `subject` varchar(200) NOT NULL,
   `message` text NOT NULL,
   `type` enum('password_change','general','notification') DEFAULT 'general',

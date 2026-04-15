@@ -95,19 +95,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="dashboard-card">
-          <h3>Gyors műveletek</h3>
-          <div className="quick-actions">
-            <button className="action-btn" onClick={() => window.location.href='/admin/add-tour'}>
-              <span className="action-icon">➕</span>
-              Új túra
-            </button>
-            <button className="action-btn" onClick={() => window.location.href='/admin/messages'}>
-              <span className="action-icon">✉️</span>
-              Üzenetek
-            </button>
-          </div>
-        </div>
+       
       </div>
     </div>
   );

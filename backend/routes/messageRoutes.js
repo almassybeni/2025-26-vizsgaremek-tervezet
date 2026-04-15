@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const messageController = require('../controllers/messageController');
-const auth = require('../middleware/auth');
+const protect = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
-router.post('/', auth, messageController.sendMessage);
-router.get('/inbox', auth, messageController.getInbox);
-router.get('/outbox', auth, messageController.getOutbox);
-router.put('/:id/read', auth, messageController.markAsRead);
+router.post('/', messageController.sendMessage);
+router.get('/inbox', protect, admin, messageController.getInbox);
+router.put('/:id/read', protect, admin, messageController.markAsRead);
 
 module.exports = router;

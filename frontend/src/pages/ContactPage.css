@@ -8,7 +8,7 @@
 
 /* Hero szekció */
 .contact-hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/contact-hero.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../assets/images/contact-hero.jpg');
   background-size: cover;
   background-position: center;
   color: white;
@@ -303,6 +303,7 @@
   padding: 1rem;
   margin-bottom: 1.5rem;
   border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Finom árnyék */
 }
 
 .success-icon {
@@ -319,6 +320,26 @@
   margin: 0;
   font-size: 0.9rem;
 }
+
+/* Hibaüzenet stílusa */
+.error-message {
+  display: flex; /* Flexbox használata */
+  align-items: center;
+  gap: 1rem;
+  background: #f8d7da; /* Világos piros háttér */
+  border: 1px solid #f5c6cb; /* Sötétebb piros szegély */
+  color: #721c24; /* Sötét piros szöveg */
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Finom árnyék */
+}
+
+.error-message .error-icon { /* Külön ikon osztály, ha van */
+  font-size: 1.5rem;
+  flex-shrink: 0; /* Megakadályozza az ikon zsugorodását */
+}
+
 
 /* Válaszidő */
 .response-time {
@@ -450,8 +471,12 @@
     padding: 1rem;
   }
   
-  .success-message {
+  .success-message,
+  .error-message {
     flex-direction: column;
     text-align: center;
+    gap: 0.5rem; /* Kisebb rés az ikon és a szöveg között */
   }
+  /* Az ikonok méretét is érdemes lehet kisebbre venni mobil nézetben, ha túl nagynak tűnnek */
+  .success-message .success-icon, .error-message .error-icon { font-size: 1.2rem; }
 }

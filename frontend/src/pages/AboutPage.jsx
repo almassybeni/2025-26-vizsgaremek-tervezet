@@ -32,10 +32,10 @@ const AboutPage = () => {
   ];
 
   const partners = [
-    { id: 1, name: 'Magyar Turisztikai Ügynökség', logo: '/images/partner-mtu.png' },
-    { id: 2, name: 'Hungarikum Bizottság', logo: '/images/partner-hungarikum.png' },
-    { id: 3, name: 'Magyar Bor Akadémia', logo: '/images/partner-bor.png' },
-    { id: 4, name: 'Magyar Gasztronómiai Egyesület', logo: '/images/partner-gasztro.png' }
+    { id: 1, name: 'Magyar Turisztikai Ügynökség', logo: '/src/assets/images/partner-mtu.png' },
+    { id: 2, name: 'Hungarikum Bizottság', logo: '/src/assets/images/partner-hungarikum.png' },
+    { id: 3, name: 'Magyar Bor Akadémia', logo: '/src/assets/images/partner-bor.png' },
+    { id: 4, name: 'Magyar Gasztronómiai Egyesület', logo: '/src/assets/images/partner-gasztro.png' }
   ];
 
   return (
@@ -77,12 +77,12 @@ const AboutPage = () => {
                   <blockquote>
                     "A legjobb módja egy ország megismerésének, ha az ízein keresztül fedezzük fel."
                   </blockquote>
-                  <cite>- Kovács Péter, alapító</cite>
+                 
                 </div>
               </div>
               
               <div className="story-image">
-                <img src="/images/about-story.jpg" alt="GasztroKalandok történet" />
+                <img src="/src/assets/images/about-story.jpg" alt="GasztroKalandok történet" />
               </div>
             </div>
           </div>
@@ -109,24 +109,8 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Partnerek */}
-        <section className="partners-section">
-          <div className="container">
-            <h2>Partnereink</h2>
-            <p className="section-intro">
-              Akikkel büszkék vagyunk együtt dolgozni
-            </p>
-            
-            <div className="partners-grid">
-              {partners.map(partner => (
-                <div key={partner.id} className="partner-item">
-                  <img src={partner.logo} alt={partner.name} />
-                  <p>{partner.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+      
+      
 
         {/* CTA szekció */}
         <section className="cta-section">

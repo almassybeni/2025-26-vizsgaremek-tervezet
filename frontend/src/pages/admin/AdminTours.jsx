@@ -90,7 +90,7 @@ const AdminTours = () => {
               <tr key={tour.id}>
                 <td className="id-cell">#{tour.id}</td>
                 <td className="image-cell">
-                  <img src={`/images/${tour.image}`} alt={tour.title} className="tour-thumbnail" />
+                  <img src={`/src/assets/images/${tour.image}`} alt={tour.title} className="tour-thumbnail" />
                 </td>
                 <td className="title-cell">{tour.title}</td>
                 <td>{tour.city}</td>

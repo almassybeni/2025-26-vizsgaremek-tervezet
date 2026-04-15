@@ -85,6 +85,8 @@
     width: 16px;
     height: 16px;
     accent-color: #222222;
+    margin: 0; /* Eltávolítja az alapértelmezett margót */
+    vertical-align: middle; /* Függőlegesen középre igazítja */
     cursor: pointer;
 }
 
@@ -283,9 +285,8 @@
         margin-bottom: 0;
     }
     .filter-group {
-        display: inline-block;
-        margin-right: 30px;
-        vertical-align: top;
+        display: block; /* A szűrőcsoportok egymás alá kerülnek */
+        width: 100%; /* Biztosítja, hogy a teljes rendelkezésre álló szélességet elfoglalja */
         border-bottom: none;
     }
 }

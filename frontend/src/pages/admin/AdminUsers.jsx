@@ -72,11 +72,11 @@ const AdminUsers = () => {
             <tr>
               <th>Név</th>
               <th>Email</th>
-              <th>Telefonszám</th>
-              <th>Szerepkör</th>
-              <th>Regisztráció</th>
-              <th>Státusz</th>
-              <th>Műveletek</th>
+              <th className="text-center">Telefonszám</th>
+              <th className="text-center">Szerepkör</th>
+              <th className="text-center">Regisztráció</th>
+              <th className="text-center">Státusz</th>
+              <th className="text-center">Műveletek</th>
             </tr>
           </thead>
           <tbody>
@@ -85,25 +85,27 @@ const AdminUsers = () => {
                 <tr key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>{user.phone_number || '-'}</td>
-                  <td>
+                  <td className="text-center">{user.phone_number || '-'}</td>
+                  <td className="text-center">
                     <span className={`role-badge ${user.role}`}>
                       {user.role === 'admin' ? 'Admin' : 'Felhasználó'}
                     </span>
                   </td>
-                  <td>{new Date(user.created_at).toLocaleDateString('hu-HU')}</td>
-                  <td>
-                    <span className={`status-text ${user.is_active ? 'active' : 'inactive'}`}>
+                  <td className="text-center">{new Date(user.created_at).toLocaleDateString('hu-HU')}</td>
+                  <td className="text-center">
+                    <span className={`status-badge ${user.is_active ? 'active' : 'inactive'}`}>
                       {user.is_active ? 'Aktív' : 'Inaktív'}
                     </span>
                   </td>
-                  <td>
-                    <button 
-                      className={`action-btn ${user.is_active ? 'deactivate' : 'activate'}`}
-                      onClick={() => handleStatusToggle(user)}
-                    >
-                      {user.is_active ? 'Letiltás' : 'Aktiválás'}
-                    </button>
+                  <td className="actions-cell">
+                    <div className="action-buttons">
+                      <button 
+                        className={`action-btn ${user.is_active ? 'deactivate' : 'activate'}`}
+                        onClick={() => handleStatusToggle(user)}
+                      >
+                        {user.is_active ? 'Letiltás' : 'Aktiválás'}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

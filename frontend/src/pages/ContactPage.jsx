@@ -27,22 +27,35 @@ const ContactPage = () => {
     setLoading(true);
     setError('');
     
-    // Itt küldhetnéd el az üzenetet a backendnek
-    // Most csak szimuláljuk a sikeres küldést
-    setTimeout(() => {
-      setSuccess(true);
-      setLoading(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
+    try {
+      const response = await fetch('http://localhost:5000/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      
-      // 5 másodperc múlva eltüntetjük a sikeres üzenetet
-      setTimeout(() => setSuccess(false), 5000);
-    }, 1500);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        setError(data.message || 'Hiba történt az üzenet küldésekor.');
+      }
+    } catch (err) {
+      setError('Nem sikerült csatlakozni a szerverhez.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

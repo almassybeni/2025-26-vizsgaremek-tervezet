@@ -95,16 +95,18 @@ const initDatabase = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
       CREATE TABLE messages (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        sender_id INT DEFAULT NULL,
-        receiver_id INT DEFAULT NULL,
-        subject VARCHAR(255) NOT NULL,
-        message TEXT NOT NULL,
-        type VARCHAR(50) DEFAULT 'general',
-        is_read TINYINT(1) DEFAULT 0,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE SET NULL,
-        FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE SET NULL
+        id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        sender_id int(11) DEFAULT NULL,
+        receiver_id int(11) DEFAULT 1,
+        name varchar(100) DEFAULT NULL,
+        email varchar(100) DEFAULT NULL,
+        phone varchar(20) DEFAULT NULL,
+        subject varchar(200) NOT NULL,
+        message text NOT NULL,
+        type enum('password_change','general','notification') DEFAULT 'general',
+        is_read tinyint(1) DEFAULT 0,
+        created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `;
 

@@ -14,6 +14,7 @@ app.use('/api/tours', require('./routes/tourRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/messages', require('./routes/messageRoutes'));
 
 const startServer = async () => {
   try {

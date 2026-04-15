@@ -73,7 +73,7 @@ function AppRoutes() {
         <Route path="tours/new" element={<AdminAddTour />} />
         <Route path="add-tour" element={<AdminAddTour />} />
         
-        <Route path="tours/edit/:id" element={<AdminEditTour />} />
+        <Route path="/admin/edit/:id" element={<AdminEditTour />} />
         <Route path="bookings" element={<AdminBookings />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="messages" element={<AdminMessages />} />

@@ -30,6 +30,7 @@ const AdminAddTour = () => {
   });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tourTypes = [
     { value: 'daily', label: 'Városi séta (Egynapos)' },
@@ -93,6 +94,7 @@ const AdminAddTour = () => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+    setIsSubmitting(true);
 
     try {
       // Biztosítjuk, hogy az ár és a max_participants számok legyenek
@@ -121,6 +123,7 @@ const AdminAddTour = () => {
     } catch (err) {
       console.error('Hiba a túra létrehozásakor:', err);
       setError(err.response?.data?.message || 'Ismeretlen hiba történt.');
+      setIsSubmitting(false);
     }
   };
 
@@ -256,7 +259,9 @@ const AdminAddTour = () => {
           </select>
         </div>
 
-        <button type="submit" className="submit-btn">Túra létrehozása</button>
+        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Létrehozás...' : 'Túra létrehozása'}
+        </button>
       </form>
     </div>
   );
