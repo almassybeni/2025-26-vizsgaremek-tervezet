@@ -21,22 +21,12 @@ describe('Átfogó Webalkalmazás Tesztek (Selenium)', () => {
   async function performLogin(username, password) {
     await driver.get(`${baseUrl}/login`);
 
-    // Ellenőrizzük, be vagyunk-e már jelentkezve (token megléte)
-    const token = await driver.executeScript("return localStorage.getItem('token')");
-    
-    if (token) {
-      try {
-        // Ha van token, megnézzük a profil oldalt
-        await driver.get(`${baseUrl}/profile`);
-        await driver.wait(until.urlContains('/profile'), 3000);
-        return;
-      } catch (e) {
-        await driver.executeScript("window.localStorage.clear();");
-        await driver.get(`${baseUrl}/login`);
-      }
-    }
-
     console.log(`[LOGIN HELPER] Bejelentkezés megkísérlése: ${username}`);
+    
+    // Kényszerített tiszta állapot a teszt előtt
+    await driver.executeScript("window.localStorage.clear();");
+    await driver.navigate().refresh();
+
     await driver.get(`${baseUrl}/login`);
 
     // Mezők megvárása és kitöltése
@@ -99,6 +89,12 @@ describe('Átfogó Webalkalmazás Tesztek (Selenium)', () => {
     await driver.get(baseUrl);
     const footer = await driver.wait(until.elementLocated(By.className('footer')), 10000);
     expect(await footer.isDisplayed()).toBe(true);
+  }, 15000);
+
+  test('5. Login oldal betöltése közvetlenül', async () => {
+    await driver.get(`${baseUrl}/login`);
+    const h1 = await driver.wait(until.elementLocated(By.tagName('h1')), 10000);
+    expect(await h1.isDisplayed()).toBe(true);
   }, 15000);
 
   test('6. Sikertelen bejelentkezés hibaüzenet ellenőrzése', async () => {

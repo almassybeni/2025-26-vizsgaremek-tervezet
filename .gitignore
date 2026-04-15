@@ -1,4 +1,4 @@
-
+node_modules/
 
 # Környezeti változók (titkos adatok)
 .env
